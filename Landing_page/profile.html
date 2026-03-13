@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile – Bright Aerospace</title>
+  <link href="https://fonts.googleapis.com/css2?family=Koulen&family=Sedan:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    /* ─────────────────────────────────────────
+   RESET & BASE
+───────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Sedan', serif; background: #f4f5f7; color: #1a1c20; min-height: 100vh; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f4f5f7; }
+::-webkit-scrollbar-thumb { background: #cacdd5; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #c9ae00; }
+
+/* ─────────────────────────────────────────
+   DESIGN TOKENS
+───────────────────────────────────────── */
+:root {
+  --yellow:      #FADB0F;
+  --yellow-dark: #c9ae00;
+  --yellow-dim:  rgba(250,219,15,0.15);
+  --yellow-soft: rgba(250,219,15,0.07);
+  --black:       #000000;
+  --surface:     #ffffff;
+  --surface2:    #f9fafb;
+  --surface3:    #f0f1f4;
+  --border:      #e4e6ea;
+  --border2:     #cacdd5;
+  --text:        #1a1c20;
+  --muted:       #777c89;
+  --muted2:      #b0b5c0;
+  --green:        #15803d;
+  --green-bright: #22c55e;
+  --green-dim:    rgba(21,128,61,0.10);
+  --blue:         #1d4ed8;
+  --blue-dim:     rgba(29,78,216,0.09);
+  --orange:       #c2410c;
+  --orange-dim:   rgba(194,65,12,0.09);
+  --red:          #b91c1c;
+  --red-dim:      rgba(185,28,28,0.09);
+  --purple:       #6d28d9;
+  --purple-dim:   rgba(109,40,217,0.09);
+}
+
+/* ─────────────────────────────────────────
+   NAVBAR
+───────────────────────────────────────── */
+nav {
+  background: var(--black); border-bottom: 2px solid var(--yellow);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 50px; height: 65px; position: sticky; top: 0; z-index: 200;
+}
+.nav-logo img { border-radius: 50%; object-fit: cover; }
+.nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+.nav-links a {
+  color: #ccc; text-decoration: none; font-family: 'Koulen', sans-serif;
+  font-size: clamp(13px, 1vw, 17px);
+  letter-spacing: 1px; text-transform: uppercase;
+  transition: color .2s; position: relative; padding-bottom: 4px;
+}
+.nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--yellow); transition: width .25s ease; }
+.nav-links a:hover::after { width: 100%; }
+.nav-links a:hover { color: var(--yellow); }
+.dropdown { position: relative; }
+.dropdown-menu { display: none; position: absolute; top: calc(100% + 10px); left: 0; background: var(--black); border: 1px solid #333; border-radius: 6px; min-width: 140px; overflow: hidden; z-index: 300; }
+.dropdown-menu.open { display: block; }
+.dropdown-menu li { list-style: none; }
+.dropdown-menu li a {
+  display: block; padding: 12px 18px; color: #ccc; font-family: 'Koulen', sans-serif;
+  font-size: clamp(12px, 0.9vw, 15px);
+  letter-spacing: 1px; text-transform: uppercase; transition: background .15s, color .15s; text-decoration: none;
+}
+.dropdown-menu li a::after { display: none; }
+.dropdown-menu li a:hover { background: #111; color: var(--yellow); }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-notif { width: 36px; height: 36px; border-radius: 6px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center; color: #aaa; cursor: pointer; font-size: clamp(14px, 1.05vw, 18px); transition: all .2s; position: relative; }
+.nav-notif:hover { background: rgba(255,255,255,0.15); color: #fff; }
+.notif-dot { position: absolute; top: 7px; right: 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--yellow); border: 1.5px solid var(--black); }
+.nav-user { position: relative; }
+.nav-user-btn { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); border-radius: 6px; padding: 5px 11px 5px 6px; cursor: pointer; transition: background .2s; }
+.nav-user-btn:hover { background: rgba(255,255,255,0.15); }
+.nav-user-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--yellow); display: flex; align-items: center; justify-content: center; font-family: 'Koulen', sans-serif; font-size: clamp(12px, 0.9vw, 16px); color: #000; flex-shrink: 0; }
+.nav-user-name { font-family: 'Koulen', sans-serif; font-size: clamp(12px, 0.9vw, 16px); letter-spacing: .5px; color: #ddd; }
+.nav-user-btn .chev { font-size: 10px; color: #777; transition: transform .2s; }
+.nav-user.open .nav-user-btn .chev { transform: rotate(180deg); }
+.user-dropdown { display: none; position: absolute; top: calc(100% + 8px); right: 0; background: #fff; border: 1px solid #e4e6ea; border-radius: 10px; min-width: 195px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.13); animation: dropIn .18s ease; z-index: 400; }
+@keyframes dropIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+.nav-user.open .user-dropdown { display: block; }
+.dd-user-info { padding: 12px 14px; border-bottom: 1px solid #e4e6ea; }
+.dd-user-info strong { display: block; font-family: 'Koulen', sans-serif; font-size: clamp(13px, 0.95vw, 17px); color: #1a1c20; margin-bottom: 2px; }
+.dd-user-info span { font-size: clamp(11px, 0.8vw, 14px); color: #777c89; }
+.user-dropdown a { display: flex; align-items: center; gap: 10px; padding: 10px 14px; text-decoration: none; font-family: 'Koulen', sans-serif; font-size: clamp(12px, 0.85vw, 15px); letter-spacing: .5px; color: #777c89; transition: background .15s, color .15s; }
+.user-dropdown a i { width: 14px; text-align: center; font-size: clamp(12px, 0.85vw, 15px); }
+.user-dropdown a:hover { background: #f0f1f4; color: #1a1c20; }
+.user-dropdown a.logout { color: #b91c1c; border-top: 1px solid #e4e6ea; }
+.user-dropdown a.logout:hover { background: rgba(185,28,28,0.07); }
+
+/* ─────────────────────────────────────────
+   LAYOUT
+───────────────────────────────────────── */
+.main-content { max-width: 1100px; margin: 0 auto; padding: 36px 40px; }
+.row { display: flex; gap: 16px; }
+.col-2 { flex: 2; min-width: 0; }
+.col-1 { flex: 1; min-width: 0; }
+
+/* ─────────────────────────────────────────
+   SECTION TITLE
+───────────────────────────────────────── */
+.section-title {
+  font-family: 'Koulen', sans-serif;
+  font-size: clamp(16px, 1.4vw, 24px);
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.section-title i { color: var(--yellow-dark); }
+.profile-section { margin-bottom: 38px; }
+
+/* ─────────────────────────────────────────
+   PROFILE HEADER
+───────────────────────────────────────── */
+.profile-header-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px;
+  display: flex; align-items: center; gap: 26px; position: relative; overflow: hidden;
+  margin-bottom: 34px; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.profile-header-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--yellow), var(--yellow-dark), transparent); }
+.profile-header-card::after { content: ''; position: absolute; top: -80px; right: -80px; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, var(--yellow-soft) 0%, transparent 70%); pointer-events: none; }
+.ph-avatar {
+  width: 88px; height: 88px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--yellow), #e0a800);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Koulen', sans-serif; font-size: clamp(28px, 2.2vw, 42px);
+  color: #000; border: 3px solid var(--border); box-shadow: 0 4px 18px rgba(250,219,15,0.28); position: relative;
+}
+.ph-online { position: absolute; bottom: 4px; right: 4px; width: 15px; height: 15px; border-radius: 50%; background: var(--green-bright); border: 2px solid var(--surface); }
+.ph-info { flex: 1; }
+.ph-name { font-family: 'Koulen', sans-serif; font-size: clamp(1.6rem, 2vw, 2.8rem); color: var(--text); line-height: 1.1; margin-bottom: 8px; }
+.ph-badges { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 10px; }
+.ph-badge {
+  display: inline-flex; align-items: center; gap: 5px; font-family: 'Koulen', sans-serif;
+  font-size: clamp(10px, 0.76vw, 13px);
+  letter-spacing: 1.5px; padding: 3px 11px; border-radius: 20px;
+}
+.ph-badge.intern  { background: var(--yellow-dim); color: #7a6800;       border: 1px solid rgba(250,219,15,0.45); }
+.ph-badge.dept    { background: var(--blue-dim);   color: var(--blue);   border: 1px solid rgba(29,78,216,0.2); }
+.ph-badge.college { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(109,40,217,0.2); }
+.ph-badge.year    { background: var(--surface3);   color: var(--muted);  border: 1px solid var(--border); }
+.ph-meta { font-size: clamp(13px, 1.1vw, 17px); color: var(--muted); display: flex; gap: 18px; flex-wrap: wrap; }
+.ph-meta span { display: flex; align-items: center; gap: 5px; }
+.ph-meta i { color: var(--yellow-dark); font-size: clamp(11px, 0.82vw, 14px); }
+.ph-stats { display: flex; }
+.ph-stat { padding: 10px 22px; text-align: center; border-left: 1px solid var(--border); }
+.ph-stat:first-child { border-left: none; }
+.ph-stat-val { font-family: 'Koulen', sans-serif; font-size: clamp(1.2rem, 1.3vw, 1.9rem); color: var(--text); display: block; }
+.ph-stat-label { font-size: clamp(10px, 0.72vw, 13px); color: var(--muted); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; margin-top: 2px; }
+
+/* ─────────────────────────────────────────
+   CURRENT COURSE
+───────────────────────────────────────── */
+.course-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
+.course-tag {
+  display: inline-flex; align-items: center; gap: 6px; background: var(--yellow-dim);
+  border: 1px solid rgba(250,219,15,0.4); color: #7a6800; font-family: 'Koulen', sans-serif;
+  font-size: clamp(12px, 1vw, 16px);
+  letter-spacing: 1.5px; padding: 3px 11px; border-radius: 20px; margin-bottom: 6px;
+}
+.course-title { font-family: 'Koulen', sans-serif; font-size: clamp(1.2rem, 1.6vw, 2rem); color: var(--text); margin-bottom: 4px; }
+.course-meta { font-size: clamp(13px, 1.1vw, 17px); color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+.course-meta span { display: flex; align-items: center; gap: 5px; }
+.course-meta i { color: var(--yellow-dark); }
+.progress-label { display: flex; justify-content: space-between; font-family: 'Koulen', sans-serif; font-size: clamp(13px, 1.1vw, 17px); color: var(--muted); margin-bottom: 6px; }
+.progress-label span:last-child { color: var(--yellow-dark); }
+.progress-bar  { height: 7px; background: var(--surface3); border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--yellow), var(--yellow-dark)); transition: width 1.2s cubic-bezier(.22,.68,0,1.2); }
+.mini-stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); transition: box-shadow .2s, transform .2s; }
+.mini-stat:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-2px); }
+.mini-stat-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: clamp(14px, 1.05vw, 18px); flex-shrink: 0; }
+.mini-stat-icon.yellow { background: var(--yellow-dim); color: var(--yellow-dark); }
+.mini-stat-icon.green  { background: var(--green-dim);  color: var(--green); }
+.mini-stat-icon.blue   { background: var(--blue-dim);   color: var(--blue); }
+.mini-stat-val   { font-family: 'Koulen', sans-serif; font-size: clamp(1.1rem, 1.4vw, 1.8rem); color: var(--text); }
+.mini-stat-label { font-size: clamp(12px, 1vw, 16px); color: var(--muted); font-family: 'Koulen', sans-serif; }
+
+/* ─────────────────────────────────────────
+   PERFORMANCE
+───────────────────────────────────────── */
+.perf-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 13px; }
+.perf-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 15px; display: flex; flex-direction: column; gap: 7px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transition: box-shadow .25s, transform .25s; }
+.perf-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); transform: translateY(-3px); }
+.perf-card-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: clamp(13px, 1vw, 17px); margin-bottom: 2px; }
+.perf-card-icon.yellow { background: var(--yellow-dim); color: var(--yellow-dark); }
+.perf-card-icon.green  { background: var(--green-dim);  color: var(--green); }
+.perf-card-icon.blue   { background: var(--blue-dim);   color: var(--blue); }
+.perf-card-icon.purple { background: var(--purple-dim); color: var(--purple); }
+.perf-val   { font-family: 'Koulen', sans-serif; font-size: clamp(1.3rem, 1.4vw, 2rem); color: var(--text); }
+.perf-label { font-size: clamp(11px, 0.82vw, 14px); color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-family: 'Koulen', sans-serif; }
+.perf-trend { font-size: clamp(11px, 0.82vw, 14px); display: flex; align-items: center; gap: 4px; font-family: 'Koulen', sans-serif; }
+.perf-trend.up      { color: var(--green); }
+.perf-trend.neutral { color: var(--muted); }
+.chart-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
+.chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+.chart-title  { font-family: 'Koulen', sans-serif; font-size: clamp(13px, 1vw, 18px); color: var(--text); }
+.chart-legend { display: flex; gap: 14px; }
+.legend-item  { display: flex; align-items: center; gap: 6px; font-size: clamp(11px, 0.82vw, 14px); color: var(--muted); font-family: 'Koulen', sans-serif; }
+.legend-dot   { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ─────────────────────────────────────────
+   COMPLETED COURSES
+───────────────────────────────────────── */
+.completed-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(250px,1fr)); gap: 15px; }
+.completed-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transition: box-shadow .25s, transform .25s; position: relative; overflow: hidden; }
+.completed-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.09); transform: translateY(-3px); }
+.completed-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.completed-card.prop::before { background: linear-gradient(90deg, var(--orange), transparent); }
+.completed-card.avio::before { background: linear-gradient(90deg, var(--blue),   transparent); }
+.completed-card.soft::before { background: linear-gradient(90deg, var(--purple), transparent); }
+.cc-header   { display: flex; justify-content: space-between; align-items: flex-start; }
+.cc-dept-tag { font-family: 'Koulen', sans-serif; font-size: clamp(10px, 0.76vw, 13px); letter-spacing: 1.5px; padding: 2px 10px; border-radius: 20px; }
+.cc-dept-tag.propulsion { background: var(--orange-dim); color: var(--orange); }
+.cc-dept-tag.avionics   { background: var(--blue-dim);   color: var(--blue); }
+.cc-dept-tag.software   { background: var(--purple-dim); color: var(--purple); }
+.cc-score  { font-family: 'Koulen', sans-serif; font-size: clamp(0.95rem, 1vw, 1.35rem); color: var(--text); }
+.cc-title  { font-family: 'Koulen', sans-serif; font-size: clamp(13px, 0.95vw, 16px); color: var(--text); line-height: 1.4; }
+.cc-meta   { font-size: clamp(11px, 0.82vw, 14px); color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; }
+.cc-meta span { display: flex; align-items: center; gap: 4px; }
+.cc-meta i { color: var(--yellow-dark); }
+.cc-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--border); }
+.cert-badge  { display: flex; align-items: center; gap: 5px; font-family: 'Koulen', sans-serif; font-size: clamp(10px, 0.76vw, 13px); letter-spacing: 1px; color: var(--green); background: var(--green-dim); padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(21,128,61,0.2); }
+.grade-badge { font-family: 'Koulen', sans-serif; font-size: clamp(12px, 0.9vw, 16px); padding: 2px 9px; border-radius: 6px; }
+.grade-badge.a { color: var(--green); background: var(--green-dim); }
+.grade-badge.b { color: var(--blue);  background: var(--blue-dim); }
+
+/* ─────────────────────────────────────────
+   JOB APPLICATIONS
+───────────────────────────────────────── */
+.applications-list { display: flex; flex-direction: column; gap: 13px; }
+.app-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 22px; display: flex; align-items: flex-start; gap: 18px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transition: box-shadow .2s; }
+.app-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.app-card-left { flex: 1; }
+.app-role { font-family: 'Koulen', sans-serif; font-size: clamp(14px, 1.05vw, 18px); color: var(--text); margin-bottom: 5px; }
+.app-meta { font-size: clamp(12px, 0.88vw, 15px); color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+.app-meta span { display: flex; align-items: center; gap: 5px; }
+.app-meta i { color: var(--yellow-dark); font-size: clamp(11px, 0.82vw, 14px); }
+.app-status-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
+.app-status { font-family: 'Koulen', sans-serif; font-size: clamp(10px, 0.76vw, 13px); letter-spacing: 1.5px; padding: 4px 13px; border-radius: 20px; white-space: nowrap; }
+.app-status.shortlisted { background: var(--yellow-dim); color: #7a6800;       border: 1px solid rgba(250,219,15,.45); }
+.app-status.interview   { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(109,40,217,.2); }
+.app-pipeline { display: flex; align-items: center; margin-top: 13px; }
+.pipe-dot  { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--border2); background: var(--surface3); flex-shrink: 0; }
+.pipe-dot.done    { background: var(--yellow); border-color: var(--yellow-dark); }
+.pipe-dot.current { background: var(--yellow); border-color: var(--yellow-dark); box-shadow: 0 0 0 4px var(--yellow-dim); }
+.pipe-line { flex: 1; height: 2px; background: var(--border); }
+.pipe-line.done { background: var(--yellow-dark); }
+.pipe-labels { display: flex; justify-content: space-between; margin-top: 5px; }
+.pipe-label-item { font-family: 'Koulen', sans-serif; font-size: clamp(10px, 0.72vw, 13px); letter-spacing: .5px; color: var(--muted2); }
+.pipe-label-item.active { color: var(--yellow-dark); font-weight: 700; }
+
+/* ─────────────────────────────────────────
+   INTERNSHIP
+───────────────────────────────────────── */
+.intern-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+.intern-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--yellow), var(--orange), transparent); }
+.intern-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
+.intern-info h3 { font-family: 'Koulen', sans-serif; font-size: clamp(1rem, 1.1vw, 1.5rem); color: var(--text); margin-bottom: 8px; }
+.intern-badges { display: flex; gap: 7px; flex-wrap: wrap; }
+.intern-badge { font-family: 'Koulen', sans-serif; font-size: clamp(10px, 0.76vw, 13px); letter-spacing: 1.5px; padding: 3px 11px; border-radius: 20px; }
+.intern-badge.active { background: var(--green-dim);  color: var(--green); border: 1px solid rgba(21,128,61,.2); }
+.intern-badge.dept   { background: var(--yellow-dim); color: #7a6800;      border: 1px solid rgba(250,219,15,.45); }
+.intern-badge.remote { background: var(--blue-dim);   color: var(--blue);  border: 1px solid rgba(29,78,216,.2); }
+.intern-duration-val   { font-family: 'Koulen', sans-serif; font-size: clamp(1.1rem, 1.2vw, 1.7rem); color: var(--text); text-align: right; }
+.intern-duration-label { font-size: clamp(11px, 0.82vw, 14px); color: var(--muted); text-align: right; }
+.intern-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 11px; margin-bottom: 18px; }
+.intern-detail { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 13px; }
+.intern-detail-label { font-family: 'Koulen', sans-serif; font-size: clamp(10px, 0.72vw, 13px); letter-spacing: 1.5px; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; }
+.intern-detail-val { font-family: 'Koulen', sans-serif; font-size: clamp(13px, 0.95vw, 16px); color: var(--text); }
+.intern-detail-val.hi { color: var(--yellow-dark); }
+.intern-timeline-label { font-family: 'Koulen', sans-serif; font-size: clamp(11px, 0.82vw, 15px); letter-spacing: 1px; color: var(--muted); margin-bottom: 7px; display: flex; justify-content: space-between; }
+.intern-timeline-label span:last-child { color: var(--green); }
+.intern-progress-bar  { height: 8px; background: var(--surface3); border-radius: 4px; overflow: hidden; }
+.intern-progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--yellow), var(--green-bright)); transition: width 1.2s cubic-bezier(.22,.68,0,1.2); }
+.tasks-list { display: flex; flex-direction: column; gap: 9px; margin-top: 18px; }
+.tasks-list-label { font-family: 'Koulen', sans-serif; font-size: clamp(10px, 0.76vw, 13px); letter-spacing: 2px; color: var(--muted2); margin-bottom: 4px; text-transform: uppercase; }
+.task-item { display: flex; align-items: center; gap: 11px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 11px 14px; transition: border-color .2s; }
+.task-item:hover { border-color: var(--border2); }
+.task-check { width: 20px; height: 20px; border-radius: 5px; border: 2px solid var(--border2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: clamp(10px, 0.76vw, 13px); }
+.task-check.done    { background: var(--green); border-color: var(--green); color: #fff; }
+.task-check.pending { border-color: var(--yellow-dark); }
+.task-text      { font-size: clamp(13px, 0.95vw, 16px); color: var(--text); flex: 1; }
+.task-text.done { color: var(--muted); text-decoration: line-through; }
+.task-due       { font-family: 'Koulen', sans-serif; font-size: clamp(10px, 0.76vw, 13px); color: var(--muted); letter-spacing: .5px; }
+.task-due.warn  { color: var(--orange); }
+.mentor-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 15px; display: flex; align-items: center; gap: 13px; margin-top: 14px; }
+.mentor-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--blue-dim); border: 2px solid rgba(29,78,216,.25); display: flex; align-items: center; justify-content: center; font-family: 'Koulen', sans-serif; font-size: clamp(15px, 1.1vw, 20px); color: var(--blue); flex-shrink: 0; }
+.mentor-info { flex: 1; }
+.mentor-name  { font-family: 'Koulen', sans-serif; font-size: clamp(13px, 0.95vw, 17px); color: var(--text); }
+.mentor-title { font-size: clamp(11px, 0.82vw, 14px); color: var(--muted); }
+.mentor-contact { display: flex; gap: 7px; }
+.mentor-contact a { width: 30px; height: 30px; border-radius: 7px; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: clamp(12px, 0.88vw, 15px); text-decoration: none; transition: all .2s; }
+.mentor-contact a:hover { border-color: var(--yellow-dark); color: #000; background: var(--yellow-dim); }
+
+/* ─────────────────────────────────────────
+   PROJECTS
+───────────────────────────────────────── */
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(270px,1fr)); gap: 16px; }
+.project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 11px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transition: box-shadow .3s, transform .3s; position: relative; overflow: hidden; }
+.project-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.10); transform: translateY(-4px); }
+.project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--yellow), transparent); }
+.project-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.project-icon  { width: 40px; height: 40px; border-radius: 10px; background: var(--yellow-dim); display: flex; align-items: center; justify-content: center; font-size: clamp(15px, 1.1vw, 20px); color: var(--yellow-dark); flex-shrink: 0; }
+.project-status { font-family: 'Koulen', sans-serif; font-size: clamp(10px, 0.72vw, 13px); letter-spacing: 1.5px; padding: 3px 10px; border-radius: 20px; }
+.project-status.published { background: var(--green-dim);  color: var(--green); border: 1px solid rgba(21,128,61,.2); }
+.project-status.review    { background: var(--yellow-dim); color: #7a6800;      border: 1px solid rgba(250,219,15,.45); }
+.project-title { font-family: 'Koulen', sans-serif; font-size: clamp(0.9rem, 1vw, 1.3rem); color: var(--text); line-height: 1.35; }
+.project-desc  { font-size: clamp(12px, 0.88vw, 15px); color: var(--muted); line-height: 1.7; flex: 1; }
+.project-tags  { display: flex; flex-wrap: wrap; gap: 5px; }
+.project-tag   { font-family: 'Koulen', sans-serif; font-size: clamp(10px, 0.72vw, 12px); letter-spacing: 1px; padding: 2px 8px; border-radius: 20px; background: var(--surface3); color: var(--muted); border: 1px solid var(--border); }
+.project-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 11px; border-top: 1px solid var(--border); }
+.project-date  { font-size: clamp(11px, 0.82vw, 14px); color: var(--muted); display: flex; align-items: center; gap: 5px; }
+.project-date i { color: var(--yellow-dark); }
+.project-links { display: flex; gap: 7px; }
+.project-link  { width: 28px; height: 28px; border-radius: 7px; background: var(--surface3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: clamp(12px, 0.88vw, 15px); text-decoration: none; transition: all .2s; }
+.project-link:hover { border-color: var(--yellow-dark); color: #000; background: var(--yellow-dim); }
+
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+footer {
+  background: var(--black);
+  border-top: 2px solid var(--yellow);
+  padding: clamp(28px, 3vw, 52px) clamp(24px, 4vw, 70px) clamp(16px, 1.5vw, 28px);
+  margin-top: clamp(24px, 2.5vw, 48px);
+  color: #ccc;
+}
+.footer-content {
+  display: flex; align-items: flex-start; gap: clamp(24px, 3vw, 56px);
+  flex-wrap: wrap; margin-bottom: clamp(20px, 2vw, 36px);
+}
+.footer-logo img { border-radius: 50%; object-fit: cover; width: clamp(60px, 5vw, 100px); height: clamp(60px, 5vw, 100px); }
+.footer-section h4 {
+  font-family: 'Koulen', sans-serif;
+  font-size: clamp(13px, 1vw, 18px);
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--yellow); margin-bottom: clamp(10px, 1vw, 18px);
+}
+.contact-grid { display: flex; gap: clamp(24px, 2.5vw, 50px); flex-wrap: wrap; }
+.contact-col { display: flex; flex-direction: column; gap: 5px; }
+.contact-col span {
+  font-family: 'Koulen', sans-serif;
+  font-size: clamp(11px, 0.85vw, 15px);
+  color: #aaa; letter-spacing: .5px;
+}
+.contact-col span:first-child { color: var(--yellow-dark); font-size: clamp(10px, 0.75vw, 13px); letter-spacing: 1.5px; text-transform: uppercase; }
+.social-links {
+  display: flex; align-items: center; gap: clamp(10px, 1vw, 18px);
+  padding: clamp(14px, 1.4vw, 24px) 0;
+  border-top: 1px solid #222; border-bottom: 1px solid #222;
+  margin-bottom: clamp(14px, 1.4vw, 24px);
+}
+.social-links span {
+  font-family: 'Koulen', sans-serif;
+  font-size: clamp(11px, 0.82vw, 14px);
+  letter-spacing: 1.5px; text-transform: uppercase; color: #666;
+}
+.social-links a {
+  width: clamp(30px, 2.4vw, 42px); height: clamp(30px, 2.4vw, 42px);
+  border-radius: 8px; background: #111; border: 1px solid #333;
+  display: flex; align-items: center; justify-content: center;
+  color: #888; font-size: clamp(13px, 1vw, 17px);
+  text-decoration: none; transition: all .2s;
+}
+.social-links a:hover { background: var(--yellow-dim); border-color: var(--yellow-dark); color: var(--yellow); }
+.back-to-top {
+  display: flex; align-items: center; gap: 7px;
+  background: transparent; border: 1px solid #333;
+  color: #666; font-family: 'Koulen', sans-serif;
+  font-size: clamp(11px, 0.82vw, 14px);
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: clamp(7px, 0.6vw, 12px) clamp(14px, 1.2vw, 22px);
+  border-radius: 8px; cursor: pointer; transition: all .2s;
+}
+.back-to-top:hover { border-color: var(--yellow-dark); color: var(--yellow); background: var(--yellow-dim); }
+
+/* ─────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.profile-header-card          { animation: fadeUp .45s ease both; }
+.profile-section:nth-child(1) { animation: fadeUp .45s ease .06s both; }
+.profile-section:nth-child(2) { animation: fadeUp .45s ease .10s both; }
+.profile-section:nth-child(3) { animation: fadeUp .45s ease .14s both; }
+.profile-section:nth-child(4) { animation: fadeUp .45s ease .18s both; }
+.profile-section:nth-child(5) { animation: fadeUp .45s ease .22s both; }
+.profile-section:nth-child(6) { animation: fadeUp .45s ease .26s both; }
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media (max-width: 1024px) { .perf-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 768px)  {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .main-content { padding: 20px; }
+  .ph-stats { display: none; }
+  .row { flex-direction: column; }
+  .intern-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 580px)  {
+  .profile-header-card { flex-direction: column; align-items: flex-start; }
+  .perf-grid { grid-template-columns: 1fr 1fr; }
+  .intern-grid { grid-template-columns: 1fr; }
+}
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav>
+  <div class="nav-logo"><img src="logo.png" width="42" height="42"/></div>
+  <ul class="nav-links">
+    <li><a href="landing_page.html">Home</a></li>
+    <li><a href="courses.html">Courses</a></li>
+    <li><a href="community.html">Community</a></li>
+    <li><a href="about.html">About</a></li>
+    <li class="dropdown">
+      <a href="#" onclick="toggleDropdown(event)">More</a>
+      <ul class="dropdown-menu" id="dropdownMenu">
+        <li><a href="more.html">Career</a></li>
+        <li><a href="project.html">Project</a></li>
+      </ul>
+    </li>
+    <li><a href="#footer" onclick="scrollToFooter();return false;">Contact Us</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-notif" title="Notifications">
+      <i class="fa-regular fa-bell"></i>
+      <div class="notif-dot"></div>
+    </div>
+    <div class="nav-user" id="navUser">
+      <div class="nav-user-btn" onclick="toggleUserMenu()">
+        <div class="nav-user-avatar">A</div>
+        <span class="nav-user-name">Arjun</span>
+        <i class="fa-solid fa-chevron-down chev"></i>
+      </div>
+      <div class="user-dropdown">
+        <div class="dd-user-info">
+          <strong>Arjun Mehta</strong>
+          <span>arjun.mehta@iitb.ac.in</span>
+        </div>
+        <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
+        <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+        <a href="#"><i class="fa-solid fa-certificate"></i> My Certificates</a>
+        <a href="landing_page.html" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ── MAIN CONTENT ── -->
+<div class="main-content">
+
+  <!-- Profile Header -->
+  <div class="profile-header-card">
+    <div class="ph-avatar">A<div class="ph-online"></div></div>
+    <div class="ph-info">
+      <div class="ph-name">Arjun Mehta</div>
+      <div class="ph-badges">
+        <span class="ph-badge intern"><i class="fa-solid fa-id-badge"></i> Active Intern</span>
+        <span class="ph-badge dept"><i class="fa-solid fa-rocket"></i> Propulsion</span>
+        <span class="ph-badge college"><i class="fa-solid fa-graduation-cap"></i> IIT Bombay</span>
+      </div>
+      <div class="ph-meta">
+        <span><i class="fa-solid fa-envelope"></i> arjun.mehta@iitb.ac.in</span>
+        <span><i class="fa-solid fa-phone"></i> +91 98765 43210</span>
+        <span><i class="fa-solid fa-calendar-plus"></i> Joined Jan 2024</span>
+        <span><i class="fa-solid fa-location-dot"></i> Mumbai, India</span>
+      </div>
+    </div>
+    <div class="ph-stats">
+      <div class="ph-stat"><span class="ph-stat-val">3</span><span class="ph-stat-label">Courses Done</span></div>
+      <div class="ph-stat"><span class="ph-stat-val">2</span><span class="ph-stat-label">Projects</span></div>
+      <div class="ph-stat"><span class="ph-stat-val">84%</span><span class="ph-stat-label">Avg Score</span></div>
+      <div class="ph-stat"><span class="ph-stat-val">6</span><span class="ph-stat-label">Weeks Active</span></div>
+    </div>
+  </div>
+
+  <!-- Current Course -->
+  <div class="profile-section" id="section-course">
+    <div class="section-title"><i class="fa-solid fa-book-open"></i> Current Course</div>
+    <div class="row">
+      <div class="col-2">
+        <div class="course-card">
+          <div>
+            <div class="course-tag"><i class="fa-solid fa-rocket"></i> Propulsion Engineering</div>
+            <div class="course-title">Liquid Propellant Rocket Engines — Advanced</div>
+            <div class="course-meta">
+              <span><i class="fa-solid fa-user"></i> Dr. K. Rajesh (ISRO)</span>
+              <span><i class="fa-solid fa-clock"></i> 12 Weeks Total</span>
+              <span><i class="fa-solid fa-calendar"></i> Started Mar 1, 2025</span>
+              <span><i class="fa-solid fa-signal"></i> Advanced Level</span>
+            </div>
+          </div>
+          <div>
+            <div class="progress-label"><span>Overall Progress</span><span>Week 8 of 12 — 67%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:67%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-1">
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div class="mini-stat"><div class="mini-stat-icon yellow"><i class="fa-solid fa-star"></i></div><div><div class="mini-stat-val">87 / 100</div><div class="mini-stat-label">This Week's Score</div></div></div>
+          <div class="mini-stat"><div class="mini-stat-icon green"><i class="fa-solid fa-trophy"></i></div><div><div class="mini-stat-val">84.6 / 100</div><div class="mini-stat-label">8-Week Average</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Performance & Statistics -->
+  <div class="profile-section" id="section-performance">
+    <div class="section-title"><i class="fa-solid fa-chart-line"></i> Performance &amp; Statistics</div>
+    <div class="perf-grid" style="margin-bottom:16px;">
+      <div class="perf-card"><div class="perf-card-icon yellow"><i class="fa-solid fa-percent"></i></div><div class="perf-val">84.6%</div><div class="perf-label">Overall Average</div><div class="perf-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +3.2% this month</div></div>
+      <div class="perf-card"><div class="perf-card-icon green"><i class="fa-solid fa-fire"></i></div><div class="perf-val">6 Wks</div><div class="perf-label">Current Streak</div><div class="perf-trend up"><i class="fa-solid fa-arrow-trend-up"></i> Best so far</div></div>
+      <div class="perf-card"><div class="perf-card-icon blue"><i class="fa-solid fa-arrow-up-right-dots"></i></div><div class="perf-val">93</div><div class="perf-label">Highest Week Score</div><div class="perf-trend neutral"><i class="fa-solid fa-minus"></i> Week 5</div></div>
+      <div class="perf-card"><div class="perf-card-icon purple"><i class="fa-solid fa-chart-pie"></i></div><div class="perf-val">Top 15%</div><div class="perf-label">Batch Percentile</div><div class="perf-trend up"><i class="fa-solid fa-arrow-trend-up"></i> Up from Top 25%</div></div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-header">
+        <div class="chart-title">Weekly Marks — Current Course</div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#c9ae00"></div> Score</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#cacdd5"></div> Avg</div>
+        </div>
+      </div>
+      <div style="position:relative; height:clamp(180px, 18vw, 320px); width:100%;">
+        <canvas id="marksChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Completed Courses -->
+  <div class="profile-section" id="section-completed">
+    <div class="section-title"><i class="fa-solid fa-circle-check"></i> Completed Courses</div>
+    <div class="completed-grid">
+      <div class="completed-card prop">
+        <div class="cc-header"><div class="cc-dept-tag propulsion">Propulsion</div><div class="cc-score">91 / 100</div></div>
+        <div class="cc-title">Introduction to Rocket Propulsion</div>
+        <div class="cc-meta"><span><i class="fa-solid fa-user"></i> Dr. K. Rajesh</span><span><i class="fa-solid fa-clock"></i> 8 Weeks</span><span><i class="fa-solid fa-calendar"></i> Oct – Dec 2024</span></div>
+        <div class="cc-footer"><div class="cert-badge"><i class="fa-solid fa-certificate"></i> Certificate Issued</div><div class="grade-badge a">A+</div></div>
+      </div>
+      <div class="completed-card avio">
+        <div class="cc-header"><div class="cc-dept-tag avionics">Avionics</div><div class="cc-score">78 / 100</div></div>
+        <div class="cc-title">Avionics &amp; Onboard Systems Fundamentals</div>
+        <div class="cc-meta"><span><i class="fa-solid fa-user"></i> Prof. S. Nair</span><span><i class="fa-solid fa-clock"></i> 10 Weeks</span><span><i class="fa-solid fa-calendar"></i> Jul – Sep 2024</span></div>
+        <div class="cc-footer"><div class="cert-badge"><i class="fa-solid fa-certificate"></i> Certificate Issued</div><div class="grade-badge b">B+</div></div>
+      </div>
+      <div class="completed-card soft">
+        <div class="cc-header"><div class="cc-dept-tag software">Software</div><div class="cc-score">85 / 100</div></div>
+        <div class="cc-title">Flight Dynamics &amp; MATLAB Simulation</div>
+        <div class="cc-meta"><span><i class="fa-solid fa-user"></i> Dr. A. Verma</span><span><i class="fa-solid fa-clock"></i> 6 Weeks</span><span><i class="fa-solid fa-calendar"></i> Apr – Jun 2024</span></div>
+        <div class="cc-footer"><div class="cert-badge"><i class="fa-solid fa-certificate"></i> Certificate Issued</div><div class="grade-badge a">A</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Job Applications -->
+  <div class="profile-section" id="section-applications">
+    <div class="section-title"><i class="fa-solid fa-briefcase"></i> Job Applications</div>
+    <div class="applications-list">
+      <div class="app-card">
+        <div class="app-card-left">
+          <div class="app-role">Propulsion Engineering Intern</div>
+          <div class="app-meta">
+            <span><i class="fa-solid fa-building"></i> Bright Aerospace</span>
+            <span><i class="fa-solid fa-location-dot"></i> Remote</span>
+            <span><i class="fa-solid fa-calendar"></i> Applied Jul 10, 2025</span>
+            <span><i class="fa-solid fa-indian-rupee-sign"></i> 5,000/mo</span>
+          </div>
+          <div class="app-pipeline">
+            <div class="pipe-dot done"></div><div class="pipe-line done"></div>
+            <div class="pipe-dot done"></div><div class="pipe-line done"></div>
+            <div class="pipe-dot current"></div><div class="pipe-line"></div>
+            <div class="pipe-dot"></div>
+          </div>
+          <div class="pipe-labels">
+            <span class="pipe-label-item">Applied</span>
+            <span class="pipe-label-item">Shortlisted</span>
+            <span class="pipe-label-item active">Interview</span>
+            <span class="pipe-label-item">Offer</span>
+          </div>
+        </div>
+        <div class="app-status-wrap">
+          <div class="app-status interview">Interview Scheduled</div>
+          <div style="font-size:clamp(11px,0.82vw,14px);color:#777c89;text-align:right;">Jul 20, 2025 · 3:00 PM</div>
+        </div>
+      </div>
+      <div class="app-card">
+        <div class="app-card-left">
+          <div class="app-role">Flight Software Developer</div>
+          <div class="app-meta">
+            <span><i class="fa-solid fa-building"></i> Bright Aerospace</span>
+            <span><i class="fa-solid fa-location-dot"></i> Remote</span>
+            <span><i class="fa-solid fa-calendar"></i> Applied Jul 5, 2025</span>
+            <span><i class="fa-solid fa-indian-rupee-sign"></i> 12–18 LPA</span>
+          </div>
+          <div class="app-pipeline">
+            <div class="pipe-dot done"></div><div class="pipe-line done"></div>
+            <div class="pipe-dot current"></div><div class="pipe-line"></div>
+            <div class="pipe-dot"></div><div class="pipe-line"></div>
+            <div class="pipe-dot"></div>
+          </div>
+          <div class="pipe-labels">
+            <span class="pipe-label-item">Applied</span>
+            <span class="pipe-label-item active">Shortlisted</span>
+            <span class="pipe-label-item">Interview</span>
+            <span class="pipe-label-item">Offer</span>
+          </div>
+        </div>
+        <div class="app-status-wrap">
+          <div class="app-status shortlisted">Shortlisted</div>
+          <div style="font-size:clamp(11px,0.82vw,14px);color:#777c89;text-align:right;">Awaiting interview invite</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Internship Details -->
+  <div class="profile-section" id="section-internship">
+    <div class="section-title"><i class="fa-solid fa-id-badge"></i> Internship Details</div>
+    <div class="intern-card">
+      <div class="intern-top">
+        <div class="intern-info">
+          <h3>Propulsion Engineering Intern</h3>
+          <div class="intern-badges">
+            <span class="intern-badge active"><i class="fa-solid fa-circle" style="font-size:6px"></i> Active</span>
+            <span class="intern-badge dept">Propulsion Dept</span>
+            <span class="intern-badge remote"><i class="fa-solid fa-wifi"></i> Remote</span>
+          </div>
+        </div>
+        <div><div class="intern-duration-val">3 Months</div><div class="intern-duration-label">Total Duration</div></div>
+      </div>
+      <div class="intern-grid">
+        <div class="intern-detail"><div class="intern-detail-label">Start Date</div><div class="intern-detail-val">June 1, 2025</div></div>
+        <div class="intern-detail"><div class="intern-detail-label">End Date</div><div class="intern-detail-val">Aug 31, 2025</div></div>
+        <div class="intern-detail"><div class="intern-detail-label">Stipend</div><div class="intern-detail-val hi">₹5,000 / mo</div></div>
+        <div class="intern-detail"><div class="intern-detail-label">Company</div><div class="intern-detail-val">Bright Aerospace</div></div>
+        <div class="intern-detail"><div class="intern-detail-label">Offer Letter</div><div class="intern-detail-val"><i class="fa-solid fa-file-pdf" style="color:#15803d"></i> <a href="#" style="color:#15803d;text-decoration:none;">View PDF</a></div></div>
+        <div class="intern-detail"><div class="intern-detail-label">Certificate</div><div class="intern-detail-val" style="color:#777c89;">Issued on completion</div></div>
+      </div>
+      <div>
+        <div class="intern-timeline-label"><span>Internship Progress</span><span>6 of 13 weeks · 46%</span></div>
+        <div class="intern-progress-bar"><div class="intern-progress-fill" style="width:46%"></div></div>
+      </div>
+      <div class="tasks-list">
+        <div class="tasks-list-label">Assigned Tasks</div>
+        <div class="task-item"><div class="task-check done"><i class="fa-solid fa-check"></i></div><div class="task-text done">Literature review: liquid bipropellant systems</div><div class="task-due">Week 1</div></div>
+        <div class="task-item"><div class="task-check done"><i class="fa-solid fa-check"></i></div><div class="task-text done">Analyse thrust test bench data from May campaign</div><div class="task-due">Week 3</div></div>
+        <div class="task-item"><div class="task-check done"><i class="fa-solid fa-check"></i></div><div class="task-text done">Build initial MATLAB model for combustion efficiency</div><div class="task-due">Week 5</div></div>
+        <div class="task-item"><div class="task-check pending"></div><div class="task-text">Prepare mid-term progress presentation</div><div class="task-due warn">Due Week 7</div></div>
+        <div class="task-item"><div class="task-check pending"></div><div class="task-text">Final report: performance analysis &amp; recommendations</div><div class="task-due">Week 12</div></div>
+      </div>
+      <div class="mentor-card">
+        <div class="mentor-avatar">R</div>
+        <div class="mentor-info">
+          <div class="mentor-name">Dr. Rajesh Kumar</div>
+          <div class="mentor-title">Senior Propulsion Engineer · Bright Aerospace</div>
+        </div>
+        <div class="mentor-contact">
+          <a href="#" title="Email"><i class="fa-solid fa-envelope"></i></a>
+          <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" title="Message"><i class="fa-solid fa-comment-dots"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Published Projects -->
+  <div class="profile-section" id="section-projects">
+    <div class="section-title"><i class="fa-solid fa-rocket"></i> Published Projects</div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-card-top">
+          <div class="project-icon"><i class="fa-solid fa-fire-flame-curved"></i></div>
+          <div class="project-status published">Published</div>
+        </div>
+        <div class="project-title">Combustion Efficiency Analyser for Bipropellant Engines</div>
+        <div class="project-desc">A MATLAB-based tool modelling combustion chamber efficiency for liquid bipropellant rocket engines. Includes Isp prediction, nozzle expansion ratio analysis, and performance curve visualisation.</div>
+        <div class="project-tags">
+          <span class="project-tag">MATLAB</span><span class="project-tag">Propulsion</span><span class="project-tag">Simulation</span><span class="project-tag">Isp Analysis</span>
+        </div>
+        <div class="project-footer">
+          <div class="project-date"><i class="fa-regular fa-calendar"></i> Published Jun 14, 2025</div>
+          <div class="project-links">
+            <a href="#" class="project-link" title="Report"><i class="fa-solid fa-file-lines"></i></a>
+            <a href="#" class="project-link" title="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="#" class="project-link" title="Share"><i class="fa-solid fa-share-nodes"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-card-top">
+          <div class="project-icon"><i class="fa-solid fa-earth-asia"></i></div>
+          <div class="project-status review">Under Review</div>
+        </div>
+        <div class="project-title">Low-Earth Orbit Re-entry Trajectory Simulator</div>
+        <div class="project-desc">Python simulation of a cubesat re-entry from LEO, accounting for atmospheric drag, heat flux, and altitude-dependent density using the NRLMSISE-00 model. Visualised with Matplotlib.</div>
+        <div class="project-tags">
+          <span class="project-tag">Python</span><span class="project-tag">GNC</span><span class="project-tag">Re-entry Dynamics</span><span class="project-tag">CubeSat</span>
+        </div>
+        <div class="project-footer">
+          <div class="project-date"><i class="fa-regular fa-calendar"></i> Submitted Jul 2, 2025</div>
+          <div class="project-links">
+            <a href="#" class="project-link" title="Report"><i class="fa-solid fa-file-lines"></i></a>
+            <a href="#" class="project-link" title="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="#" class="project-link" title="Share"><i class="fa-solid fa-share-nodes"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer id="footer">
+  <div class="footer-content">
+    <div class="footer-logo"><img src="logo.png" width="90" height="90" style="border-radius:50%;object-fit:cover;"/></div>
+    <div class="footer-section">
+      <h4>Contact Us</h4>
+      <div class="contact-grid">
+        <div class="contact-col"><span>Core Committee</span><span>Sudarsan P</span><span>+91 1234567890</span></div>
+        <div class="contact-col"><br><span>Sudarsan P</span><span>+91 1234567890</span></div>
+        <div class="contact-col"><br><span>Sudarsan P</span><span>+91 1234567890</span></div>
+      </div>
+    </div>
+    <div class="footer-section" style="margin-left:auto;">
+      <h4 style="color:#FFD700;text-transform:none;font-weight:normal;">Tech Support</h4>
+    </div>
+  </div>
+  <div class="social-links">
+    <span>Follow Us On</span>
+    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+    <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+  </div>
+  <button class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <i class="fa-solid fa-arrow-up"></i> Back to Top
+  </button>
+</footer>
+
+<!-- ── SCRIPTS ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+  // ── DROPDOWN (nav "More" menu) ──
+function toggleDropdown(e) {
+  e.preventDefault();
+  document.getElementById('dropdownMenu').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.dropdown'))
+    document.getElementById('dropdownMenu').classList.remove('open');
+});
+
+// ── USER MENU ──
+function toggleUserMenu() {
+  document.getElementById('navUser').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('#navUser'))
+    document.getElementById('navUser').classList.remove('open');
+});
+
+// ── SCROLL TO FOOTER ──
+function scrollToFooter() {
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+// ── WEEKLY MARKS CHART ──
+const ctx  = document.getElementById('marksChart').getContext('2d');
+const grad = ctx.createLinearGradient(0, 0, 0, 220);
+grad.addColorStop(0, 'rgba(201,174,0,0.18)');
+grad.addColorStop(1, 'rgba(201,174,0,0.00)');
+
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['Wk 1','Wk 2','Wk 3','Wk 4','Wk 5','Wk 6','Wk 7','Wk 8'],
+    datasets: [
+      {
+        label: 'Weekly Score',
+        data: [72, 78, 80, 82, 93, 85, 88, 87],
+        borderColor: '#c9ae00',
+        backgroundColor: grad,
+        borderWidth: 2.5,
+        pointBackgroundColor: '#FADB0F',
+        pointBorderColor: '#c9ae00',
+        pointBorderWidth: 2,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        fill: true,
+        tension: 0.4
+      },
+      {
+        label: 'Avg (84.6)',
+        data: [84.6, 84.6, 84.6, 84.6, 84.6, 84.6, 84.6, 84.6],
+        borderColor: '#cacdd5',
+        backgroundColor: 'transparent',
+        borderWidth: 1.5,
+        borderDash: [6, 4],
+        pointRadius: 0,
+        fill: false
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#fff',
+        borderColor: '#e4e6ea',
+        borderWidth: 1,
+        titleColor: '#1a1c20',
+        bodyColor: '#777c89',
+        titleFont: { family: 'Koulen', size: 13 },
+        bodyFont: { family: 'Sedan', size: 12 },
+        padding: 12,
+        callbacks: {
+          label: c => c.dataset.label === 'Weekly Score'
+            ? ` Score: ${c.parsed.y} / 100`
+            : ` Avg: ${c.parsed.y}`
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: '#f0f1f4' },
+        ticks: { color: '#b0b5c0', font: { family: 'Koulen', size: 11 } }
+      },
+      y: {
+        min: 50, max: 100,
+        grid: { color: '#f0f1f4' },
+        ticks: {
+          color: '#b0b5c0',
+          font: { family: 'Koulen', size: 11 },
+          callback: v => v + '%'
+        }
+      }
+    }
+  }
+});
+
+// ── PROGRESS BAR ANIMATION ON LOAD ──
+window.addEventListener('load', () => {
+  document.querySelectorAll('.progress-fill, .intern-progress-fill').forEach(bar => {
+    const w = bar.style.width;
+    bar.style.width = '0%';
+    setTimeout(() => { bar.style.width = w; }, 300);
+  });
+});
+</script>
+
+</body>
+</html>

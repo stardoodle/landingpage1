@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Courses</title>
+<link href="https://fonts.googleapis.com/css2?family=Koulen&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --yellow: #FFD600;
+  --black: #111111;
+  --dark: #1a1a1a;
+  --gray-light: #f5f5f5;
+  --gray-mid: #e0e0e0;
+  --gray-text: #666;
+  --green: #4caf50;
+  --radius: 10px;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: #fff;
+  color: var(--black);
+  min-height: 100vh;
+}
+
+/* ── NAV ── */
+nav {
+  background: #111111;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 60px;
+  position: sticky; top: 0; z-index: 100;
+}
+.nav-logo {
+  width: 42px; height: 42px; background: #F5C800;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+}
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  color: #ccc; text-decoration: none; font-size: 13px;
+  letter-spacing: 1px; text-transform: uppercase;
+  font-family: 'Koulen', sans-serif; transition: color .2s;
+}
+.nav-links a:hover { color: #F5C800; }
+.nav-right { display: flex; align-items: center; gap: 14px; }
+.nav-bell { color: #ccc; font-size: 18px; cursor: pointer; }
+.nav-avatar {
+  width: 34px; height: 34px; background: #F5C800;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; color: #111111;
+}
+/* ── MAIN ── */
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+  margin-top: 64px;
+}
+
+/* ── SEARCH ── */
+.search-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--gray-mid);
+  border-radius: 30px;
+  overflow: hidden;
+  width: 480px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  color: var(--black);
+  background: transparent;
+}
+
+.search-box button {
+  background: var(--yellow);
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-box button svg { width: 18px; height: 18px; }
+
+/* ── GRID 4 cols ── */
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* ── COURSE CARD ── */
+.course-card {
+  border: 1.5px solid var(--gray-mid);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.course-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+.card-img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  display: block;
+  background: #222;
+}
+
+.card-img-placeholder {
+  width: 100%;
+  height: 110px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-body { padding: 10px 12px 14px; }
+
+.card-title {
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 4px;
+  color: var(--black);
+}
+
+.badge-upcoming {
+  display: inline-block;
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--gray-text);
+  margin-bottom: 6px;
+}
+
+.card-meta span { display: flex; align-items: center; gap: 3px; }
+
+.card-desc {
+  font-size: 11px;
+  color: var(--gray-text);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--gray-mid);
+  padding-top: 10px;
+  margin-top: 4px;
+}
+
+.price-free {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.btn-start {
+  background: var(--yellow);
+  color: var(--black);
+  border: none;
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.btn-start:hover { background: #f0c800; transform: scale(1.04); }
+
+/* ── WIDE CARDS ROW ── */
+.grid-wide {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.card-wide {
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  min-height: 160px;
+  position: relative;
+  transition: box-shadow 0.2s;
+}
+
+.card-wide:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+
+.card-wide.dark-variant { background: var(--dark); }
+.card-wide.yellow-variant { background: var(--yellow); }
+
+.card-wide-content {
+  flex: 1;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1;
+}
+
+.card-wide.dark-variant .card-title { color: #fff; }
+.card-wide.dark-variant .card-desc { color: rgba(255,255,255,0.7); }
+.card-wide.dark-variant .badge-beginner { color: rgba(255,255,255,0.6); }
+
+.card-wide.yellow-variant .card-title { color: var(--black); }
+.card-wide.yellow-variant .card-desc { color: rgba(0,0,0,0.7); }
+
+.card-wide-img {
+  width: 48%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56px;
+  position: relative;
+  overflow: hidden;
+}
+
+.badge-beginner {
+  font-size: 10px;
+  color: var(--gray-text);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--black);
+  color: #fff;
+  padding: 40px;
+}
+
+.footer-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.footer-logo-wrap { flex-shrink: 0; }
+
+.footer-logo-circle {
+  width: 100px;
+  height: 100px;
+  background: var(--yellow);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-logo-circle svg { width: 56px; height: 56px; }
+
+.footer-contact { flex: 1; }
+
+.footer-contact h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.footer-contact h4 {
+  color: var(--yellow);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.footer-contacts-row {
+  display: flex;
+  gap: 32px;
+}
+
+.footer-person p { font-size: 13px; color: #fff; }
+.footer-person span { font-size: 12px; color: rgba(255,255,255,0.6); }
+
+.footer-tech {
+  margin-left: auto;
+  color: var(--yellow);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-bottom p {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.7);
+  margin-right: 8px;
+}
+
+.social-links { display: flex; gap: 14px; }
+
+.social-link {
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #fff;
+  font-size: 15px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.social-link:hover { border-color: var(--yellow); background: var(--yellow); color: var(--black); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <img src="course_images/logo.png" alt="Logo" style="width:30px;height:30px;border-radius:50%;"/>
+  </div>
+  <ul class="nav-links">
+    <li><a href="landing_page.html">Home</a></li>
+    <li><a href="courses.html" style="color:#F5C800;">Courses</a></li>
+    <li><a href="community.html">Community</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="more.html">More</a></li>
+    <li><a href="#footer">Contact Us</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-bell">🔔</span>
+    <div class="nav-avatar">A</div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <div class="search-box">
+      <input type="text" placeholder="what do you want to learn?">
+      <button>
+        <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- GRID ROW 1 -->
+  <div class="grid-4" id="row1"></div>
+
+  <!-- Wide dual-card row -->
+  <div class="grid-wide">
+    <!-- Dark wide card -->
+    <div class="card-wide dark-variant">
+      <div class="card-wide-content">
+        <div>
+          <div class="card-title" style="font-size:14px;">Your Title Here</div>
+          <div class="badge-beginner">Your Level Here</div>
+          <div class="card-desc" style="margin-top:6px;">Your description here.</div>
+        </div>
+            <a href="course_page.html">
+  <div><button class="btn-start">Start Now</button></div>
+</a>
+    </div>
+      <div class="card-wide-img" style="background:none; padding:0;">
+        <img src="course_images/image1.png" style="width:100%; height:100%; object-fit:cover;">
+      </div>
+    </div>
+
+    <!-- Yellow wide card -->
+    <div class="card-wide yellow-variant">
+      <div class="card-wide-content">
+        <div>
+          <div class="card-title" style="font-size:14px;">Your Title Here</div>
+          <div class="badge-beginner" style="color:rgba(0,0,0,0.6);">Your Level Here</div>
+          <div class="card-desc" style="margin-top:6px;">Your description here.</div>
+        </div>
+        <a href="course_page.html">
+  <div><button class="btn-start">Start Now</button></div>
+</a>
+      </div>
+      <div class="card-wide-img" style="background:none; padding:0;">
+        <img src="course_images/image2.png" style="width:100%; height:100%; object-fit:cover;">
+      </div>
+    </div>
+  </div>
+
+  <!-- GRID ROW 2 -->
+  <div class="grid-4" id="row2"></div>
+
+  <!-- GRID ROW 3 -->
+  <div class="grid-4" id="row3"></div>
+
+</main>
+
+<!-- FOOTER -->
+<footer id ="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-logo-circle">
+        <img src="course_images/logo.png" width="100" height="100" style="object-fit:cover; border-radius:50%;">
+      </div>
+
+      <div class="footer-contact">
+        <h3>Contact Us</h3>
+        <h4>Core Committee</h4>
+        <div class="footer-contacts-row">
+          <div class="footer-person">
+            <p>Sudarsan P</p>
+            <span>+91 1234567890</span>
+          </div>
+          <div class="footer-person">
+            <p>Sudarsan P</p>
+            <span>+91 1234567890</span>
+          </div>
+          <div class="footer-person">
+            <p>Sudarsan P</p>
+            <span>+91 1234567890</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-tech">Tech Support</div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>Follow Us On</p>
+      <div class="social-links">
+        <a href="#" class="social-link" title="Twitter">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.737l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="#" class="social-link" title="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="#" class="social-link" title="YouTube">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+        </a>
+        <a href="#" class="social-link" title="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <a href="#" class="social-link" title="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const courses = [
+  {
+    title: "Basics Of Space Flight",
+    status: "Upcoming",
+    duration: "4 weeks",
+    level: "beginner",
+    desc: "Understand the Fundamental physics behind launching rockets into orbits.",
+    price: "Free",
+    img: "course_images/image1.png"
+  },
+  {
+    title: "Rocket Propulsion",
+    status: "Upcoming",
+    duration: "6 weeks",
+    level: "intermediate",
+    desc: "Deep dive into rocket engines, fuel types and thrust mechanics.",
+    price: "Free",
+    img: "course_images/image2.png"
+  },
+  {
+    title: "Orbital Mechanics",
+    status: "Live",
+    duration: "5 weeks",
+    level: "advanced",
+    desc: "Learn how satellites maintain orbit and how transfers work.",
+    price: "₹499",
+    img: "course_images/image3.png"
+  },
+  {
+    title: "Astronomy 101",
+    status: "Upcoming",
+    duration: "3 weeks",
+    level: "beginner",
+    desc: "Explore stars, galaxies and the universe from scratch.",
+    price: "Free",
+    img: "course_images/image4.png"
+  },
+  {
+    title: "Space Navigation",
+    status: "Live",
+    duration: "4 weeks",
+    level: "intermediate",
+    desc: "How spacecraft find their way across millions of miles.",
+    price: "₹299",
+    img: "course_images/image5.png"
+  },
+  {
+    title: "Satellite Technology",
+    status: "Upcoming",
+    duration: "5 weeks",
+    level: "beginner",
+    desc: "How satellites are built, launched and operated in orbit.",
+    price: "Free",
+    img: "course_images/image6.png"
+  },
+  {
+    title: "Mars Exploration",
+    status: "Upcoming",
+    duration: "7 weeks",
+    level: "intermediate",
+    desc: "Study missions, rovers and the future of Mars colonization.",
+    price: "₹199",
+    img: "course_images/image7.png"
+  },
+  {
+    title: "Space Suits & Life Support",
+    status: "Live",
+    duration: "3 weeks",
+    level: "beginner",
+    desc: "How astronauts survive the extreme conditions of outer space.",
+    price: "Free",
+    img: "course_images/image8.png"
+  },
+  {
+    title: "Black Holes & Relativity",
+    status: "Upcoming",
+    duration: "8 weeks",
+    level: "advanced",
+    desc: "Understand spacetime, gravity and the physics of black holes.",
+    price: "₹599",
+    img: "course_images/image9.png"
+  },
+  {
+    title: "Astrophysics Basics",
+    status: "Upcoming",
+    duration: "6 weeks",
+    level: "intermediate",
+    desc: "The physics that governs stars, nebulae and cosmic events.",
+    price: "Free",
+    img: "course_images/image10.png"
+  },
+  {
+    title: "Moon Missions",
+    status: "Live",
+    duration: "4 weeks",
+    level: "beginner",
+    desc: "From Apollo to Artemis — the history and future of lunar exploration.",
+    price: "Free",
+    img: "course_images/image11.png"
+  },
+  {
+    title: "Space Robotics",
+    status: "Upcoming",
+    duration: "5 weeks",
+    level: "advanced",
+    desc: "Robotic arms, rovers and autonomous systems used in space missions.",
+    price: "₹399",
+    img: "course_images/image12.png"
+  }
+];
+
+function makeCard(course) {
+  return `
+    <div class="course-card">
+      <div class="card-img-placeholder">
+        <img src="${course.img}" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="card-body">
+        <div class="card-title">${course.title}</div>
+        <div class="badge-upcoming">${course.status}</div>
+        <div class="card-meta">
+          <span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            ${course.duration}
+          </span>
+          <span>${course.level}</span>
+        </div>
+        <div class="card-desc">${course.desc}</div>
+        <div class="card-footer">
+          <span class="price-free">${course.price}</span>
+          <a href="course_page.html">
+  <div><button class="btn-start">Start Now</button></div>
+</a>
+        </div>
+      </div>
+    </div>`;
+}
+
+document.getElementById('row1').innerHTML = courses.slice(0, 4).map(makeCard).join('');
+document.getElementById('row2').innerHTML = courses.slice(4, 8).map(makeCard).join('');
+document.getElementById('row3').innerHTML = courses.slice(8, 12).map(makeCard).join('');
+
+  const currentPage = window.location.pathname.split('/').pop();
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    if (link.getAttribute('href') === currentPage) {
+      link.style.color = '#FFD600';
+    }
+  });
+document.querySelectorAll('a[href="#footer"]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('footer').scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

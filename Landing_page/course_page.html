@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Basics of Space Flight</title>
+  <link href="https://fonts.googleapis.com/css2?family=Koulen&family=Rowdies:wght@400;700&family=Rosario:ital,wght@0,400;0,600;1,400&family=Secular+One&family=Sedan&family=Raleway:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --yellow: #F5C800;
+  --black: #111111;
+  --white: #ffffff;
+  --gray: #f4f4f4;
+  --border: #e0e0e0;
+  --text: #222222;
+  --muted: #666;
+}
+
+body {
+  font-family: 'Sedan', serif;
+  color: var(--text);
+  background: #fff;
+}
+
+/* ── NAVBAR ── */
+nav {
+  background: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-logo {
+  width: 42px; height: 42px;
+  background: var(--yellow);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+
+.nav-links {
+  display: flex; gap: 28px; list-style: none;
+}
+
+.nav-links a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'Koulen', sans-serif;
+  transition: color .2s;
+}
+
+.nav-links a:hover { color: var(--yellow); }
+
+.nav-right {
+  display: flex; align-items: center; gap: 14px;
+}
+
+.nav-bell {
+  color: #ccc; font-size: 18px; cursor: pointer;
+}
+
+.nav-avatar {
+  width: 34px; height: 34px;
+  background: var(--yellow);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; color: var(--black);
+}
+
+/* ── MAIN LAYOUT ── */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 32px 0 16px;
+  animation: fadeUp .5s ease both;
+}
+
+.hero h1 {
+  font-family: 'Rowdies', cursive;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--black);
+}
+
+.hero .instructor {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+  font-family: 'Rosario', sans-serif;
+}
+
+.enroll-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  background: var(--yellow);
+  color: var(--black);
+  font-size: 13px;
+  font-family: 'Koulen', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 9px 18px;
+  border: none;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background .2s, transform .15s;
+}
+
+.enroll-btn:hover { background: #e0b800; transform: translateY(-1px); }
+
+.price-tag {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* ── CONTENT GRID ── */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 28px;
+  margin-top: 24px;
+  animation: fadeUp .6s .1s ease both;
+}
+
+/* ── VIDEO PLAYER ── */
+.video-wrapper {
+  background: #0a0a0a;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 16/9;
+}
+
+.video-header {
+  position: absolute; top: 0; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(0,0,0,.6);
+  font-size: 12px;
+  color: #ddd;
+  z-index: 2;
+}
+
+.video-header-left {
+  display: flex; align-items: center; gap: 8px;
+}
+
+.video-icon {
+  width: 22px; height: 22px;
+  background: var(--yellow);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+}
+
+.video-space-bg {
+  width: 100%; height: 100%;
+  background: radial-gradient(ellipse at 40% 60%, #1a1a4e 0%, #0a0a1a 60%, #000 100%);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Orbit animation */
+.orbit-container {
+  position: relative; width: 200px; height: 200px;
+}
+
+.orbit {
+  position: absolute; border: 1px solid rgba(255,255,255,.15);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+}
+
+.orbit-1 { width: 80px; height: 50px; margin: -25px 0 0 -40px; animation: orbit1 4s linear infinite; }
+.orbit-2 { width: 160px; height: 100px; margin: -50px 0 0 -80px; animation: orbit2 7s linear infinite; }
+
+.sun { width: 16px; height: 16px; background: var(--yellow); border-radius: 50%; box-shadow: 0 0 20px var(--yellow); position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+
+.planet {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.planet-1 { background: #4fa; top: 0; left: 50%; transform: translateX(-50%); }
+.planet-2 { background: #88aaff; top: 0; left: 50%; transform: translateX(-50%); }
+
+@keyframes orbit1 { from { transform: rotate(0deg) rotateX(60deg); } to { transform: rotate(360deg) rotateX(60deg); } }
+@keyframes orbit2 { from { transform: rotate(0deg) rotateX(60deg); } to { transform: rotate(360deg) rotateX(60deg); } }
+
+.play-btn {
+  position: absolute;
+  z-index: 3;
+  width: 56px; height: 56px;
+  background: rgba(255,255,255,.9);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: transform .2s, background .2s;
+}
+
+.play-btn:hover { transform: scale(1.1); background: var(--yellow); }
+.play-btn svg { margin-left: 4px; }
+
+.video-footer {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: rgba(0,0,0,.7);
+  padding: 8px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,.3);
+  border-radius: 2px;
+  margin: 0 12px;
+}
+
+.progress-fill { width: 0%; height: 100%; background: var(--yellow); border-radius: 2px; }
+
+.time-label { font-size: 11px; color: #aaa; }
+
+/* ── COURSE LAYOUT SIDEBAR ── */
+.course-layout {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f7f7f7;
+}
+
+.course-layout-header {
+  background: #f7f7f7;
+  padding: 16px 18px 10px;
+  color: var(--yellow);
+  font-family: 'Secular One', sans-serif;
+  font-size: 20px;
+}
+
+.week-item {
+  border-bottom: 1px solid var(--border);
+  padding: 14px 18px;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  cursor: pointer;
+  background: #f7f7f7;
+  transition: background .15s;
+}
+
+.week-item:last-child { border-bottom: none; }
+.week-item:hover { background: #efefef; }
+
+.week-label {
+  font-family: 'Sedan', serif;
+  font-weight: 600;
+  font-size: 13px;
+  min-width: 70px;
+  color: var(--black);
+}
+
+.week-title { font-family: 'Sedan', serif; font-size: 13px; color: var(--text); line-height: 1.4; }
+
+.chevron { color: var(--yellow); font-size: 16px; margin-left: 8px; transition: transform .2s; }
+.week-item.open .chevron { transform: rotate(180deg); }
+
+.week-content {
+  display: none;
+  background: #efefef;
+  padding: 10px 18px 12px 88px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+  border-bottom: 1px solid var(--border);
+}
+
+.week-item.open + .week-content { display: block; }
+
+/* ── SECTIONS ── */
+section { padding: 32px 0; border-top: 1px solid var(--border); animation: fadeUp .6s ease both; }
+
+.section-title {
+  font-family: 'Secular One', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--yellow);
+  margin-bottom: 20px;
+}
+
+/* ── LEARN LIST ── */
+.learn-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+
+.learn-list li {
+  display: flex; align-items: flex-start; gap: 14px;
+  font-size: 14px; line-height: 1.6;
+}
+
+.check {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  border: 2px solid var(--yellow);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 1px;
+  font-size: 11px;
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+/* ── COURSE INCLUDES ── */
+.includes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 32px;
+}
+
+.include-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 14px;
+  font-family: 'Sedan', serif;
+}
+
+/* ── INSTRUCTOR ── */
+.instructor-card {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 24px;
+  display: flex; gap: 20px;
+}
+
+.instructor-avatar {
+  width: 100px; height: 110px;
+  background: #ddd;
+  border-radius: 6px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  color: #999;
+  overflow: hidden;
+}
+
+.instructor-bio {
+  font-family: 'Sedan', serif;
+  font-size: 13px; line-height: 1.7; color: #444;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--black);
+  color: #ccc;
+  padding: 40px 40px 28px;
+  margin-top: 40px;
+}
+
+.footer-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+}
+
+.footer-logo {
+  width: 90px; height: 90px;
+  background: var(--yellow);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px;
+  flex-shrink: 0;
+}
+
+.footer-contact h3 {
+  font-family: 'Secular One', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.footer-committee-label {
+  color: var(--yellow);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.footer-contacts {
+  display: flex; gap: 24px;
+  font-size: 12px; color: #aaa;
+}
+
+.footer-contacts div { line-height: 1.7; }
+
+.footer-support {
+  margin-left: auto;
+  font-size: 13px;
+  color: #aaa;
+  padding-top: 28px;
+}
+
+.footer-bottom {
+  max-width: 960px;
+  margin: 24px auto 0;
+  border-top: 1px solid #333;
+  padding-top: 18px;
+  display: flex; align-items: center; gap: 16px;
+}
+
+.footer-bottom span {
+  font-size: 12px; color: #888;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.social-icons {
+  display: flex; gap: 12px;
+}
+
+.social-icons a {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 1px solid #555;
+  display: flex; align-items: center; justify-content: center;
+  color: #aaa;
+  font-size: 13px;
+  text-decoration: none;
+  transition: border-color .2s, color .2s;
+}
+
+.social-icons a:hover { border-color: var(--yellow); color: var(--yellow); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .content-grid { grid-template-columns: 1fr; }
+  .includes-grid { grid-template-columns: 1fr; }
+  nav { padding: 0 16px; }
+  .nav-links { display: none; }
+  .footer-inner { flex-direction: column; gap: 24px; }
+  .footer-support { margin-left: 0; padding-top: 0; }
+}
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <div class="nav-logo"><img src="logo.png" width="42" height="42" style="border-radius:50%;object-fit:cover;"/></div>
+    <ul class="nav-links">
+    <li><a href="landing_page.html">Home</a></li>
+    <li><a href="courses.html" style="color: var(--yellow);">Courses</a></li>
+    <li><a href="community.html">Community</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="more.html">More</a></li>
+    <li><a href="#footer">Contact Us</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-bell">🔔</span>
+    <div class="nav-avatar">A</div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Basics of Space Flight</h1>
+    <p class="instructor">By Prof. Saptarshi Kolay</p>
+    <button class="enroll-btn">
+      <span class="price-tag">₹99</span>
+      <span>Enroll Now</span>
+    </button>
+  </div>
+
+  <!-- CONTENT GRID -->
+  <div class="content-grid">
+
+    <!-- VIDEO -->
+    <div>
+      <div class="video-wrapper">
+        <div class="video-header">
+          <div class="video-header-left">
+            <div class="video-icon"><img src="logo.png" width="22" height="22" style="border-radius:50%;object-fit:cover;"/></div>
+            <span>Basic of Space flight.</span>
+          </div>
+          <div style="display:flex;gap:14px;">
+            <span>⏱</span>
+            <span>↗</span>
+          </div>
+        </div>
+        <div class="video-space-bg">
+          <div class="orbit-container">
+            <div class="sun"></div>
+            <div class="orbit orbit-1">
+              <div class="planet planet-1"></div>
+            </div>
+            <div class="orbit orbit-2">
+              <div class="planet planet-2"></div>
+            </div>
+          </div>
+          <div class="play-btn" id="playBtn" onclick="window.location.href='video.html'" style="cursor:pointer;">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="#222">
+    <polygon points="5,3 19,12 5,21"/>
+  </svg>
+</div>
+        </div>
+        <div class="video-footer">
+          <span class="time-label">00:00</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+          </div>
+          <span class="time-label">31:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COURSE LAYOUT -->
+    <div class="course-layout">
+      <div class="course-layout-header">Course Layout</div>
+
+      <div class="week-item" onclick="toggleWeek(this)">
+        <span class="week-label">Week I :</span>
+        <span class="week-title">The Space Environment</span>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="week-content">Introduction to the solar system, deep space, microgravity, and radiation effects on spacecraft.</div>
+
+      <div class="week-item" onclick="toggleWeek(this)">
+        <span class="week-label">Week II :</span>
+        <span class="week-title">Orbital Mechanics & Trajectories</span>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="week-content">Kepler's laws, orbital types, gravity-assist maneuvers, and trajectory planning fundamentals.</div>
+
+      <div class="week-item" onclick="toggleWeek(this)">
+        <span class="week-label">Week III :</span>
+        <span class="week-title">Spacecraft Systems</span>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="week-content">Propulsion, power systems, thermal control, attitude control, and onboard communications.</div>
+
+      <div class="week-item" onclick="toggleWeek(this)">
+        <span class="week-label">Week IV :</span>
+        <span class="week-title">Mission Operations & Science</span>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="week-content">How missions are planned, executed, and how rockets deliver payloads into orbit.</div>
+    </div>
+
+  </div><!-- /content-grid -->
+
+  <!-- SYLLABUS LINK -->
+  <div style="display:flex; justify-content:flex-end; margin-top:12px; margin-bottom:4px;">
+    <a href="syllabus.html" style="display:inline-flex;align-items:center;gap:7px;font-family:'Secular One',sans-serif;font-size:14px;color:#999;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#666'" onmouseout="this.style.color='#999'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7,10 12,15 17,10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Syllabus
+    </a>
+  </div>
+
+  <!-- WHAT YOU'LL LEARN -->
+  <section style="border-top:none;">
+    <h2 class="section-title">What you'll learn</h2>
+    <ul class="learn-list">
+      <li>
+        <div class="check">✓</div>
+        <span>Understand the solar system, deep space environment, and how microgravity & radiation affect spacecraft.</span>
+      </li>
+      <li>
+        <div class="check">✓</div>
+        <span>Master orbital mechanics — how gravity shapes orbits, Kepler's laws, and gravity-assist maneuvers.</span>
+      </li>
+      <li>
+        <div class="check">✓</div>
+        <span>Explore spacecraft systems: propulsion, power, thermal control, and onboard communication.</span>
+      </li>
+      <li>
+        <div class="check">✓</div>
+        <span>Learn how interplanetary trajectories are planned and how rockets launch payloads into orbit.</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- COURSE INCLUDES -->
+  <section>
+    <h2 class="section-title">This course includes</h2>
+    <div class="includes-grid">
+      <div class="include-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5C800" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="3"/>
+          <polygon points="10,8 16,12 10,16" fill="#F5C800" stroke="none"/>
+        </svg>
+        <span>36 mins on-demand video</span>
+      </div>
+      <div class="include-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5C800" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <line x1="12" y1="8" x2="12" y2="13"/>
+          <circle cx="12" cy="16" r="0.8" fill="#F5C800"/>
+        </svg>
+        <span>1 practice test</span>
+      </div>
+      <div class="include-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5C800" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <line x1="7" y1="9" x2="17" y2="9"/>
+          <line x1="7" y1="13" x2="17" y2="13"/>
+          <line x1="7" y1="17" x2="13" y2="17"/>
+        </svg>
+        <span>Assignments</span>
+      </div>
+      <div class="include-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5C800" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14,2 14,8 20,8"/>
+          <line x1="8" y1="13" x2="16" y2="13"/>
+          <line x1="8" y1="17" x2="13" y2="17"/>
+        </svg>
+        <span>15 articles</span>
+      </div>
+      <div class="include-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5C800" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="5" y="2" width="14" height="20" rx="3"/>
+          <line x1="9" y1="19" x2="15" y2="19"/>
+        </svg>
+        <span>Access on mobile and TV</span>
+      </div>
+      <div class="include-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5C800" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9C6 5.686 8.686 3 12 3s6 2.686 6 6c0 2.5-1.5 4.5-3.5 5.5L14 17H10l-.5-2.5C7.5 13.5 6 11.5 6 9z"/>
+          <line x1="10" y1="17" x2="14" y2="17"/>
+          <line x1="10" y1="20" x2="14" y2="20"/>
+          <line x1="12" y1="20" x2="12" y2="22"/>
+        </svg>
+        <span>Certificate of completion</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTRUCTOR -->
+  <section>
+    <h2 class="section-title">Instructor's Details</h2>
+    <div class="instructor-card">
+      <div style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div class="instructor-avatar">👤</div>
+        <div style="text-align:center;">
+          <div style="font-family:'Secular One',sans-serif;font-size:12px;color:#222;">Prof. Saptarshi Kolay</div>
+          <div style="font-family:'Secular One',sans-serif;font-size:11px;color:#999;">IIT Roorkee</div>
+        </div>
+      </div>
+      <div>
+        <p class="instructor-bio">
+          Prof. Saptarshi Kolay is presently an Assistant Professor at Architecture and Planning department of Indian Institute of Technology Roorkee. After completing his under graduation in Architecture from Jadavpur University, he went on to explore User Centric design at Design Programme of Indian Institute of Technology Kanpur. Along with teaching he is pursuing his PhD from the Department of Architecture and Planning, IIT-Roorkee. He was selected in student-exchange programme for Aalto University, Finland and Escola De Arte and Desino, Spain.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<footer id = "footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><img src="logo.png" width="90" height="90" style="border-radius:50%;object-fit:cover;"/></div>
+    <div class="footer-contact">
+      <h3>Contact Us</h3>
+      <div class="footer-committee-label">Core Committee</div>
+      <div class="footer-contacts">
+        <div>Sudarsan P<br>+91 1234567890</div>
+        <div>Sudarsan P<br>+91 1234567890</div>
+        <div>Sudarsan P<br>+91 1234567890</div>
+      </div>
+    </div>
+    <div class="footer-support">Tech Support</div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>Follow Us On</span>
+    <div class="social-icons">
+      <a href="#" title="Twitter">𝕏</a>
+      <a href="#" title="Facebook">f</a>
+      <a href="#" title="YouTube">▶</a>
+      <a href="#" title="Instagram">◎</a>
+      <a href="#" title="LinkedIn">in</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Week accordion
+function toggleWeek(el) {
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.week-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) el.classList.add('open');
+}
+
+// Simulated video play
+let playing = false, pct = 0, timer;
+const playBtn = document.getElementById('playBtn');
+const progress = document.getElementById('progress');
+
+playBtn.addEventListener('click', () => {
+  playing = !playing;
+  playBtn.innerHTML = playing
+    ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="#222"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>`
+    : `<svg width="18" height="18" viewBox="0 0 24 24" fill="#222"><polygon points="5,3 19,12 5,21"/></svg>`;
+
+  if (playing) {
+    timer = setInterval(() => {
+      pct = Math.min(pct + 0.1, 100);
+      progress.style.width = pct + '%';
+      if (pct >= 100) { clearInterval(timer); playing = false; }
+    }, 186);
+  } else {
+    clearInterval(timer);
+  }
+});
+document.querySelectorAll('a[href="#footer"]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('footer').scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>

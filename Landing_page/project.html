@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Projects – Bright Aerospace</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Koulen&family=Sedan&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --yellow: #FADB0F;
+  --black: #000000;
+  --gray: #f5f5f5;
+  --border: #e0e0e0;
+  --text: #222222;
+  --muted: #777777;
+}
+body { font-family: 'Sedan', serif; color: var(--text); background: #fff; }
+
+/* ── NAVBAR ── */
+nav {
+  background: #111111;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 60px;
+  position: sticky; top: 0; z-index: 200;
+  border-bottom: none;
+}
+.nav-logo {
+  width: 42px; height: 42px; background: #F5C800;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+}
+.nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+.nav-links a {
+  color: #ccc; text-decoration: none; font-size: 13px;
+  letter-spacing: 1px; text-transform: uppercase;
+  font-family: 'Koulen', sans-serif; transition: color .2s;
+  position: relative; padding-bottom: 4px;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 0; height: 2px; background: #F5C800;
+  transition: width .25s ease;
+}
+.nav-links a:hover::after { width: 100%; }
+.nav-links a:hover, .nav-links a.active-link { color: #F5C800; }
+.dropdown { position: relative; }
+.dropdown-menu {
+  display: none; position: absolute;
+  top: calc(100% + 10px); left: 0;
+  background: #111111; border: 1px solid #333;
+  border-radius: 6px; min-width: 140px; overflow: hidden; z-index: 300;
+}
+.dropdown-menu.open { display: block; }
+.dropdown-menu li { list-style: none; }
+.dropdown-menu li a {
+  display: block; padding: 12px 18px;
+  color: #ccc; font-family: 'Koulen', sans-serif;
+  font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+  transition: background .15s, color .15s;
+}
+.dropdown-menu li a::after { display: none; }
+.dropdown-menu li a:hover { background: #111; color: #F5C800; }
+.nav-right { display: flex; align-items: center; gap: 14px; }
+.nav-bell { color: #ccc; font-size: 18px; cursor: pointer; }
+.nav-avatar {
+  width: 34px; height: 34px; background: #F5C800;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; color: #111111;
+}
+
+/* ── HERO ── */
+.projects-hero {
+  background: var(--black); color: #fff;
+  padding: 80px 56px 90px;
+  position: relative; overflow: hidden;
+}
+.projects-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(250,219,15,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 10%, rgba(250,219,15,0.07) 0%, transparent 45%);
+  pointer-events: none;
+}
+.projects-hero::after {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(250,219,15,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250,219,15,0.035) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+.hero-inner {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  max-width: 1240px; margin: 0 auto;
+}
+.hero-left .hero-tag {
+  display: inline-block;
+  background: var(--yellow); color: var(--black);
+  font-family: 'Koulen', sans-serif; font-size: 11px; letter-spacing: 3px;
+  padding: 5px 16px; border-radius: 20px; margin-bottom: 26px;
+  animation: heroTagIn .5s cubic-bezier(.22,.68,0,1.3) .1s both;
+}
+.hero-left h1 {
+  font-family: 'Koulen', sans-serif; font-size: 3.8rem;
+  line-height: 1.05; font-weight: 400; margin-bottom: 22px;
+  animation: heroTitleIn .7s cubic-bezier(.22,.68,0,1.2) .25s both;
+}
+.hero-left h1 span { color: var(--yellow); }
+.hero-left p {
+  color: #aaa; font-size: 1rem; line-height: 1.8; max-width: 440px;
+  margin-bottom: 44px;
+  animation: heroFadeUp .6s ease .45s both;
+}
+.hero-stats-row {
+  display: flex; gap: 40px;
+  animation: heroFadeUp .6s ease .6s both;
+}
+.hstat-mini { text-align: left; }
+.hstat-mini span {
+  display: block; font-family: 'Koulen', sans-serif;
+  font-size: 2rem; color: var(--yellow); line-height: 1;
+}
+.hstat-mini p { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
+.hstat-sep { width: 1px; background: #2a2a2a; }
+
+.hero-right { animation: heroFadeUp .7s ease .4s both; }
+.featured-card {
+  background: #0a0a0a; border: 1px solid #222;
+  border-radius: 18px; overflow: hidden;
+  position: relative;
+  transition: border-color .3s, box-shadow .3s;
+}
+.featured-card:hover {
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 1px var(--yellow), 0 20px 60px rgba(250,219,15,.08);
+}
+.featured-img {
+  width: 100%; height: 220px;
+  background: linear-gradient(135deg, #0d0d0d 0%, #1a1a00 50%, #111 100%);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.featured-img img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  filter: brightness(0.72) saturate(0.88);
+  transition: transform .5s cubic-bezier(.16,1,.3,1), filter .4s ease;
+}
+.featured-card:hover .featured-img img {
+  transform: scale(1.04);
+  filter: brightness(0.82) saturate(1.0);
+}
+.featured-img-overlay {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.15) 50%, transparent 100%);
+}
+.featured-badge {
+  position: absolute; top: 16px; left: 16px;
+  background: var(--yellow); color: var(--black);
+  font-family: 'Koulen', sans-serif; font-size: 10px; letter-spacing: 2px;
+  padding: 4px 12px; border-radius: 20px; text-transform: uppercase;
+}
+.featured-body { padding: 28px; }
+.featured-meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.featured-dept { font-family: 'Koulen', sans-serif; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--yellow); }
+.featured-year { font-size: 11px; color: #555; font-family: 'Koulen', sans-serif; letter-spacing: 1px; }
+.featured-title { font-family: 'Koulen', sans-serif; font-size: 1.3rem; color: #fff; font-weight: 400; margin-bottom: 12px; line-height: 1.35; }
+.featured-desc { font-size: 12.5px; color: #888; line-height: 1.75; margin-bottom: 20px; }
+.featured-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #1a1a1a; padding-top: 18px; }
+.team-avatars { display: flex; }
+.team-avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #222; border: 2px solid #0a0a0a;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Koulen', sans-serif; font-size: 11px; color: var(--yellow);
+  margin-left: -8px;
+}
+.team-avatar:first-child { margin-left: 0; }
+.featured-tag-row { display: flex; gap: 7px; flex-wrap: wrap; }
+.tech-tag { font-size: 10px; color: #666; background: #111; border: 1px solid #222; border-radius: 4px; padding: 3px 9px; font-family: 'Koulen', sans-serif; letter-spacing: .5px; }
+
+/* ── STATS BANNER ── */
+.stats-banner {
+  background: var(--black); padding: 50px 56px;
+  display: flex; justify-content: center; gap: 0;
+  border-top: 1px solid #111; border-bottom: 1px solid #111;
+}
+.stat-item { text-align: center; padding: 12px 60px; }
+.stat-item:not(:last-child) { border-right: 1px solid #222; }
+.stat-item span { display: block; font-family: 'Koulen', sans-serif; font-size: 2.4rem; color: var(--yellow); line-height: 1; }
+.stat-item p { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 8px; }
+
+/* ── FILTERS ── */
+.filters-section {
+  background: var(--gray); padding: 20px 56px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.search-row { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.search-wrapper { position: relative; flex: 1; max-width: 440px; }
+.search-wrapper i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 13px; pointer-events: none; }
+.search-wrapper input {
+  width: 100%; padding: 11px 16px 11px 42px;
+  border: 1px solid var(--border); border-radius: 24px;
+  font-family: 'Sedan', serif; font-size: 13px; color: var(--text);
+  outline: none; background: #fff; transition: border-color .2s, box-shadow .2s;
+}
+.search-wrapper input:focus { border-color: var(--yellow); box-shadow: 0 0 0 3px rgba(250,219,15,.15); }
+.results-count { font-family: 'Koulen', sans-serif; font-size: 13px; letter-spacing: .5px; color: var(--muted); margin-left: auto; white-space: nowrap; }
+.results-count strong { color: var(--text); }
+.btn-submit-project {
+  background: var(--yellow); color: var(--black);
+  border: none; padding: 10px 22px; border-radius: 24px;
+  font-family: 'Koulen', sans-serif; font-size: 13px;
+  letter-spacing: 1px; text-transform: uppercase;
+  cursor: pointer; transition: background .2s, transform .2s;
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.btn-submit-project:hover { background: #e0c800; transform: translateY(-1px); }
+.btn-submit-project i { font-size: 12px; }
+
+.filters {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.filters::-webkit-scrollbar { display: none; }
+.filters-divider { width: 1px; min-width: 1px; height: 24px; background: #ccc; margin: 0 4px; flex-shrink: 0; }
+.filter-btn {
+  background: #fff; color: var(--text);
+  border: 1px solid var(--border); padding: 7px 18px; border-radius: 24px;
+  font-family: 'Koulen', sans-serif; font-size: 12px; letter-spacing: 1px;
+  cursor: pointer; transition: all .2s cubic-bezier(.22,.68,0,1.4);
+  position: relative; overflow: hidden;
+  white-space: nowrap; flex-shrink: 0;
+}
+.filter-btn:hover { border-color: var(--yellow); transform: translateY(-1px); }
+.filter-btn:active { transform: scale(.93); }
+.filter-btn.active { background: var(--yellow); color: var(--black); border-color: var(--yellow); }
+
+/* ══ BENTO GRID ══ */
+.projects-section {
+  padding: 52px 56px 72px;
+  background: #e4e4e4;
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 10px;
+  border: 10px solid #e4e4e4;
+  background: #e4e4e4;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.10);
+  max-width: 1380px;
+  margin: 0 auto;
+}
+
+.bc3  { grid-column: span 3; }
+.bc4  { grid-column: span 4; }
+.bc5  { grid-column: span 5; }
+.bc6  { grid-column: span 6; }
+.bc7  { grid-column: span 7; }
+.bc8  { grid-column: span 8; }
+.bc12 { grid-column: span 12; }
+
+.bcard {
+  background: #fff;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+  opacity: 0; transform: translateY(18px);
+  transition: opacity .55s cubic-bezier(.16,1,.3,1),
+              transform .55s cubic-bezier(.16,1,.3,1),
+              box-shadow .55s cubic-bezier(.16,1,.3,1),
+              filter .4s ease, background .2s;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+  will-change: transform;
+  border-radius: 6px;
+}
+.bcard.visible { opacity: 1; transform: translateY(0); }
+.bcard.hidden  { display: none; }
+
+.bento-grid.has-hover .bcard:not(:hover):not(.bcard-stat) {
+  opacity: 0.82;
+  filter: blur(0.2px);
+}
+
+.bcard:hover {
+  z-index: 5;
+  opacity: 1 !important;
+  transform: none !important;
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.10),
+    0 8px 28px rgba(0,0,0,0.12),
+    0 0 0 1.5px rgba(250,219,15,0.7);
+  filter: blur(0px) !important;
+}
+
+.bcard-shine {
+  position: absolute; inset: 0; pointer-events: none; z-index: 10;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity .3s ease;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.18) 0%, transparent 65%);
+}
+.bcard:hover .bcard-shine { opacity: 1; }
+
+.bcard-texture {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  opacity: 0;
+  transition: opacity .35s ease;
+  background-image: radial-gradient(circle, rgba(250,219,15,0.055) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.bcard:hover .bcard-texture { opacity: 1; }
+
+.bcard::after {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none; z-index: 9;
+  border: 1.5px solid transparent;
+  border-radius: inherit;
+  transition: border-color .3s ease, box-shadow .3s ease;
+}
+.bcard:hover::after {
+  border-color: rgba(250,219,15,0.6);
+  box-shadow: inset 0 0 12px rgba(250,219,15,0.07);
+}
+
+.bcard::before {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0;
+  width: 3px; z-index: 10;
+  background: var(--yellow);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform .3s ease;
+}
+.bcard:hover::before { transform: scaleY(1); }
+
+@keyframes cardBreathe {
+  0%   { box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06), 0 0 0px 0px rgba(250,219,15,0); transform: scale(1); }
+  50%  { box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06), 0 0 28px 6px rgba(250,219,15,0.28), 0 8px 32px rgba(250,219,15,0.12); transform: scale(1.008); }
+  100% { box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06), 0 0 0px 0px rgba(250,219,15,0); transform: scale(1); }
+}
+.bcard-featured.visible:not(:hover) {
+  animation: cardBreathe 2.8s ease-in-out infinite;
+}
+
+/* ── FEATURED bcard ── */
+.bcard-featured {
+  grid-column: span 12;
+  flex-direction: row;
+  padding: 0;
+  border-top: 3px solid var(--yellow);
+}
+.bcard-featured::before { display: none; }
+.bcard-featured::after  { display: none; }
+
+.bf-body {
+  flex: 1; padding: 28px 34px;
+  display: flex; flex-direction: column;
+}
+
+.bcard-live {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: 'Koulen', sans-serif; font-size: 10px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: #2e7d32; margin-bottom: 8px;
+}
+.bcard-live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #2e7d32;
+  animation: livePulse 1.8s ease-in-out infinite;
+}
+@keyframes livePulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ── CARD BODY ── */
+.bcard-body {
+  padding: 14px 18px 10px;
+  display: flex; flex-direction: column;
+}
+
+.bcard-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'Koulen', sans-serif; font-size: 10px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 3px 9px; border: 1px solid;
+  margin-bottom: 8px; width: fit-content;
+  border-radius: 3px;
+}
+.bcard-badge-dot { width: 5px; height: 5px; border-radius: 50%; }
+
+.bb-avionics   { border-color: #004080; color: #0066cc; background: #e8f0ff; }
+.bb-avionics   .bcard-badge-dot { background: #0066cc; }
+.bb-propulsion { border-color: #7a2900; color: #cc4400; background: #fff0e8; }
+.bb-propulsion .bcard-badge-dot { background: #cc4400; }
+.bb-structures { border-color: #4a007a; color: #7700cc; background: #f5e8ff; }
+.bb-structures .bcard-badge-dot { background: #7700cc; }
+.bb-software   { border-color: #006644; color: #009955; background: #e8fff4; }
+.bb-software   .bcard-badge-dot { background: #009955; }
+.bb-cfd        { border-color: #5a0080; color: #9900cc; background: #fce8ff; }
+.bb-cfd        .bcard-badge-dot { background: #9900cc; }
+.bb-gnc        { border-color: #004d00; color: #007700; background: #e8ffe8; }
+.bb-gnc        .bcard-badge-dot { background: #007700; }
+.bb-research   { border-color: #664400; color: #996600; background: #fff8e0; }
+.bb-research   .bcard-badge-dot { background: #996600; }
+
+.bcard-title {
+  font-family: 'Koulen', sans-serif; font-size: 1.1rem; font-weight: 400;
+  color: var(--black); line-height: 1.25; margin-bottom: 6px;
+  transition: color .2s;
+}
+.bcard:hover .bcard-title { color: #222; }
+.bcard-featured .bcard-title { font-size: 1.75rem; color: var(--black); }
+
+.bcard-desc {
+  font-size: 13px; color: var(--muted);
+  line-height: 1.65; margin-bottom: 10px;
+}
+.bcard-compact .bcard-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.bcard-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+.bcard-tag {
+  font-size: 10px; color: var(--muted); background: var(--gray);
+  border-radius: 4px; padding: 4px 10px;
+  font-family: 'Koulen', sans-serif; letter-spacing: .5px;
+  border: 1px solid var(--border);
+  transition: background .2s, color .2s;
+}
+.bcard:hover .bcard-tag { background: #fffde0; color: #333; border-color: var(--yellow); }
+
+.bcard-status {
+  position: absolute; top: 14px; right: 14px;
+  font-family: 'Koulen', sans-serif; font-size: 10px; letter-spacing: 1.5px;
+  padding: 4px 11px; border-radius: 20px; text-transform: uppercase; z-index: 2;
+}
+.bcard-status.completed { background: #e8f5e9; color: #2e7d32; }
+.bcard-status.ongoing   { background: #fff8e1; color: #f57f17; }
+.bcard-status.showcase  { background: #e3f2fd; color: #1565c0; }
+
+/* ── CARD FOOTER ── */
+.bcard-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 18px 12px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+.bcard-team { display: flex; align-items: center; gap: 7px; }
+.bcard-avatars { display: flex; }
+.bcard-avatar {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--yellow); border: 2px solid #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Koulen', sans-serif; font-size: 9px; color: var(--black);
+  margin-left: -5px;
+}
+.bcard-avatar:first-child { margin-left: 0; }
+.bcard-team-label { font-size: 11px; color: var(--muted); font-family: 'Koulen', sans-serif; letter-spacing: .5px; }
+.bcard-actions { display: flex; align-items: center; gap: 12px; }
+
+/* ── LIKE BUTTON ── */
+.bcard-like {
+  font-family: 'Koulen', sans-serif; font-size: 11px; color: var(--muted);
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; gap: 5px;
+  transition: color .15s; padding: 4px 8px; border-radius: 20px;
+  line-height: 1;
+}
+.bcard-like:hover { color: var(--text); }
+.bcard-like.liked { color: #e53935; background: rgba(229,57,53,0.08); }
+.bcard-like.liked:hover { color: #c62828; }
+.bcard-like .like-heart { display: inline-block; font-size: 13px; line-height: 1; transform-origin: center; transition: transform .15s ease; }
+@keyframes heartPop { 0%{transform:scale(1)} 30%{transform:scale(1.55)} 55%{transform:scale(0.88)} 80%{transform:scale(1.22)} 100%{transform:scale(1)} }
+.bcard-like.pop .like-heart { animation: heartPop .42s cubic-bezier(.22,.68,0,1.4) forwards; }
+.bcard-like .like-count { display: inline-block; min-width: 14px; transition: transform .2s cubic-bezier(.22,.68,0,1.4), color .15s; }
+.bcard-like.pop .like-count { animation: countBump .3s cubic-bezier(.22,.68,0,1.4) forwards; }
+@keyframes countBump { 0%{transform:translateY(0)} 40%{transform:translateY(-4px)} 100%{transform:translateY(0)} }
+
+.bcard-view {
+  background: none; border: 1px solid var(--border);
+  color: var(--muted); border-radius: 5px; padding: 4px 12px;
+  cursor: pointer; font-size: 12px; font-family: 'Koulen', sans-serif;
+  letter-spacing: .5px; transition: all .2s;
+  display: flex; align-items: center; gap: 5px;
+}
+.bcard-view:hover { border-color: var(--yellow); color: var(--text); background: #fffde7; }
+.bcard-view i { font-size: 11px; transition: transform .25s; }
+.bcard-view:hover i { transform: translateX(3px); }
+
+/* ── DARK CARD ── */
+.bcard-dark { background: #0d0d0d; border-left: 3px solid var(--yellow) !important; }
+.bcard-dark::before { display: none; }
+.bcard-dark::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--yellow) 0%, transparent 60%);
+  pointer-events: none;
+}
+.bcard-dark:hover { box-shadow: 0 10px 40px rgba(250,219,15,.15), 0 0 0 1px rgba(250,219,15,.25); }
+.bcard-dark .bcard-title  { color: #f0f0f0; }
+.bcard-dark:hover .bcard-title { color: var(--yellow); }
+.bcard-dark .bcard-desc   { color: #777; }
+.bcard-dark .bcard-footer { border-top: 1px solid #1f1f1f; background: #080808; }
+.bcard-dark .bcard-tag { background: #1a1a1a; border: 1px solid #2e2e2e; color: #aaa; }
+.bcard-dark:hover .bcard-tag { background: #1f1a00; color: var(--yellow); border-color: rgba(250,219,15,.4); }
+.bcard-dark .bcard-view { border-color: #2e2e2e; color: #777; background: #111; }
+.bcard-dark .bcard-view:hover { border-color: var(--yellow); color: var(--yellow); background: rgba(250,219,15,.06); }
+.bcard-dark .bcard-like   { color: #666; }
+.bcard-dark .bcard-like:hover { color: #bbb; }
+.bcard-dark .bcard-like.liked { color: #e53935; background: rgba(229,57,53,0.12); }
+.bcard-dark .bcard-team-label { color: #555; }
+.bcard-dark .bcard-avatar { border-color: #0d0d0d; background: #2a2500; color: var(--yellow); }
+.bcard-dark .bb-avionics   { background: rgba(0,102,204,.12);  border-color: rgba(0,102,204,.3);  color: #4d9fff; }
+.bcard-dark .bb-propulsion { background: rgba(204,68,0,.12);   border-color: rgba(204,68,0,.3);   color: #ff7744; }
+.bcard-dark .bb-structures { background: rgba(119,0,204,.12);  border-color: rgba(119,0,204,.3);  color: #bb66ff; }
+.bcard-dark .bb-software   { background: rgba(0,153,85,.12);   border-color: rgba(0,153,85,.3);   color: #44cc88; }
+.bcard-dark .bb-cfd        { background: rgba(153,0,204,.12);  border-color: rgba(153,0,204,.3);  color: #dd44ff; }
+.bcard-dark .bb-gnc        { background: rgba(0,119,0,.12);    border-color: rgba(0,119,0,.3);    color: #44cc44; }
+.bcard-dark .bb-research   { background: rgba(153,102,0,.12);  border-color: rgba(153,102,0,.3);  color: #ffcc44; }
+.bcard-dark .bcard-vis-label { color: rgba(250,219,15,.28); }
+.bcard-dark .bcard-status.completed { background: rgba(46,125,50,.2); color: #66bb6a; border: 1px solid rgba(46,125,50,.35); }
+.bcard-dark .bcard-status.ongoing   { background: rgba(245,127,23,.2); color: #ffa726; border: 1px solid rgba(245,127,23,.35); }
+
+/* ── STAT CELL ── */
+.bcard-stat {
+  background: var(--yellow);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 32px 16px;
+}
+.bcard-stat::before { display: none; }
+.bcard-stat::after  { display: none; }
+.bcard-stat:hover   { transform: translateY(-6px) scale(1.018) !important; box-shadow: none; }
+.bstat-num {
+  font-family: 'Koulen', sans-serif;
+  font-size: 4.2rem; line-height: 1;
+  color: var(--black); letter-spacing: -0.05em;
+}
+.bstat-label {
+  font-family: 'Koulen', sans-serif; font-size: 11px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(0,0,0,.55); margin-top: 10px; max-width: 140px; line-height: 1.55;
+}
+
+/* ── IMAGE VIS STRIP ── */
+.bcard-vis-img {
+  width: 100%; aspect-ratio: 16/4;
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.bcard-vis-img img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .5s cubic-bezier(.16,1,.3,1), filter .4s ease;
+  filter: brightness(0.75) saturate(0.9);
+}
+.bcard:hover .bcard-vis-img img { transform: scale(1.06); filter: brightness(0.85) saturate(1.1); }
+.bcard-vis-img .bcard-vis-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+  pointer-events: none; z-index: 1;
+}
+.bcard-vis-img .bcard-vis-label {
+  position: absolute; bottom: 10px; left: 14px; z-index: 2;
+  font-family: 'Koulen', sans-serif; font-size: .6rem;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+}
+.bcard-vis-img .bcard-status { top: 12px; right: 12px; }
+
+.bf-visual-img {
+  width: 220px; flex-shrink: 0;
+  position: relative; overflow: hidden; min-height: 100%;
+}
+.bf-visual-img img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  filter: brightness(0.7) saturate(0.85);
+  transition: transform .5s cubic-bezier(.16,1,.3,1), filter .4s ease;
+}
+.bcard-featured:hover .bf-visual-img img { transform: scale(1.05); filter: brightness(0.85) saturate(1.05); }
+.bf-visual-img::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.3) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ── NO RESULTS ── */
+.bento-no-results {
+  grid-column: span 12;
+  display: none; text-align: center; padding: 80px 20px;
+  background: #fff; border-radius: 6px;
+}
+.bento-no-results.visible { display: flex; flex-direction: column; align-items: center; }
+.bento-no-results i { font-size: 3rem; color: var(--border); margin-bottom: 18px; }
+.bento-no-results h3 { font-family: 'Koulen', sans-serif; font-size: 1.4rem; color: var(--muted); margin-bottom: 8px; }
+.bento-no-results p  { font-size: 13px; color: var(--muted); }
+
+/* ── CARD STAGGER ANIMATION ── */
+@keyframes bentoFadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+.bcard { animation: bentoFadeUp .36s cubic-bezier(.25,.46,.45,.94) both; }
+.bcard:nth-child(1)  { animation-delay:.03s }
+.bcard:nth-child(2)  { animation-delay:.06s }
+.bcard:nth-child(3)  { animation-delay:.09s }
+.bcard:nth-child(4)  { animation-delay:.12s }
+.bcard:nth-child(5)  { animation-delay:.15s }
+.bcard:nth-child(6)  { animation-delay:.18s }
+.bcard:nth-child(7)  { animation-delay:.21s }
+.bcard:nth-child(8)  { animation-delay:.24s }
+.bcard:nth-child(9)  { animation-delay:.27s }
+.bcard:nth-child(10) { animation-delay:.30s }
+
+/* ══ SUBMIT MODAL ══ */
+.submit-modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.55); z-index: 1100;
+  align-items: center; justify-content: center;
+  backdrop-filter: blur(6px); padding: 20px;
+}
+.submit-modal-overlay.open { display: flex; }
+.submit-modal {
+  background: #ffffff; width: 100%; max-width: 680px;
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 32px 90px rgba(0,0,0,.22), 0 0 0 1px rgba(0,0,0,.06);
+  animation: modalIn .4s cubic-bezier(.22,.68,0,1.2);
+  max-height: 92vh; display: flex; flex-direction: column; position: relative;
+}
+.submit-modal::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--yellow); z-index:1; }
+.submit-modal-header { padding:32px 32px 22px; border-bottom:1px solid #f0f0f0; display:flex; justify-content:space-between; align-items:flex-start; flex-shrink:0; background:#fff; }
+.submit-modal-header-left .submit-tag { display:inline-flex; align-items:center; gap:6px; background:#fff9db; border:1px solid #f0d800; color:#a07800; font-family:'Koulen',sans-serif; font-size:10px; letter-spacing:2.5px; padding:4px 12px; border-radius:20px; text-transform:uppercase; margin-bottom:12px; }
+.submit-modal-header-left .submit-tag i { font-size:9px; }
+.submit-modal-header h2 { font-family:'Koulen',sans-serif; font-size:1.9rem; color:#111; font-weight:400; line-height:1.2; }
+.submit-modal-header h2 span { color:#111; position:relative; }
+.submit-modal-header h2 span::after { content:''; position:absolute; bottom:2px; left:0; right:0; height:4px; background:var(--yellow); z-index:-1; border-radius:2px; }
+.submit-modal-header p { font-size:13px; color:#888; margin-top:7px; line-height:1.6; }
+.submit-modal-close { background:#f5f5f5; border:1px solid #e8e8e8; color:#999; width:34px; height:34px; border-radius:50%; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s; flex-shrink:0; margin-left:16px; }
+.submit-modal-close:hover { background:#eee; color:#333; border-color:#ccc; }
+.submit-steps { display:flex; align-items:center; gap:0; padding:14px 32px; border-bottom:1px solid #f0f0f0; flex-shrink:0; background:#fafafa; }
+.submit-step { display:flex; align-items:center; gap:8px; font-family:'Koulen',sans-serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; color:#bbb; transition:color .3s; flex:1; }
+.submit-step.active { color:#111; }
+.submit-step.done { color:#aaa; }
+.step-num { width:22px; height:22px; border-radius:50%; border:1.5px solid #ddd; background:#fff; display:flex; align-items:center; justify-content:center; font-size:10px; color:#bbb; transition:all .3s; flex-shrink:0; }
+.submit-step.active .step-num { border-color:var(--black); background:var(--black); color:var(--yellow); }
+.submit-step.done .step-num { border-color:#ccc; background:#f0f0f0; color:#999; }
+.step-connector { flex:1; height:1px; background:#e8e8e8; max-width:40px; margin:0 8px; }
+.submit-modal-body { padding:28px 32px; overflow-y:auto; flex:1; background:#fff; }
+.submit-modal-body::-webkit-scrollbar { width:4px; }
+.submit-modal-body::-webkit-scrollbar-track { background:#f5f5f5; }
+.submit-modal-body::-webkit-scrollbar-thumb { background:#ddd; border-radius:4px; }
+.step-panel { display:none; animation:stepFadeIn .3s ease; }
+.step-panel.active { display:block; }
+@keyframes stepFadeIn { from{opacity:0;transform:translateX(14px)} to{opacity:1;transform:translateX(0)} }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:18px; }
+.form-row.single { grid-template-columns:1fr; }
+.form-group { display:flex; flex-direction:column; gap:7px; }
+.form-group label { font-family:'Koulen',sans-serif; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:#666; }
+.form-group label .req { color:#e0a800; margin-left:2px; }
+.form-control { background:#fff; border:1.5px solid #e8e8e8; border-radius:8px; padding:11px 14px; font-family:'Sedan',serif; font-size:13px; color:#222; outline:none; transition:border-color .2s, box-shadow .2s; width:100%; }
+.form-control:focus { border-color:#111; box-shadow:0 0 0 3px rgba(0,0,0,.06); }
+.form-control::placeholder { color:#bbb; }
+textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
+select.form-control { cursor:pointer; background:#fff; }
+select.form-control option { background:#fff; color:#222; }
+.tag-input-wrapper { background:#fff; border:1.5px solid #e8e8e8; border-radius:8px; padding:8px 12px; display:flex; flex-wrap:wrap; gap:6px; align-items:center; min-height:44px; cursor:text; transition:border-color .2s, box-shadow .2s; }
+.tag-input-wrapper:focus-within { border-color:#111; box-shadow:0 0 0 3px rgba(0,0,0,.06); }
+.input-tag { background:#111; border:none; color:var(--yellow); font-family:'Koulen',sans-serif; font-size:11px; letter-spacing:.5px; padding:4px 10px; border-radius:5px; display:flex; align-items:center; gap:5px; }
+.input-tag button { background:none; border:none; color:var(--yellow); cursor:pointer; font-size:12px; line-height:1; padding:0; opacity:.6; transition:opacity .2s; }
+.input-tag button:hover { opacity:1; }
+.tag-text-input { background:none; border:none; outline:none; color:#222; font-family:'Sedan',serif; font-size:13px; flex:1; min-width:120px; }
+.tag-text-input::placeholder { color:#bbb; }
+.tag-hint { font-size:11px; color:#bbb; margin-top:5px; }
+.team-member-row { display:grid; grid-template-columns:1fr 1fr auto; gap:10px; align-items:end; margin-bottom:10px; animation:stepFadeIn .2s ease; }
+.add-member-btn { background:#fff; border:1.5px dashed #ddd; color:#aaa; border-radius:8px; padding:10px; width:100%; font-family:'Koulen',sans-serif; font-size:12px; letter-spacing:1px; cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; gap:6px; margin-top:6px; }
+.add-member-btn:hover { border-color:#111; color:#333; background:#fafafa; }
+.remove-member-btn { background:#f5f5f5; border:1px solid #e8e8e8; color:#bbb; width:36px; height:36px; border-radius:6px; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s; flex-shrink:0; }
+.remove-member-btn:hover { background:#fff0f0; border-color:#ffcccc; color:#e53935; }
+.form-section-title { font-family:'Koulen',sans-serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:#222; margin-bottom:16px; display:flex; align-items:center; gap:10px; padding-bottom:10px; border-bottom:2px solid var(--yellow); }
+.form-section-title i { font-size:12px; color:#888; }
+.cat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+.cat-option { display:none; }
+.cat-option + label { display:flex; flex-direction:column; align-items:center; gap:6px; background:#fafafa; border:1.5px solid #e8e8e8; border-radius:10px; padding:14px 8px; cursor:pointer; font-family:'Koulen',sans-serif; font-size:11px; letter-spacing:1px; color:#aaa; text-align:center; text-transform:uppercase; transition:all .2s; }
+.cat-option + label i { font-size:1.4rem; color:#ccc; transition:color .2s; }
+.cat-option + label:hover { border-color:#bbb; color:#555; background:#f5f5f5; }
+.cat-option + label:hover i { color:#888; }
+.cat-option:checked + label { border-color:var(--black); color:var(--black); background:var(--yellow); }
+.cat-option:checked + label i { color:var(--black); }
+.status-row { display:flex; gap:10px; }
+.status-option { display:none; }
+.status-option + label { flex:1; background:#fafafa; border:1.5px solid #e8e8e8; border-radius:8px; padding:10px 14px; cursor:pointer; font-family:'Koulen',sans-serif; font-size:11px; letter-spacing:1px; color:#aaa; text-align:center; text-transform:uppercase; transition:all .2s; }
+.status-option + label:hover { border-color:#bbb; color:#555; }
+.status-option[value="completed"]:checked + label { border-color:#2e7d32; color:#2e7d32; background:#f1f8f1; }
+.status-option[value="ongoing"]:checked   + label { border-color:#e65100; color:#e65100; background:#fff8f3; }
+.status-option[value="showcase"]:checked  + label { border-color:#1565c0; color:#1565c0; background:#f0f4ff; }
+.review-block { background:#fafafa; border:1px solid #eeeeee; border-radius:10px; padding:18px; margin-bottom:14px; }
+.review-block-title { font-family:'Koulen',sans-serif; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:#999; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.review-block-title i { color:#555; font-size:10px; }
+.review-value { font-size:13px; color:#444; line-height:1.65; }
+.review-tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+.review-tag { font-size:10px; background:#111; color:var(--yellow); border-radius:4px; padding:3px 9px; font-family:'Koulen',sans-serif; }
+.review-team-list { display:flex; flex-direction:column; gap:6px; }
+.review-member { display:flex; align-items:center; gap:10px; }
+.review-avatar { width:28px; height:28px; border-radius:50%; background:#111; display:flex; align-items:center; justify-content:center; font-family:'Koulen',sans-serif; font-size:11px; color:var(--yellow); flex-shrink:0; }
+.review-member-text { font-size:12px; color:#444; }
+.review-member-text span { color:#aaa; font-size:11px; margin-left:4px; }
+.submit-modal-footer { padding:18px 32px; border-top:1px solid #f0f0f0; display:flex; justify-content:space-between; align-items:center; flex-shrink:0; background:#fafafa; }
+.step-nav-btns { display:flex; gap:10px; margin-left:auto; }
+.btn-prev { background:#fff; border:1.5px solid #e0e0e0; color:#888; padding:9px 20px; border-radius:6px; font-family:'Koulen',sans-serif; font-size:13px; letter-spacing:1px; cursor:pointer; transition:all .2s; }
+.btn-prev:hover { border-color:#aaa; color:#333; }
+.btn-next { background:var(--black); color:var(--yellow); border:none; padding:9px 24px; border-radius:6px; font-family:'Koulen',sans-serif; font-size:13px; letter-spacing:1px; cursor:pointer; transition:background .2s, transform .1s; display:flex; align-items:center; gap:8px; }
+.btn-next:hover { background:#222; }
+.btn-next:active { transform:scale(.97); }
+.btn-next:disabled { background:#ddd; color:#aaa; cursor:not-allowed; }
+.submit-success { display:none; text-align:center; padding:50px 32px; animation:stepFadeIn .5s ease; }
+.submit-success.show { display:block; }
+.success-icon-wrap { width:80px; height:80px; border-radius:50%; background:var(--yellow); border:3px solid #111; display:flex; align-items:center; justify-content:center; margin:0 auto 24px; animation:successPop .5s cubic-bezier(.22,.68,0,1.6) .1s both; }
+.success-icon-wrap i { font-size:2rem; color:#111; }
+@keyframes successPop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+.submit-success h3 { font-family:'Koulen',sans-serif; font-size:1.6rem; color:#111; margin-bottom:10px; }
+.submit-success p { font-size:13px; color:#888; line-height:1.7; max-width:340px; margin:0 auto 28px; }
+.form-error { font-size:11px; color:#e53935; margin-top:4px; display:none; }
+.form-group.has-error .form-control,
+.form-group.has-error .tag-input-wrapper { border-color:#e53935 !important; }
+.form-group.has-error .form-error { display:block; }
+
+/* ── PROJECT DETAIL MODAL ── */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
+.modal-overlay.open { display:flex; }
+.modal-box { background:#fff; width:92%; max-width:620px; border-radius:14px; overflow:hidden; box-shadow:0 24px 70px rgba(0,0,0,.35); animation:modalIn .35s cubic-bezier(.22,.68,0,1.2); max-height:88vh; display:flex; flex-direction:column; }
+.modal-visual { height:200px; background:var(--black); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.modal-visual img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; filter:brightness(0.55) saturate(0.85); transition:transform .5s ease; }
+.modal-visual:hover img { transform:scale(1.04); }
+.modal-visual-gradient { position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 50%, transparent 100%); z-index:1; pointer-events:none; }
+.modal-visual-icon { font-size:5rem; color:var(--yellow); opacity:.15; position:absolute; z-index:2; }
+.modal-visual-label { position:relative; z-index:2; font-family:'Koulen',sans-serif; font-size:1rem; letter-spacing:4px; color:rgba(255,255,255,0.75); text-transform:uppercase; text-shadow:0 1px 6px rgba(0,0,0,0.6); }
+.modal-close { position:absolute; top:14px; right:16px; background:rgba(0,0,0,.35); border:none; color:#fff; width:32px; height:32px; border-radius:50%; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s; z-index:3; backdrop-filter:blur(4px); }
+.modal-close:hover { background:rgba(255,255,255,.2); }
+.modal-header { padding:24px 28px 0; }
+.modal-meta { display:flex; gap:10px; align-items:center; margin-bottom:8px; flex-wrap:wrap; }
+.modal-dept { font-family:'Koulen',sans-serif; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); }
+.modal-status-tag { font-family:'Koulen',sans-serif; font-size:10px; padding:2px 10px; border-radius:20px; letter-spacing:1px; text-transform:uppercase; }
+.modal-status-tag.completed { background:#e8f5e9; color:#2e7d32; }
+.modal-status-tag.ongoing   { background:#fff8e1; color:#f57f17; }
+.modal-title { font-family:'Koulen',sans-serif; font-size:1.5rem; font-weight:400; color:var(--black); line-height:1.3; }
+.modal-body { padding:22px 28px; overflow-y:auto; display:flex; flex-direction:column; gap:20px; }
+.modal-desc { font-size:13.5px; color:#444; line-height:1.8; }
+.modal-section-title { font-family:'Koulen',sans-serif; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+.modal-tags { display:flex; gap:7px; flex-wrap:wrap; }
+.modal-tag { font-size:11px; background:var(--gray); color:var(--text); border-radius:5px; padding:4px 12px; font-family:'Koulen',sans-serif; letter-spacing:.5px; border:1px solid var(--border); }
+.modal-team-grid { display:flex; gap:10px; flex-wrap:wrap; }
+.modal-member { display:flex; align-items:center; gap:8px; background:var(--gray); border-radius:8px; padding:8px 12px; }
+.modal-avatar { width:32px; height:32px; border-radius:50%; background:var(--yellow); display:flex; align-items:center; justify-content:center; font-family:'Koulen',sans-serif; font-size:13px; color:var(--black); flex-shrink:0; }
+.modal-member-info { line-height:1.3; }
+.modal-member-info strong { font-family:'Koulen',sans-serif; font-size:12px; font-weight:400; color:var(--text); display:block; }
+.modal-member-info span { font-size:11px; color:var(--muted); }
+.modal-footer { padding:16px 28px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:10px; }
+.btn-gray { background:#e0e0e0; color:var(--text); border:none; padding:8px 22px; border-radius:4px; font-family:'Koulen',sans-serif; font-size:14px; letter-spacing:1px; cursor:pointer; transition:background .2s; }
+.btn-gray:hover { background:#ccc; }
+
+/* ── TOAST ── */
+.toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--black); color:#fff; padding:12px 24px; border-radius:30px; font-family:'Koulen',sans-serif; font-size:14px; letter-spacing:.5px; display:flex; align-items:center; gap:8px; box-shadow:0 8px 24px rgba(0,0,0,.3); transition:transform .45s cubic-bezier(.22,.68,0,1.3), opacity .45s ease; opacity:0; z-index:2000; pointer-events:none; border:1px solid #222; }
+.toast i { color:var(--yellow); }
+.toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+
+/* ── FOOTER ── */
+footer { background:var(--black); color:#fff; padding:50px 56px; }
+.footer-content { display:flex; align-items:flex-start; flex-wrap:wrap; gap:56px; }
+.footer-section h4 { color:#fff; margin-bottom:14px; text-transform:uppercase; font-family:'Koulen',sans-serif; font-size:14px; letter-spacing:1px; }
+.contact-grid { display:flex; gap:32px; font-size:12px; color:#aaa; }
+.contact-col span { display:block; margin-bottom:5px; }
+.social-links { display:flex; gap:14px; margin-top:32px; align-items:center; }
+.social-links span { font-family:'Koulen',sans-serif; font-size:12px; text-transform:uppercase; letter-spacing:1px; }
+.social-links a { color:var(--yellow); font-size:1.2rem; transition:transform .2s; }
+.social-links a:hover { transform:translateY(-3px); }
+.back-to-top { float:right; margin-top:20px; display:inline-flex; align-items:center; gap:8px; background:var(--yellow); color:var(--black); border:none; padding:8px 18px; border-radius:4px; font-family:'Koulen',sans-serif; font-size:13px; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:background .2s, transform .2s; }
+.back-to-top:hover { background:#e0c800; transform:translateY(-2px); }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity:0; transform:translateY(32px); transition:opacity .65s cubic-bezier(.22,.68,0,1.2), transform .65s cubic-bezier(.22,.68,0,1.2); }
+.reveal.reveal-left  { transform:translateX(-36px); }
+.reveal.reveal-right { transform:translateX(36px); }
+.reveal.visible { opacity:1; transform:none; }
+.reveal-delay-1 { transition-delay:.08s; }
+.reveal-delay-2 { transition-delay:.16s; }
+.reveal-delay-3 { transition-delay:.24s; }
+.reveal-delay-4 { transition-delay:.32s; }
+
+/* ── KEYFRAMES ── */
+@keyframes heroTagIn   { from{opacity:0;transform:scale(.7) translateY(-10px)} to{opacity:1;transform:scale(1) translateY(0)} }
+@keyframes heroTitleIn { from{opacity:0;transform:translateY(30px) skewY(2deg)} to{opacity:1;transform:translateY(0) skewY(0)} }
+@keyframes heroFadeUp  { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes modalIn     { from{opacity:0;transform:scale(.9) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+@keyframes counterPop  { 0%{transform:scale(1)} 50%{transform:scale(1.22)} 100%{transform:scale(1)} }
+@keyframes rippleOut   { to{transform:scale(2.5);opacity:0} }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1100px) {
+  .projects-section { padding: 40px 30px 60px; }
+  .projects-hero, .stats-banner, .filters-section, footer { padding-left: 30px; padding-right: 30px; }
+}
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .bc3,.bc4,.bc5,.bc6,.bc7,.bc8 { grid-column: span 12; }
+  .bcard-featured { flex-direction: column; }
+  .bf-visual-img { width: 100%; height: 160px; }
+}
+@media (max-width: 768px) {
+  nav { padding:10px 16px; flex-wrap:wrap; height:auto; gap:10px; }
+  .nav-links { display:none; }
+  .projects-hero { padding:40px 20px 50px; }
+  .hero-left h1 { font-size:2.4rem; }
+  .filters-section { padding:16px 20px; }
+  .projects-section { padding:24px 16px; }
+  .stats-banner { flex-direction:column; gap:20px; padding:30px 20px; }
+  .stat-item { border-right:none !important; border-bottom:1px solid #222; padding:16px 0; }
+  .stat-item:last-child { border-bottom:none; }
+  footer { padding:30px 20px; }
+  .footer-content { flex-direction:column; gap:24px; }
+  .cat-grid { grid-template-columns:repeat(2,1fr); }
+  .form-row { grid-template-columns:1fr; }
+  .submit-modal-header { padding:22px 20px 18px; }
+  .submit-modal-body { padding:20px; }
+  .submit-modal-footer { padding:14px 20px; }
+  .submit-steps { padding:12px 20px; }
+}
+  </style>
+</head>
+<body>
+
+  
+  <nav>
+  <div class="nav-logo">
+    <img src="logo.png" alt="Logo" style="width:30px;height:30px;border-radius:50%;"/>
+  </div>
+  <ul class="nav-links">
+    <li><a href="landing_page.html">Home</a></li>
+    <li><a href="courses.html">Courses</a></li>
+    <li><a href="community.html">Community</a></li>
+    <li><a href="about.html">About</a></li>
+    <li class="dropdown">
+      <a href="#" onclick="toggleDropdown(event)" style="color:#F5C800;">More</a>
+      <ul class="dropdown-menu">
+        <li><a href="more.html">Career</a></li>
+        <li><a href="project.html" class="active-link">Project</a></li>
+      </ul>
+    </li>
+    <li><a href="#" onclick="scrollToFooter(); return false;">Contact Us</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-bell">🔔</span>
+    <div class="nav-avatar">A</div>
+  </div>
+</nav>
+
+  <!-- HERO -->
+  <section class="projects-hero">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-tag">STUDENT SHOWCASE</div>
+        <h1>Projects Built by<br><span>Future Engineers</span></h1>
+        <p>Explore real aerospace projects designed, simulated, and built by students at Bright Aerospace. From CubeSats to rocket propulsion — these are their stories.</p>
+        <div class="hero-stats-row">
+          <div class="hstat-mini">
+            <span class="counter" data-target="42" data-suffix="+">0+</span>
+            <p>Projects</p>
+          </div>
+          <div class="hstat-sep"></div>
+          <div class="hstat-mini">
+            <span class="counter" data-target="180" data-suffix="+">0+</span>
+            <p>Students</p>
+          </div>
+          <div class="hstat-sep"></div>
+          <div class="hstat-mini">
+            <span class="counter" data-target="7" data-suffix="">0</span>
+            <p>Domains</p>
+          </div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="featured-card">
+          <div class="featured-img">
+            <img src="course_images/image9.png" alt="Featured Project" onerror="this.style.display='none'"/>
+            <div class="featured-img-overlay"></div>
+          </div>
+          <div class="featured-badge">⭐ Featured Project</div>
+          <div class="featured-body">
+            <div class="featured-meta-row">
+              <span class="featured-dept">Avionics &amp; GNC</span>
+              <span class="featured-year">2024</span>
+            </div>
+            <div class="featured-title">AeroSat-1: 1U CubeSat Attitude Control System</div>
+            <div class="featured-desc">Full ADCS design for a 1U CubeSat including magnetorquer coils, sun sensor integration, and PID-based attitude stabilisation.</div>
+            <div class="featured-footer">
+              <div class="team-avatars">
+                <div class="team-avatar">A</div><div class="team-avatar">P</div>
+                <div class="team-avatar">R</div><div class="team-avatar">+2</div>
+              </div>
+              <div class="featured-tag-row">
+                <span class="tech-tag">MATLAB</span>
+                <span class="tech-tag">Simulink</span>
+                <span class="tech-tag">ADCS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTERS -->
+  <section class="filters-section">
+    <div class="search-row reveal">
+      <div class="search-wrapper">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="Search projects, tech, keywords…" oninput="applyFilters()"/>
+      </div>
+      <div class="results-count" id="resultsCount"><strong>12</strong> projects</div>
+      <button class="btn-submit-project" onclick="openSubmitModal()">
+        <i class="fa-solid fa-plus"></i> Submit Project
+      </button>
+    </div>
+    <div class="filters reveal reveal-delay-1">
+      <button class="filter-btn active" data-filter-type="cat"  data-value="all"        onclick="setFilter('cat','all',this)">All</button>
+      <button class="filter-btn"        data-filter-type="cat"  data-value="propulsion"  onclick="setFilter('cat','propulsion',this)">Propulsion</button>
+      <button class="filter-btn"        data-filter-type="cat"  data-value="avionics"    onclick="setFilter('cat','avionics',this)">Avionics</button>
+      <button class="filter-btn"        data-filter-type="cat"  data-value="structures"  onclick="setFilter('cat','structures',this)">Structures</button>
+      <button class="filter-btn"        data-filter-type="cat"  data-value="software"    onclick="setFilter('cat','software',this)">Software</button>
+      <button class="filter-btn"        data-filter-type="cat"  data-value="cfd"         onclick="setFilter('cat','cfd',this)">CFD</button>
+      <button class="filter-btn"        data-filter-type="cat"  data-value="gnc"         onclick="setFilter('cat','gnc',this)">GNC</button>
+      <button class="filter-btn"        data-filter-type="cat"  data-value="research"    onclick="setFilter('cat','research',this)">Research</button>
+      <div class="filters-divider"></div>
+      <button class="filter-btn active" data-filter-type="year" data-value="all"  onclick="setFilter('year','all',this)">All Years</button>
+      <button class="filter-btn"        data-filter-type="year" data-value="2024" onclick="setFilter('year','2024',this)">2024</button>
+      <button class="filter-btn"        data-filter-type="year" data-value="2023" onclick="setFilter('year','2023',this)">2023</button>
+      <button class="filter-btn"        data-filter-type="year" data-value="2022" onclick="setFilter('year','2022',this)">2022</button>
+    </div>
+  </section>
+
+  <!-- BENTO GRID -->
+  <section class="projects-section">
+    <div class="bento-grid" id="projectsGrid">
+
+      <!-- ROW 1 — FEATURED -->
+      <div class="bcard bcard-featured bc12" data-cat="avionics" data-year="2024" data-keywords="cubesat adcs attitude control magnetorquer sun sensor matlab simulink pid">
+        <div class="bf-visual-img">
+          <img src="course_images/image1.png" alt="CubeSat" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#000814,#001440)';this.style.display='none'"/>
+        </div>
+        <div class="bf-body">
+          <div class="bcard-live"><span class="bcard-live-dot"></span>Featured Project</div>
+          <div class="bcard-badge bb-avionics"><span class="bcard-badge-dot"></span>Avionics &amp; GNC</div>
+          <div class="bcard-title">AeroSat-1: CubeSat Attitude Control System</div>
+          <div class="bcard-desc">Full ADCS design for a 1U CubeSat including magnetorquer coils, sun sensor integration, and PID-based attitude stabilisation. Simulated in MATLAB &amp; Simulink. Achieved ±2° pointing accuracy validated against GMAT propagator outputs.</div>
+          <div class="bcard-tags">
+            <span class="bcard-tag">MATLAB</span><span class="bcard-tag">Simulink</span>
+            <span class="bcard-tag">ADCS</span><span class="bcard-tag">PID Control</span>
+            <span class="bcard-tag">CubeSat</span>
+          </div>
+          <div class="bcard-footer" style="padding-left:0;padding-right:0;">
+            <div class="bcard-team">
+              <div class="bcard-avatars"><div class="bcard-avatar">A</div><div class="bcard-avatar">P</div><div class="bcard-avatar">R</div></div>
+              <span class="bcard-team-label">5 members</span>
+            </div>
+            <div class="bcard-actions">
+              <button class="bcard-like" data-count="28" onclick="toggleLike(this)"><span class="like-heart">♡</span><span class="like-count">28</span></button>
+              <button class="bcard-view" onclick="openModal(0)">View <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 2 — 7+5 -->
+      <div class="bcard bc7" data-cat="propulsion" data-year="2024" data-keywords="solid rocket motor design static fire test nozzle thrust propellant grain">
+        <div class="bcard-vis-img">
+          <img src="course_images/image2.png" alt="Propulsion" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#0a0a0a,#1a1a1a)';this.style.display='none'"/>
+          <div class="bcard-vis-overlay"></div>
+          <span class="bcard-vis-label">Propulsion</span>
+          <span class="bcard-status completed">Completed</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-badge bb-propulsion"><span class="bcard-badge-dot"></span>Propulsion</div>
+          <div class="bcard-title">Solid Rocket Motor Design &amp; Static Fire Test</div>
+          <div class="bcard-desc">End-to-end design of a 250 N solid propellant motor — grain geometry, nozzle sizing, and a successful static fire on a custom-built test stand. Achieved within 6% of predicted thrust curve over 2.8 s burn time.</div>
+          <div class="bcard-tags"><span class="bcard-tag">OpenMotor</span><span class="bcard-tag">Nozzle CFD</span><span class="bcard-tag">KNSB Propellant</span><span class="bcard-tag">Static Fire</span></div>
+        </div>
+        <div class="bcard-footer">
+          <div class="bcard-team">
+            <div class="bcard-avatars"><div class="bcard-avatar">K</div><div class="bcard-avatar">S</div><div class="bcard-avatar">V</div></div>
+            <span class="bcard-team-label">4 members</span>
+          </div>
+          <div class="bcard-actions">
+            <button class="bcard-like" data-count="19" onclick="toggleLike(this)"><span class="like-heart">♡</span><span class="like-count">19</span></button>
+            <button class="bcard-view" onclick="openModal(1)">View <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bcard bc5 bcard-compact bcard-dark" data-cat="cfd" data-year="2023" data-keywords="CFD aerodynamic wing airfoil drag lift OpenFOAM ansys fluent coefficient analysis">
+        <div class="bcard-vis-img">
+          <img src="course_images/image3.png" alt="CFD" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#0a0a0a,#1a1a1a)';this.style.display='none'"/>
+          <div class="bcard-vis-overlay"></div>
+          <span class="bcard-vis-label">CFD</span>
+          <span class="bcard-status completed">Completed</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-badge bb-cfd"><span class="bcard-badge-dot"></span>CFD &amp; Aerodynamics</div>
+          <div class="bcard-title">NACA 2412 Wing Aerodynamic Analysis</div>
+          <div class="bcard-desc">High-fidelity CFD of NACA 2412 airfoil across AoA 0–20°. CL &amp; CD curves validated against wind tunnel data using OpenFOAM k-ω SST. Results within 4% of experimental data.</div>
+          <div class="bcard-tags"><span class="bcard-tag">OpenFOAM</span><span class="bcard-tag">k-ω SST</span><span class="bcard-tag">Paraview</span></div>
+        </div>
+        <div class="bcard-footer">
+          <div class="bcard-team">
+            <div class="bcard-avatars"><div class="bcard-avatar">M</div><div class="bcard-avatar">D</div></div>
+            <span class="bcard-team-label">3 members</span>
+          </div>
+          <div class="bcard-actions">
+            <button class="bcard-like" data-count="14" onclick="toggleLike(this)"><span class="like-heart">♡</span><span class="like-count">14</span></button>
+            <button class="bcard-view" onclick="openModal(2)">View <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 3 — 4+4+4 -->
+      <div class="bcard bc4 bcard-compact" data-cat="structures" data-year="2024" data-keywords="finite element analysis FEA composite panel stress strain ANSYS structural launch load">
+        <div class="bcard-vis-img">
+          <img src="course_images/image4.png" alt="Structures" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#0a0a0a,#1a1a1a)';this.style.display='none'"/>
+          <div class="bcard-vis-overlay"></div>
+          <span class="bcard-vis-label">Structures</span>
+          <span class="bcard-status completed">Completed</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-badge bb-structures"><span class="bcard-badge-dot"></span>Structures</div>
+          <div class="bcard-title">Composite Panel FEA Under Launch Loads</div>
+          <div class="bcard-desc">FEA of a carbon fibre composite panel under launch loads in ANSYS. Optimised layup sequence with 21% weight saving over aluminium baseline.</div>
+          <div class="bcard-tags"><span class="bcard-tag">ANSYS</span><span class="bcard-tag">Carbon Fibre</span><span class="bcard-tag">FEA</span></div>
+        </div>
+        <div class="bcard-footer">
+          <div class="bcard-team">
+            <div class="bcard-avatars"><div class="bcard-avatar">T</div><div class="bcard-avatar">N</div><div class="bcard-avatar">B</div></div>
+            <span class="bcard-team-label">3 members</span>
+          </div>
+          <div class="bcard-actions">
+            <button class="bcard-view" onclick="openModal(3)">View <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bcard bc4 bcard-compact" data-cat="software" data-year="2023" data-keywords="flight computer embedded avionics python raspberry pi telemetry barometer GPS logging">
+        <div class="bcard-vis-img">
+          <img src="course_images/image5.png" alt="Software" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#0a0a0a,#1a1a1a)';this.style.display='none'"/>
+          <div class="bcard-vis-overlay"></div>
+          <span class="bcard-vis-label">Software</span>
+          <span class="bcard-status completed">Completed</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-badge bb-software"><span class="bcard-badge-dot"></span>Avionics Software</div>
+          <div class="bcard-title">Low-Cost Flight Computer for Sounding Rockets</div>
+          <div class="bcard-desc">Raspberry Pi-based flight computer with barometric altitude, GPS, and 9-DOF IMU. Custom Python firmware for real-time telemetry logging at 50 Hz and apogee detection.</div>
+          <div class="bcard-tags"><span class="bcard-tag">Python</span><span class="bcard-tag">Raspberry Pi</span><span class="bcard-tag">IMU</span><span class="bcard-tag">GPS</span></div>
+        </div>
+        <div class="bcard-footer">
+          <div class="bcard-team">
+            <div class="bcard-avatars"><div class="bcard-avatar">J</div><div class="bcard-avatar">L</div></div>
+            <span class="bcard-team-label">2 members</span>
+          </div>
+          <div class="bcard-actions">
+            <button class="bcard-view" onclick="openModal(4)">View <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bcard bc4 bcard-compact" data-cat="gnc" data-year="2024" data-keywords="trajectory optimisation simulation python scipy orbit transfer hohmann delta-v manoeuvre">
+        <div class="bcard-vis-img">
+          <img src="course_images/image6.png" alt="GNC" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#0a0a0a,#1a1a1a)';this.style.display='none'"/>
+          <div class="bcard-vis-overlay"></div>
+          <span class="bcard-vis-label">GNC</span>
+          <span class="bcard-status completed">Completed</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-badge bb-gnc"><span class="bcard-badge-dot"></span>GNC</div>
+          <div class="bcard-title">Orbital Trajectory Optimisation Tool</div>
+          <div class="bcard-desc">Python tool for Hohmann transfers, bi-elliptic manoeuvres, and plane changes. Outputs Δv budgets and interactive 3D orbit plots.</div>
+          <div class="bcard-tags"><span class="bcard-tag">Python</span><span class="bcard-tag">SciPy</span><span class="bcard-tag">Plotly</span></div>
+        </div>
+        <div class="bcard-footer">
+          <div class="bcard-team">
+            <div class="bcard-avatars"><div class="bcard-avatar">H</div><div class="bcard-avatar">G</div><div class="bcard-avatar">F</div></div>
+            <span class="bcard-team-label">3 members</span>
+          </div>
+          <div class="bcard-actions">
+            <button class="bcard-view" onclick="openModal(5)">View <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 4 — 5+3stat+4 -->
+      <div class="bcard bc5 bcard-dark" data-cat="avionics" data-year="2023" data-keywords="PCB design EPS electrical power system cubesat solar panel battery MPPT">
+        <div class="bcard-vis-img">
+          <img src="course_images/image7.png" alt="Avionics" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#0a0a0a,#1a1a1a)';this.style.display='none'"/>
+          <div class="bcard-vis-overlay"></div>
+          <span class="bcard-vis-label">Avionics</span>
+          <span class="bcard-status completed">Completed</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-badge bb-avionics"><span class="bcard-badge-dot"></span>Avionics</div>
+          <div class="bcard-title">CubeSat EPS PCB Design &amp; Simulation</div>
+          <div class="bcard-desc">Full 4-layer PCB design for a CubeSat EPS: solar MPPT with SPV1040, LiPo charge controller, 3.3V/5V bus outputs, and I²C housekeeping telemetry. Verified in LTSpice before tape-out.</div>
+          <div class="bcard-tags"><span class="bcard-tag">KiCad</span><span class="bcard-tag">LTSpice</span><span class="bcard-tag">MPPT</span><span class="bcard-tag">I²C</span></div>
+        </div>
+        <div class="bcard-footer">
+          <div class="bcard-team">
+            <div class="bcard-avatars"><div class="bcard-avatar">Q</div><div class="bcard-avatar">W</div><div class="bcard-avatar">X</div></div>
+            <span class="bcard-team-label">4 members</span>
+          </div>
+          <div class="bcard-actions">
+            <button class="bcard-like" data-count="17" onclick="toggleLike(this)"><span class="like-heart">♡</span><span class="like-count">17</span></button>
+            <button class="bcard-view" onclick="openModal(7)">View <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bcard bc3 bcard-stat">
+        <div class="bstat-num">38%</div>
+        <div class="bstat-label">Avg. weight reduction across structures projects</div>
+      </div>
+
+      <div class="bcard bc4 bcard-compact" data-cat="research" data-year="2022" data-keywords="green propellant HAN AF-M315E ionic liquid monopropellant thruster performance comparison">
+        <div class="bcard-vis-img">
+          <img src="course_images/image8.png" alt="Research" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#0a0a0a,#1a1a1a)';this.style.display='none'"/>
+          <div class="bcard-vis-overlay"></div>
+          <span class="bcard-vis-label">Research</span>
+          <span class="bcard-status completed">Completed</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-badge bb-research"><span class="bcard-badge-dot"></span>R&amp;D / Research</div>
+          <div class="bcard-title">Performance Study of Green Propellants</div>
+          <div class="bcard-desc">Comparative study of HAN-based and AF-M315E ionic liquid propellants vs. hydrazine using NASA CEA. Evaluated Isp, storage safety, and regulatory aspects for student CubeSat use.</div>
+          <div class="bcard-tags"><span class="bcard-tag">NASA CEA</span><span class="bcard-tag">HAN</span><span class="bcard-tag">Isp Analysis</span></div>
+        </div>
+        <div class="bcard-footer">
+          <div class="bcard-team">
+            <div class="bcard-avatars"><div class="bcard-avatar">C</div><div class="bcard-avatar">E</div></div>
+            <span class="bcard-team-label">2 members</span>
+          </div>
+          <div class="bcard-actions">
+            <button class="bcard-view" onclick="openModal(6)">View <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 5 — 8+4 -->
+      <div class="bcard bc8 bcard-dark" data-cat="software" data-year="2024" data-keywords="mission planning ground station software python dashboard telemetry visualisation real-time">
+        <div class="bcard-vis-img" style="aspect-ratio:21/6">
+          <img src="course_images/image9.png" alt="Software" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#0a0a0a,#1a1a1a)';this.style.display='none'"/>
+          <div class="bcard-vis-overlay"></div>
+          <span class="bcard-vis-label">Software</span>
+          <span class="bcard-status completed">Completed</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-badge bb-software"><span class="bcard-badge-dot"></span>Software</div>
+          <div class="bcard-title">Ground Station Dashboard for CubeSat Telemetry</div>
+          <div class="bcard-desc">Real-time web dashboard to receive, decode, and visualise CubeSat downlink telemetry. FastAPI backend handles serial/UDP radio frames, decodes CCSDS packets, and streams to a React frontend via WebSocket. Live charts for temperature, power, and attitude data.</div>
+          <div class="bcard-tags"><span class="bcard-tag">FastAPI</span><span class="bcard-tag">React</span><span class="bcard-tag">WebSocket</span><span class="bcard-tag">CCSDS</span><span class="bcard-tag">Python</span></div>
+        </div>
+        <div class="bcard-footer">
+          <div class="bcard-team">
+            <div class="bcard-avatars"><div class="bcard-avatar">E</div><div class="bcard-avatar">R</div></div>
+            <span class="bcard-team-label">2 members</span>
+          </div>
+          <div class="bcard-actions">
+            <button class="bcard-like" data-count="31" onclick="toggleLike(this)"><span class="like-heart">♡</span><span class="like-count">31</span></button>
+            <button class="bcard-view" onclick="openModal(10)">View <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bcard bc4 bcard-compact" data-cat="propulsion" data-year="2023" data-keywords="liquid bipropellant injector design LOX ethanol pintle injector test">
+        <div class="bcard-vis-img">
+          <img src="course_images/image10.png" alt="Propulsion" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#0a0a0a,#1a1a1a)';this.style.display='none'"/>
+          <div class="bcard-vis-overlay"></div>
+          <span class="bcard-vis-label">Propulsion</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-badge bb-propulsion"><span class="bcard-badge-dot"></span>Propulsion</div>
+          <div class="bcard-title">Pintle Injector Design for Bipropellant Engine</div>
+          <div class="bcard-desc">Design, CFD analysis, and cold-flow testing of a pintle injector for LOX/ethanol engine. Cold-flow matched simulation within 8%.</div>
+          <div class="bcard-tags"><span class="bcard-tag">ANSYS Fluent</span><span class="bcard-tag">VOF</span><span class="bcard-tag">LOX/Ethanol</span></div>
+        </div>
+        <div class="bcard-footer">
+          <div class="bcard-team">
+            <div class="bcard-avatars"><div class="bcard-avatar">Z</div><div class="bcard-avatar">Y</div></div>
+            <span class="bcard-team-label">3 members</span>
+          </div>
+          <div class="bcard-actions">
+            <button class="bcard-view" onclick="openModal(8)">View <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 6 — 4+4+4 -->
+      <div class="bcard bc4 bcard-compact" data-cat="structures" data-year="2022" data-keywords="topology optimisation bracket additive manufacturing weight reduction generative design">
+        <div class="bcard-vis-img">
+          <img src="course_images/image11.png" alt="Structures" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#0a0a0a,#1a1a1a)';this.style.display='none'"/>
+          <div class="bcard-vis-overlay"></div>
+          <span class="bcard-vis-label">Structures</span>
+          <span class="bcard-status completed">Completed</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-badge bb-structures"><span class="bcard-badge-dot"></span>Structures</div>
+          <div class="bcard-title">Topology Optimised Satellite Bracket</div>
+          <div class="bcard-desc">ANSYS topology optimisation on a satellite mounting bracket under 3-axis launch loads — 38% mass reduction. Prototype 3D printed and load-tested.</div>
+          <div class="bcard-tags"><span class="bcard-tag">ANSYS</span><span class="bcard-tag">Topology Opt</span><span class="bcard-tag">3D Print</span></div>
+        </div>
+        <div class="bcard-footer">
+          <div class="bcard-team">
+            <div class="bcard-avatars"><div class="bcard-avatar">U</div><div class="bcard-avatar">I</div><div class="bcard-avatar">O</div></div>
+            <span class="bcard-team-label">3 members</span>
+          </div>
+          <div class="bcard-actions">
+            <button class="bcard-view" onclick="openModal(9)">View <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bcard bc4 bcard-compact bcard-dark" data-cat="cfd" data-year="2022" data-keywords="supersonic nozzle de laval mach number shock wave CFD convergent divergent nozzle flow">
+        <div class="bcard-vis-img">
+          <img src="course_images/image12.png" alt="CFD" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#0a0a0a,#1a1a1a)';this.style.display='none'"/>
+          <div class="bcard-vis-overlay"></div>
+          <span class="bcard-vis-label">CFD</span>
+          <span class="bcard-status completed">Completed</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-badge bb-cfd"><span class="bcard-badge-dot"></span>CFD</div>
+          <div class="bcard-title">Supersonic De Laval Nozzle Flow Analysis</div>
+          <div class="bcard-desc">ANSYS Fluent simulation of C-D nozzle at design and off-design conditions. Captured shock patterns, exit Mach variation vs. back pressure — within 3% of 1D isentropic theory.</div>
+          <div class="bcard-tags"><span class="bcard-tag">ANSYS Fluent</span><span class="bcard-tag">Shock Waves</span><span class="bcard-tag">Mach Flow</span></div>
+        </div>
+        <div class="bcard-footer">
+          <div class="bcard-team">
+            <div class="bcard-avatars"><div class="bcard-avatar">F</div><div class="bcard-avatar">G</div><div class="bcard-avatar">H</div></div>
+            <span class="bcard-team-label">3 members</span>
+          </div>
+          <div class="bcard-actions">
+            <button class="bcard-view" onclick="openModal(11)">View <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bcard bc4 bcard-stat">
+        <div class="bstat-num">7</div>
+        <div class="bstat-label">Technical domains covered across all projects</div>
+      </div>
+
+      <!-- NO RESULTS sentinel -->
+      <div class="bento-no-results" id="noResults">
+        <i class="fa-solid fa-rocket"></i>
+        <h3>No projects found</h3>
+        <p>Try adjusting your search or filters.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SUBMIT MODAL -->
+  <div class="submit-modal-overlay" id="submitModal">
+    <div class="submit-modal" id="submitModalBox">
+      <div class="submit-modal-header">
+        <div class="submit-modal-header-left">
+          <div class="submit-tag"><i class="fa-solid fa-paper-plane"></i> Student Submission</div>
+          <h2>Share Your <span>Project</span></h2>
+          <p>Fill in the details below and your project will go live on the showcase grid instantly.</p>
+        </div>
+        <button class="submit-modal-close" onclick="closeSubmitModal()">×</button>
+      </div>
+      <div class="submit-steps" id="submitSteps">
+        <div class="submit-step active" id="step-indicator-1"><div class="step-num">1</div> Project Info</div>
+        <div class="step-connector"></div>
+        <div class="submit-step" id="step-indicator-2"><div class="step-num">2</div> Team</div>
+        <div class="step-connector"></div>
+        <div class="submit-step" id="step-indicator-3"><div class="step-num">3</div> Review</div>
+      </div>
+      <div class="submit-modal-body" id="submitModalBody">
+        <div class="step-panel active" id="step-panel-1">
+          <div class="form-section-title"><i class="fa-solid fa-rocket"></i> Project Details</div>
+          <div class="form-row single"><div class="form-group" id="fg-title"><label>Project Title <span class="req">*</span></label><input type="text" class="form-control" id="f-title" placeholder="e.g. AeroSat-1: CubeSat ADCS Design"/><span class="form-error">Please enter a project title.</span></div></div>
+          <div class="form-row">
+            <div class="form-group" id="fg-cat"><label>Domain / Category <span class="req">*</span></label><div style="margin-bottom:4px;"></div>
+              <div class="cat-grid">
+                <div><input type="radio" class="cat-option" name="f-cat" id="cat-propulsion" value="propulsion"><label for="cat-propulsion"><i class="fa-solid fa-rocket"></i>Propulsion</label></div>
+                <div><input type="radio" class="cat-option" name="f-cat" id="cat-avionics"   value="avionics"><label for="cat-avionics"><i class="fa-solid fa-satellite"></i>Avionics</label></div>
+                <div><input type="radio" class="cat-option" name="f-cat" id="cat-structures" value="structures"><label for="cat-structures"><i class="fa-solid fa-cube"></i>Structures</label></div>
+                <div><input type="radio" class="cat-option" name="f-cat" id="cat-software"   value="software"><label for="cat-software"><i class="fa-solid fa-microchip"></i>Software</label></div>
+                <div><input type="radio" class="cat-option" name="f-cat" id="cat-cfd"        value="cfd"><label for="cat-cfd"><i class="fa-solid fa-wind"></i>CFD</label></div>
+                <div><input type="radio" class="cat-option" name="f-cat" id="cat-gnc"        value="gnc"><label for="cat-gnc"><i class="fa-solid fa-location-crosshairs"></i>GNC</label></div>
+                <div><input type="radio" class="cat-option" name="f-cat" id="cat-research"   value="research"><label for="cat-research"><i class="fa-solid fa-flask"></i>Research</label></div>
+              </div>
+              <span class="form-error" id="cat-error" style="display:none;color:#ff4444;font-size:11px;margin-top:4px;">Please select a domain.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div class="form-group" id="fg-year"><label>Year <span class="req">*</span></label><select class="form-control" id="f-year"><option value="">Select year…</option><option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option></select><span class="form-error">Please select a year.</span></div>
+              <div class="form-group" id="fg-status"><label>Project Status <span class="req">*</span></label><div class="status-row"><input type="radio" class="status-option" name="f-status" id="st-completed" value="completed"><label for="st-completed">✓ Completed</label><input type="radio" class="status-option" name="f-status" id="st-ongoing" value="ongoing"><label for="st-ongoing">⏳ Ongoing</label></div><span class="form-error" id="status-error" style="display:none;color:#ff4444;font-size:11px;margin-top:4px;">Please select a status.</span></div>
+            </div>
+          </div>
+          <div class="form-row single"><div class="form-group" id="fg-dept"><label>Department / Sub-domain <span class="req">*</span></label><input type="text" class="form-control" id="f-dept" placeholder="e.g. Avionics & GNC, CFD & Aerodynamics…"/><span class="form-error">Please enter a department.</span></div></div>
+          <div class="form-row single"><div class="form-group" id="fg-desc"><label>Project Description <span class="req">*</span></label><textarea class="form-control" id="f-desc" placeholder="Describe your project — what you built, methods used, key results achieved…" style="min-height:120px;"></textarea><span class="form-error">Please add a description (min. 30 characters).</span></div></div>
+          <div class="form-row single"><div class="form-group" id="fg-tags"><label>Technologies / Tools Used <span class="req">*</span></label><div class="tag-input-wrapper" id="tagWrapper" onclick="document.getElementById('tagInput').focus()"><span id="tagContainer"></span><input type="text" class="tag-text-input" id="tagInput" placeholder="Type a tool and press Enter or comma…" onkeydown="handleTagInput(event)" oninput="handleTagType(event)"/></div><div class="tag-hint">e.g. MATLAB, ANSYS, Python, SolidWorks</div><span class="form-error" id="tag-error" style="display:none;color:#ff4444;font-size:11px;margin-top:4px;">Add at least one technology.</span></div></div>
+        </div>
+        <div class="step-panel" id="step-panel-2">
+          <div class="form-section-title"><i class="fa-solid fa-users"></i> Team Members</div>
+          <p style="font-size:12px;color:#555;margin-bottom:18px;line-height:1.6;">Add each team member's name and their role in the project.</p>
+          <div id="teamMembersContainer">
+            <div class="team-member-row" id="member-row-0">
+              <div class="form-group"><label>Full Name <span class="req">*</span></label><input type="text" class="form-control member-name" placeholder="e.g. Arjun Mehta"/></div>
+              <div class="form-group"><label>Role / Contribution</label><input type="text" class="form-control member-role" placeholder="e.g. ADCS Lead, CFD Analysis…"/></div>
+              <button class="remove-member-btn" onclick="removeMember(0)" style="visibility:hidden;margin-top:22px;">×</button>
+            </div>
+          </div>
+          <button class="add-member-btn" onclick="addMember()"><i class="fa-solid fa-plus"></i> Add Another Member</button>
+          <span class="form-error" id="team-error" style="display:none;color:#ff4444;font-size:11px;margin-top:10px;">Please add at least one team member with a name.</span>
+        </div>
+        <div class="step-panel" id="step-panel-3">
+          <div class="form-section-title"><i class="fa-solid fa-eye"></i> Review &amp; Submit</div>
+          <p style="font-size:12px;color:#555;margin-bottom:18px;line-height:1.6;">Check everything looks right before publishing.</p>
+          <div class="review-block"><div class="review-block-title"><i class="fa-solid fa-rocket"></i> Project</div><div class="review-value" id="rv-title" style="font-family:'Koulen',sans-serif;font-size:1rem;color:#111;margin-bottom:6px;"></div><div class="review-value" id="rv-meta" style="font-size:11px;color:#555;margin-bottom:10px;"></div><div class="review-value" id="rv-desc"></div></div>
+          <div class="review-block"><div class="review-block-title"><i class="fa-solid fa-microchip"></i> Technologies</div><div class="review-tags" id="rv-tags"></div></div>
+          <div class="review-block"><div class="review-block-title"><i class="fa-solid fa-users"></i> Team</div><div class="review-team-list" id="rv-team"></div></div>
+        </div>
+        <div class="submit-success" id="submitSuccess">
+          <div class="success-icon-wrap"><i class="fa-solid fa-check"></i></div>
+          <h3>Project Published! 🚀</h3>
+          <p>Your project has been added to the Bright Aerospace showcase. Scroll down to see it live on the grid!</p>
+          <button class="btn-next" onclick="closeSubmitModal()" style="margin:0 auto;"><i class="fa-solid fa-eye"></i> View on Grid</button>
+        </div>
+      </div>
+      <div class="submit-modal-footer" id="submitModalFooter">
+        <div style="font-size:11px;color:#333;font-family:'Koulen',sans-serif;letter-spacing:.5px;">Step <span id="currentStepLabel">1</span> of 3</div>
+        <div class="step-nav-btns">
+          <button class="btn-prev" id="btnPrev" onclick="prevStep()" style="display:none;">← Back</button>
+          <button class="btn-next" id="btnNext" onclick="nextStep()">Continue <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT DETAIL MODAL -->
+  <div class="modal-overlay" id="projectModal">
+    <div class="modal-box">
+      <div class="modal-visual" id="modalVisual">
+        <img id="modalImg" src="" alt="" style="display:none;"/>
+        <div class="modal-visual-gradient"></div>
+        <i class="modal-visual-icon fa-solid fa-rocket" id="modalIcon"></i>
+        <span class="modal-visual-label" id="modalVisualLabel"></span>
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+      <div class="modal-header">
+        <div class="modal-meta">
+          <span class="modal-dept" id="modalDept"></span>
+          <span class="modal-status-tag" id="modalStatus"></span>
+          <span style="font-size:11px;color:var(--muted);font-family:'Koulen',sans-serif;" id="modalYear"></span>
+        </div>
+        <h2 class="modal-title" id="modalTitle"></h2>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc" id="modalDesc"></p>
+        <div><div class="modal-section-title">Technologies Used</div><div class="modal-tags" id="modalTags"></div></div>
+        <div><div class="modal-section-title">Team</div><div class="modal-team-grid" id="modalTeam"></div></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-gray" onclick="closeModal()">Close</button>
+        <button class="btn-yellow" onclick="shareProject()"><i class="fa-solid fa-share-nodes" style="margin-right:6px;"></i>Share</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-content">
+      <div class="footer-logo"><img src="logo.png" width="90" height="90" style="border-radius:50%;object-fit:cover;"/></div>
+      <div class="footer-section">
+        <h4>Contact Us</h4>
+        <div class="contact-grid">
+          <div class="contact-col"><span>Core Committee</span><span>Sudarsan P</span><span>+91 1234567890</span></div>
+          <div class="contact-col"><br><span>Sudarsan P</span><span>+91 1234567890</span></div>
+          <div class="contact-col"><br><span>Sudarsan P</span><span>+91 1234567890</span></div>
+        </div>
+      </div>
+      <div class="footer-section" style="margin-left:auto;"><h4 style="color:#FFD700;text-transform:none;font-weight:normal;">Tech Support</h4></div>
+    </div>
+    <div class="social-links">
+      <span>Follow Us On</span>
+      <a href="#"><i class="fa-brands fa-twitter"></i></a>
+      <a href="#"><i class="fa-brands fa-facebook"></i></a>
+      <a href="#"><i class="fa-brands fa-youtube"></i></a>
+      <a href="#"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+    </div>
+    <button class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fa-solid fa-arrow-up"></i> Back to Top</button>
+  </footer>
+
+  <script>
+    const PROJECT_IMGS_MAP = [
+   "course_images/image1.png",
+  "course_images/image2.png",
+  "course_images/image3.png",
+  "course_images/image4.png",
+  "course_images/image5.png",
+  "course_images/image6.png",
+  "course_images/image7.png",
+  "course_images/image8.png",
+  "course_images/image9.png",
+  "course_images/image10.png",
+  "course_images/image11.png",
+  "course_images/image12.png",
+];
+
+const PROJECTS = [
+  { title:'AeroSat-1: CubeSat Attitude Control System', dept:'Avionics & GNC', year:'2024', status:'completed', cat:'avionics', icon:'fa-satellite', desc:'Full ADCS design for a 1U CubeSat including magnetorquer coils, sun sensor integration, and PID-based attitude stabilisation. Simulated in MATLAB & Simulink. The system achieved ±2° pointing accuracy in simulation, validated against GMAT propagator outputs.', tags:['MATLAB','Simulink','ADCS','PID Control','Magnetorquer','CubeSat'], team:[{init:'A',name:'Arjun Mehta',role:'ADCS Lead'},{init:'P',name:'Priya Nair',role:'Simulation'},{init:'R',name:'Rohan Kapoor',role:'Software'},{init:'S',name:'Sneha Pillai',role:'Hardware'},{init:'T',name:'Tarun Bose',role:'Testing'}] },
+  { title:'Solid Rocket Motor Design & Static Fire Test', dept:'Propulsion', year:'2024', status:'completed', cat:'propulsion', icon:'fa-rocket', desc:'End-to-end design of a 250 N solid propellant motor — grain geometry, nozzle sizing, and a successful static fire on a custom-built test stand. Achieved within 6% of predicted thrust curve over 2.8 s burn time.', tags:['OpenMotor','Nozzle CFD','KNSB Propellant','Static Fire','Thrust Curve'], team:[{init:'K',name:'Kiran Das',role:'Propulsion Lead'},{init:'S',name:'Suresh Kumar',role:'Nozzle Design'},{init:'V',name:'Varsha Iyer',role:'Test Operations'},{init:'M',name:'Mohan Reddy',role:'Safety'}] },
+  { title:'NACA 2412 Wing Aerodynamic Analysis', dept:'CFD & Aerodynamics', year:'2023', status:'completed', cat:'cfd', icon:'fa-wind', desc:'High-fidelity CFD analysis of the NACA 2412 airfoil across AoA 0–20°. CL & CD curves validated against published wind tunnel data. Used k-ω SST turbulence model. Results within 4% of experimental data.', tags:['OpenFOAM','k-ω SST','Airfoil','Lift/Drag','Validation','Paraview'], team:[{init:'M',name:'Meena Rajan',role:'CFD Lead'},{init:'D',name:'Dev Sharma',role:'Mesh Generation'},{init:'L',name:'Lakshmi T.',role:'Post-Processing'}] },
+  { title:'Composite Panel FEA Under Launch Loads', dept:'Structures', year:'2024', status:'completed', cat:'structures', icon:'fa-cube', desc:'FEA of a carbon fibre composite panel under combined axial, shear, and pressure launch loads using ANSYS. Optimised layup sequence achieved the target factor of safety with a 21% weight saving over an all-aluminium baseline.', tags:['ANSYS','Carbon Fibre','FEA','Composite Layup','Buckling Analysis'], team:[{init:'T',name:'Tanvi Joshi',role:'Structures Lead'},{init:'N',name:'Nikhil Patel',role:'Modelling'},{init:'B',name:'Bharat Singh',role:'Analysis'}] },
+  { title:'Low-Cost Flight Computer for Sounding Rockets', dept:'Avionics Software', year:'2023', status:'completed', cat:'software', icon:'fa-microchip', desc:'Raspberry Pi-based flight computer with barometric altitude, GPS, and 9-DOF IMU. Custom Python firmware handles real-time telemetry logging at 50 Hz, apogee detection, and recovery system deployment trigger.', tags:['Python','Raspberry Pi','IMU','GPS','Barometer','Telemetry'], team:[{init:'J',name:'Jai Krishnan',role:'Firmware'},{init:'L',name:'Leena Menon',role:'Hardware Integration'}] },
+  { title:'Orbital Trajectory Optimisation Tool', dept:'GNC', year:'2024', status:'completed', cat:'gnc', icon:'fa-location-crosshairs', desc:'Python tool to compute and visualise optimal Hohmann transfer, bi-elliptic, and plane-change manoeuvres. Outputs delta-v budget tables, interactive 3D orbit plots, and a mission report PDF. Used by 3 subsequent student teams.', tags:['Python','SciPy','Plotly','Orbital Mechanics','Hohmann Transfer'], team:[{init:'H',name:'Harish Nair',role:'Algorithm Lead'},{init:'G',name:'Gauri Shah',role:'Visualisation'},{init:'F',name:'Fahad Ansari',role:'Testing'}] },
+  { title:'Performance Study of Green Propellants', dept:'R&D / Research', year:'2022', status:'completed', cat:'research', icon:'fa-flask', desc:'Comparative study of HAN-based and AF-M315E ionic liquid propellants vs. hydrazine using NASA CEA for thermochemical analysis. Evaluated Isp, storage safety, handling requirements, and regulatory aspects for student CubeSat use.', tags:['NASA CEA','HAN Propellant','Isp Analysis','Green Propulsion','Safety'], team:[{init:'C',name:'Chetan More',role:'Research Lead'},{init:'E',name:'Esha Verma',role:'CEA Simulation'}] },
+  { title:'CubeSat EPS PCB Design & Simulation', dept:'Avionics', year:'2023', status:'completed', cat:'avionics', icon:'fa-bolt', desc:'Full 4-layer PCB design for a CubeSat electrical power system: solar MPPT with SPV1040, LiPo battery charge controller, 3.3 V/5 V/unregulated bus outputs, and I²C housekeeping telemetry. Verified in LTSpice before tape-out.', tags:['KiCad','LTSpice','MPPT','SPV1040','PCB Design','I²C'], team:[{init:'Q',name:'Qasim Ali',role:'PCB Design Lead'},{init:'W',name:'Wren Thomas',role:'Simulation'},{init:'X',name:'Xena Pillai',role:'Testing'},{init:'Y',name:'Yash Mehta',role:'Documentation'}] },
+  { title:'Pintle Injector Design for Bipropellant Engine', dept:'Propulsion', year:'2023', status:'completed', cat:'propulsion', icon:'fa-fire-flame-curved', desc:'Design, CFD analysis, and cold-flow testing of a pintle injector for a LOX/ethanol engine. ANSYS Fluent VOF simulation characterised spray cone angle and mixing efficiency. Cold-flow matched simulation within 8%.', tags:['ANSYS Fluent','VOF Simulation','Pintle Injector','LOX/Ethanol','Cold Flow'], team:[{init:'Z',name:'Zain Siddiqui',role:'Injector Design'},{init:'Y',name:'Yashika Rao',role:'CFD Analysis'},{init:'O',name:'Omar Khan',role:'Cold Flow Test'}] },
+  { title:'Topology Optimised Satellite Bracket', dept:'Structures', year:'2022', status:'completed', cat:'structures', icon:'fa-layer-group', desc:'Applied ANSYS topology optimisation to a satellite mounting bracket under 3-axis launch loads. Achieved 38% mass reduction vs. baseline aluminium design while maintaining required factor of safety. Prototype 3D printed and load-tested.', tags:['ANSYS','Topology Optimisation','3D Printing','Weight Reduction','Bracket'], team:[{init:'U',name:'Uday Prakash',role:'Design Lead'},{init:'I',name:'Indira Sen',role:'Optimisation'},{init:'O',name:'Omkar Jain',role:'Manufacturing'}] },
+  { title:'Ground Station Dashboard for CubeSat Telemetry', dept:'Software', year:'2024', status:'completed', cat:'software', icon:'fa-satellite-dish', desc:'Full-stack real-time web dashboard for CubeSat telemetry. FastAPI backend handles serial/UDP radio frames, decodes CCSDS packets, and streams to a React frontend via WebSocket. Live charts for temperature, power, and attitude data.', tags:['FastAPI','React','WebSocket','CCSDS','Python','Telemetry'], team:[{init:'E',name:'Elan Murugan',role:'Backend'},{init:'R',name:'Riya Choudhary',role:'Frontend'}] },
+  { title:'Supersonic De Laval Nozzle Flow Analysis', dept:'CFD', year:'2022', status:'completed', cat:'cfd', icon:'fa-gauge-high', desc:'ANSYS Fluent density-based solver simulation of flow through a converging-diverging De Laval nozzle at design and off-design back pressures. Captured normal shock location vs. NPR and compared against 1D isentropic theory — within 3%.', tags:['ANSYS Fluent','Density-Based Solver','Shock Waves','Mach Number','Nozzle'], team:[{init:'F',name:'Farhan Sheikh',role:'CFD Lead'},{init:'G',name:'Gita Ramesh',role:'Meshing'},{init:'H',name:'Hitesh Joshi',role:'Post-Processing'}] },
+];
+
+const CAT_ICONS = { propulsion:'fa-rocket', avionics:'fa-satellite', structures:'fa-cube', software:'fa-microchip', cfd:'fa-wind', gnc:'fa-location-crosshairs', research:'fa-flask' };
+const CAT_GRADIENTS = { avionics:'linear-gradient(135deg,#000814,#001440)', propulsion:'linear-gradient(135deg,#0a0a0a,#1a0800)', structures:'linear-gradient(135deg,#0a000a,#180018)', software:'linear-gradient(135deg,#000a0a,#001818)', cfd:'linear-gradient(135deg,#080014,#0f0030)', gnc:'linear-gradient(135deg,#001008,#003018)', research:'linear-gradient(135deg,#0a0800,#201800)' };
+const CAT_BADGE_CLASS = { avionics:'bb-avionics', propulsion:'bb-propulsion', structures:'bb-structures', software:'bb-software', cfd:'bb-cfd', gnc:'bb-gnc', research:'bb-research' };
+
+/* ── DROPDOWN ── */
+function toggleDropdown(e) { e.preventDefault(); document.querySelector('.dropdown-menu').classList.toggle('open'); }
+document.addEventListener('click', e => { if (!e.target.closest('.dropdown')) document.querySelector('.dropdown-menu').classList.remove('open'); });
+
+/* ── COUNTER ANIMATION ── */
+function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target,10), suffix = el.dataset.suffix||'', duration = 1400, start = performance.now();
+  function tick(now) {
+    const p = Math.min((now-start)/duration,1);
+    el.textContent = Math.round(easeOutCubic(p)*target)+suffix;
+    if(p<1) requestAnimationFrame(tick);
+    else { el.textContent=target+suffix; el.style.animation='counterPop .35s cubic-bezier(.22,.68,0,1.6)'; el.addEventListener('animationend',()=>el.style.animation='',{once:true}); }
+  }
+  requestAnimationFrame(tick);
+}
+const counterObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => { if(entry.isIntersecting){ entry.target.querySelectorAll('.counter').forEach(animateCounter); counterObserver.unobserve(entry.target); } });
+},{threshold:0.5});
+[document.querySelector('.hero-stats-row'),document.querySelector('.stats-banner')].forEach(el=>{ if(el) counterObserver.observe(el); });
+
+/* ── SCROLL REVEAL ── */
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => { if(entry.isIntersecting){ entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); } });
+},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
+
+/* ── BENTO CARD STAGGER ── */
+const cardObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting&&!entry.target.classList.contains('seen')){
+      entry.target.classList.add('seen');
+      const cards=[...document.querySelectorAll('.bcard:not(.hidden):not(.bcard-stat)')];
+      const idx=cards.indexOf(entry.target);
+      setTimeout(()=>entry.target.classList.add('visible'),Math.max(0,idx)*28);
+      cardObserver.unobserve(entry.target);
+    }
+  });
+},{threshold:0.05});
+document.querySelectorAll('.bcard:not(.bcard-stat)').forEach(c=>{c.classList.remove('visible');cardObserver.observe(c);});
+document.querySelectorAll('.bcard-stat').forEach(c=>c.classList.add('visible'));
+
+/* ── FILTERS ── */
+let activeCat='all', activeYear='all';
+function setFilter(type,value,btn){
+  if(type==='cat') activeCat=value;
+  if(type==='year') activeYear=value;
+  document.querySelectorAll(`[data-filter-type="${type}"]`).forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+function applyFilters(){
+  const q=document.getElementById('searchInput').value.toLowerCase().trim();
+  const cards=document.querySelectorAll('.bcard[data-cat]');
+  let visible=0;
+  cards.forEach(card=>{
+    const catMatch=activeCat==='all'||card.dataset.cat===activeCat;
+    const yearMatch=activeYear==='all'||card.dataset.year===activeYear;
+    const kw=(card.dataset.keywords||'')+' '+(card.querySelector('.bcard-title')?.textContent||'').toLowerCase();
+    const searchMatch=q===''||kw.toLowerCase().includes(q);
+    if(catMatch&&yearMatch&&searchMatch){card.classList.remove('hidden');visible++;}
+    else card.classList.add('hidden');
+  });
+  document.getElementById('resultsCount').innerHTML=`<strong>${visible}</strong> project${visible!==1?'s':''}`;
+  document.getElementById('noResults').classList.toggle('visible',visible===0);
+  let i=0;
+  document.querySelectorAll('.bcard[data-cat]:not(.hidden)').forEach(card=>{
+    card.classList.remove('visible');
+    const delay=i++*28;
+    setTimeout(()=>card.classList.add('visible'),delay+20);
+  });
+}
+
+/* ── FILTER RIPPLE ── */
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',function(e){
+    const r=document.createElement('span'),rect=this.getBoundingClientRect(),size=Math.max(rect.width,rect.height);
+    r.style.cssText=`position:absolute;border-radius:50%;pointer-events:none;width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;background:rgba(250,219,15,.4);transform:scale(0);animation:rippleOut .5s ease forwards;`;
+    this.appendChild(r);r.addEventListener('animationend',()=>r.remove());
+  });
+});
+
+/* ── LIKE BUTTON ── */
+function toggleLike(btn){
+  const isLiked=btn.classList.contains('liked');
+  const countEl=btn.querySelector('.like-count'),heartEl=btn.querySelector('.like-heart'),base=parseInt(btn.dataset.count,10);
+  btn.classList.toggle('liked',!isLiked);
+  countEl.textContent=isLiked?base:base+1;
+  heartEl.textContent=isLiked?'♡':'♥';
+  btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop');
+  btn.addEventListener('animationend',()=>btn.classList.remove('pop'),{once:true});
+}
+
+/* ── PROJECT DETAIL MODAL ── */
+function openModal(idx){
+  const p=PROJECTS[idx];
+  const imgEl=document.getElementById('modalImg'),imgUrl=PROJECT_IMGS_MAP[idx]||'';
+  if(imgUrl){imgEl.src=imgUrl;imgEl.style.display='block';document.getElementById('modalVisual').style.background=CAT_GRADIENTS[p.cat]||'#000';}
+  else{imgEl.style.display='none';document.getElementById('modalVisual').style.background=CAT_GRADIENTS[p.cat]||'#000';}
+  document.getElementById('modalIcon').className=`modal-visual-icon fa-solid ${p.icon}`;
+  document.getElementById('modalVisualLabel').textContent=p.cat.toUpperCase();
+  document.getElementById('modalDept').textContent=p.dept;
+  document.getElementById('modalYear').textContent=p.year;
+  document.getElementById('modalTitle').textContent=p.title;
+  document.getElementById('modalDesc').textContent=p.desc;
+  const statusEl=document.getElementById('modalStatus');
+  statusEl.textContent=p.status.charAt(0).toUpperCase()+p.status.slice(1);
+  statusEl.className='modal-status-tag '+p.status;
+  document.getElementById('modalTags').innerHTML=p.tags.map(t=>`<span class="modal-tag">${t}</span>`).join('');
+  document.getElementById('modalTeam').innerHTML=p.team.map(m=>`<div class="modal-member"><div class="modal-avatar">${m.init}</div><div class="modal-member-info"><strong>${m.name}</strong><span>${m.role}</span></div></div>`).join('');
+  document.getElementById('projectModal').dataset.idx=idx;
+  document.getElementById('projectModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){document.getElementById('projectModal').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('projectModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+function shareProject(){
+  const idx=document.getElementById('projectModal').dataset.idx,p=PROJECTS[idx];
+  const url=`https://brightaerospace.in/projects?id=${idx}&title=${encodeURIComponent(p.title)}`;
+  try{navigator.clipboard.writeText(url);}catch(e){const ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}
+  showToast('<i class="fa-solid fa-link"></i> Project link copied!');
+}
+
+/* ── SUBMIT MODAL ── */
+let currentStep=1,formTags=[],memberCount=1;
+function openSubmitModal(){resetSubmitForm();document.getElementById('submitModal').classList.add('open');document.body.style.overflow='hidden';}
+function closeSubmitModal(){document.getElementById('submitModal').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('submitModal').addEventListener('click',function(e){if(e.target===this)closeSubmitModal();});
+
+function resetSubmitForm(){
+  currentStep=1;formTags=[];memberCount=1;
+  ['f-title','f-dept','f-desc','tagInput'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.querySelectorAll('input[name="f-cat"]').forEach(r=>r.checked=false);
+  document.querySelectorAll('input[name="f-status"]').forEach(r=>r.checked=false);
+  document.getElementById('f-year').value='';
+  document.getElementById('tagContainer').innerHTML='';
+  document.getElementById('teamMembersContainer').innerHTML=`<div class="team-member-row" id="member-row-0"><div class="form-group"><label>Full Name <span class="req">*</span></label><input type="text" class="form-control member-name" placeholder="e.g. Arjun Mehta"/></div><div class="form-group"><label>Role / Contribution</label><input type="text" class="form-control member-role" placeholder="e.g. ADCS Lead, CFD Analysis…"/></div><button class="remove-member-btn" onclick="removeMember(0)" style="visibility:hidden;margin-top:22px;">×</button></div>`;
+  document.querySelectorAll('.form-error').forEach(e=>e.style.display='none');
+  document.querySelectorAll('.form-group.has-error').forEach(g=>g.classList.remove('has-error'));
+  document.getElementById('submitSuccess').classList.remove('show');
+  document.getElementById('submitSteps').style.display='flex';
+  document.getElementById('submitModalFooter').style.display='flex';
+  updateStepUI();
+}
+function updateStepUI(){
+  for(let i=1;i<=3;i++){
+    document.getElementById(`step-panel-${i}`).classList.toggle('active',i===currentStep);
+    const ind=document.getElementById(`step-indicator-${i}`);
+    ind.classList.remove('active','done');
+    if(i===currentStep)ind.classList.add('active');
+    else if(i<currentStep)ind.classList.add('done');
+  }
+  document.getElementById('currentStepLabel').textContent=currentStep;
+  document.getElementById('btnPrev').style.display=currentStep>1?'inline-flex':'none';
+  document.getElementById('btnNext').innerHTML=currentStep===3?'<i class="fa-solid fa-paper-plane"></i> Publish Project':'Continue <i class="fa-solid fa-arrow-right"></i>';
+}
+function nextStep(){
+  if(currentStep===1&&!validateStep1())return;
+  if(currentStep===2&&!validateStep2())return;
+  if(currentStep===3){submitProject();return;}
+  if(currentStep===2)buildReview();
+  currentStep++;updateStepUI();
+  document.getElementById('submitModalBody').scrollTop=0;
+}
+function prevStep(){if(currentStep>1){currentStep--;updateStepUI();document.getElementById('submitModalBody').scrollTop=0;}}
+
+function validateStep1(){
+  let ok=true;
+  const title=document.getElementById('f-title').value.trim(),dept=document.getElementById('f-dept').value.trim(),desc=document.getElementById('f-desc').value.trim(),year=document.getElementById('f-year').value,cat=document.querySelector('input[name="f-cat"]:checked'),status=document.querySelector('input[name="f-status"]:checked');
+  setFieldError('fg-title',!title);setFieldError('fg-dept',!dept);setFieldError('fg-desc',desc.length<30);
+  if(!cat){document.getElementById('cat-error').style.display='block';ok=false;}else{document.getElementById('cat-error').style.display='none';}
+  if(!status){document.getElementById('status-error').style.display='block';ok=false;}else{document.getElementById('status-error').style.display='none';}
+  if(!year)setFieldError('fg-year',true);else setFieldError('fg-year',false);
+  if(formTags.length===0){document.getElementById('tag-error').style.display='block';ok=false;}else{document.getElementById('tag-error').style.display='none';}
+  if(!title||!dept||desc.length<30||!year||!cat||!status||formTags.length===0)ok=false;
+  return ok;
+}
+function validateStep2(){
+  const hasName=[...document.querySelectorAll('.member-name')].some(n=>n.value.trim().length>0);
+  document.getElementById('team-error').style.display=hasName?'none':'block';
+  return hasName;
+}
+function setFieldError(groupId,hasError){const g=document.getElementById(groupId);if(!g)return;g.classList.toggle('has-error',hasError);}
+
+/* ── TAG INPUT ── */
+function handleTagInput(e){
+  if(e.key==='Enter'||e.key===','){e.preventDefault();addTag();}
+  if(e.key==='Backspace'&&e.target.value===''&&formTags.length>0)removeTag(formTags.length-1);
+}
+function handleTagType(e){const v=e.target.value;if(v.endsWith(',')){e.target.value=v.slice(0,-1);addTag();}}
+function addTag(){
+  const input=document.getElementById('tagInput'),val=input.value.trim().replace(/,/g,'');
+  if(!val||formTags.includes(val)){input.value='';return;}
+  formTags.push(val);renderTags();input.value='';
+  if(formTags.length>0)document.getElementById('tag-error').style.display='none';
+}
+function removeTag(idx){formTags.splice(idx,1);renderTags();}
+function renderTags(){document.getElementById('tagContainer').innerHTML=formTags.map((t,i)=>`<span class="input-tag">${t}<button type="button" onclick="removeTag(${i})">×</button></span>`).join('');}
+
+/* ── TEAM MEMBERS ── */
+function addMember(){
+  const id=memberCount++,tc=document.getElementById('teamMembersContainer'),div=document.createElement('div');
+  div.className='team-member-row';div.id=`member-row-${id}`;
+  div.innerHTML=`<div class="form-group"><label>Full Name <span class="req">*</span></label><input type="text" class="form-control member-name" placeholder="e.g. Priya Nair"/></div><div class="form-group"><label>Role / Contribution</label><input type="text" class="form-control member-role" placeholder="e.g. Simulation, Testing…"/></div><button class="remove-member-btn" onclick="removeMember(${id})" style="margin-top:22px;">×</button>`;
+  tc.appendChild(div);updateRemoveButtons();
+}
+function removeMember(id){const el=document.getElementById(`member-row-${id}`);if(el)el.remove();updateRemoveButtons();}
+function updateRemoveButtons(){const rows=document.querySelectorAll('.team-member-row');rows.forEach(row=>{const btn=row.querySelector('.remove-member-btn');if(btn)btn.style.visibility=rows.length>1?'visible':'hidden';});}
+
+/* ── REVIEW ── */
+function buildReview(){
+  const cat=document.querySelector('input[name="f-cat"]:checked')?.value||'',status=document.querySelector('input[name="f-status"]:checked')?.value||'';
+  document.getElementById('rv-title').textContent=document.getElementById('f-title').value.trim();
+  document.getElementById('rv-meta').textContent=`${document.getElementById('f-dept').value.trim()} · ${document.getElementById('f-year').value} · ${cat.toUpperCase()} · ${status}`;
+  document.getElementById('rv-desc').textContent=document.getElementById('f-desc').value.trim();
+  document.getElementById('rv-tags').innerHTML=formTags.map(t=>`<span class="review-tag">${t}</span>`).join('');
+  const members=[...document.querySelectorAll('.team-member-row')].map(row=>({name:row.querySelector('.member-name').value.trim(),role:row.querySelector('.member-role').value.trim()})).filter(m=>m.name);
+  document.getElementById('rv-team').innerHTML=members.map(m=>`<div class="review-member"><div class="review-avatar">${m.name[0].toUpperCase()}</div><div class="review-member-text">${m.name}${m.role?`<span>— ${m.role}</span>`:''}</div></div>`).join('');
+}
+
+/* ── SUBMIT PROJECT ── */
+function submitProject(){
+  const title=document.getElementById('f-title').value.trim(),dept=document.getElementById('f-dept').value.trim(),desc=document.getElementById('f-desc').value.trim(),year=document.getElementById('f-year').value,cat=document.querySelector('input[name="f-cat"]:checked').value,status=document.querySelector('input[name="f-status"]:checked').value;
+  const members=[...document.querySelectorAll('.team-member-row')].map(row=>({init:(row.querySelector('.member-name').value.trim()[0]||'?').toUpperCase(),name:row.querySelector('.member-name').value.trim(),role:row.querySelector('.member-role').value.trim()})).filter(m=>m.name);
+  const newProject={title,dept,year,status,cat,icon:CAT_ICONS[cat]||'fa-rocket',desc,tags:[...formTags],team:members};
+  PROJECTS.push(newProject);const newIdx=PROJECTS.length-1;
+  const avatarsHTML=members.slice(0,3).map(m=>`<div class="bcard-avatar">${m.init}</div>`).join('');
+  const tagsHTML=formTags.slice(0,4).map(t=>`<span class="bcard-tag">${t}</span>`).join('');
+  const cardDiv=document.createElement('div');
+  cardDiv.className='bcard bc6 bcard-compact';
+  cardDiv.dataset.cat=cat;cardDiv.dataset.year=year;
+  cardDiv.dataset.keywords=[title,dept,...formTags].join(' ').toLowerCase();
+  cardDiv.innerHTML=`<div class="bcard-vis" style="background:${CAT_GRADIENTS[cat]||'#000'};aspect-ratio:16/6;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(250,219,15,.08) 1px,transparent 1px);background-size:18px 18px;"></div><i class="bcard-vis-icon fa-solid ${CAT_ICONS[cat]||'fa-rocket'}" style="font-size:2.8rem;color:var(--yellow);opacity:.12;position:absolute;"></i><span style="position:relative;z-index:1;font-family:'Koulen',sans-serif;font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:rgba(250,219,15,.35);">${cat}</span><span class="bcard-status ${status}" style="top:12px;right:12px;">${status.charAt(0).toUpperCase()+status.slice(1)}</span></div><div class="bcard-body"><div class="bcard-badge ${CAT_BADGE_CLASS[cat]||'bb-avionics'}"><span class="bcard-badge-dot"></span>${dept}</div><div class="bcard-title">${title}</div><div class="bcard-desc">${desc.slice(0,160)}${desc.length>160?'…':''}</div><div class="bcard-tags">${tagsHTML}</div></div><div class="bcard-footer"><div class="bcard-team"><div class="bcard-avatars">${avatarsHTML}</div><span class="bcard-team-label">${members.length} member${members.length!==1?'s':''}</span></div><div class="bcard-actions"><button class="bcard-like" data-count="0" onclick="toggleLike(this)"><span class="like-heart">♡</span><span class="like-count">0</span></button><button class="bcard-view" onclick="openModal(${newIdx})">View <i class="fa-solid fa-arrow-right"></i></button></div></div>`;
+  const grid=document.getElementById('projectsGrid'),noResults=document.getElementById('noResults');
+  grid.insertBefore(cardDiv,noResults);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>cardDiv.classList.add('visible')));
+  document.getElementById('submitSteps').style.display='none';
+  document.getElementById('submitModalFooter').style.display='none';
+  for(let i=1;i<=3;i++)document.getElementById(`step-panel-${i}`).classList.remove('active');
+  document.getElementById('submitSuccess').classList.add('show');
+  initCardEffect(cardDiv);applyFilters();
+}
+
+/* ── TOAST ── */
+let toastTimer;
+function showToast(html){const toast=document.getElementById('toast');toast.innerHTML=html;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3200);}
+
+/* ── SCROLL TO FOOTER ── */
+function scrollToFooter(){window.scrollTo({top:0,behavior:'instant'});setTimeout(()=>document.getElementById('footer').scrollIntoView({behavior:'smooth'}),50);}
+
+/* ── PARALLAX ── */
+const heroEl=document.querySelector('.projects-hero');
+window.addEventListener('scroll',()=>{if(heroEl)heroEl.style.backgroundPositionY=window.scrollY*.28+'px';},{passive:true});
+
+/* ── CARD TILT EFFECTS ── */
+const SMOOTH='opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1), box-shadow .6s cubic-bezier(.16,1,.3,1), filter .5s ease';
+const TILT  ='opacity .6s cubic-bezier(.16,1,.3,1), box-shadow .18s ease, filter .5s ease';
+
+function initCardEffect(card){
+  if(card.classList.contains('bcard-stat'))return;
+  if(!card.querySelector('.bcard-shine')){const shine=document.createElement('div');shine.className='bcard-shine';card.appendChild(shine);}
+  if(!card.querySelector('.bcard-texture')){const tex=document.createElement('div');tex.className='bcard-texture';card.appendChild(tex);}
+  card.addEventListener('mouseenter',function(){this.style.transition=SMOOTH;this.style.transform='perspective(900px)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.10), 0 8px 28px rgba(0,0,0,0.12), 0 0 0 1.5px rgba(250,219,15,0.7)';});
+  card.addEventListener('mousemove',function(e){
+    const rect=this.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top,cx=rect.width/2,cy=rect.height/2;
+    const tiltX=((y-cy)/cy)*-4,tiltY=((x-cx)/cx)*4;
+    this.style.transition=TILT;this.style.transform=`perspective(900px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+    this.style.boxShadow=`0 4px 12px rgba(0,0,0,0.10), 0 8px 28px rgba(0,0,0,0.12), 0 0 0 1.5px rgba(250,219,15,0.7)`;
+    const shine=this.querySelector('.bcard-shine');
+    if(shine)shine.style.background=`radial-gradient(circle at ${(x/rect.width)*100}% ${(y/rect.height)*100}%, rgba(255,255,255,0.22) 0%, transparent 58%)`;
+  });
+  card.addEventListener('mouseleave',function(){this.style.transition=SMOOTH;this.style.transform='';this.style.boxShadow='';const shine=this.querySelector('.bcard-shine');if(shine)shine.style.background='';});
+}
+
+(function initAllCards(){
+  const grid=document.getElementById('projectsGrid');
+  document.querySelectorAll('.bcard').forEach(initCardEffect);
+  const gridMutObs=new MutationObserver(mutations=>{mutations.forEach(m=>m.addedNodes.forEach(n=>{if(n.classList?.contains('bcard'))initCardEffect(n);}));});
+  gridMutObs.observe(grid,{childList:true});
+  grid.addEventListener('mouseenter',()=>grid.classList.add('has-hover'));
+  grid.addEventListener('mouseleave',()=>{grid.classList.remove('has-hover');document.querySelectorAll('.bcard').forEach(c=>{c.style.transform='';c.style.boxShadow='';const s=c.querySelector('.bcard-shine');if(s)s.style.background='';});});
+})();
+  </script>
+</body>
+</html>

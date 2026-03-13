@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Careers – Bright Aerospace</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Koulen&family=Sedan&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --yellow: #FADB0F;
+  --black: #000000;
+  --gray: #f5f5f5;
+  --border: #e0e0e0;
+  --text: #222222;
+  --muted: #777777;
+}
+body { font-family: 'Sedan', serif; color: var(--text); background: #fff; }
+
+/* ── NAVBAR ── */
+nav {
+  background: #111111;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 60px;
+  position: sticky; top: 0; z-index: 200;
+  border-bottom: none;
+}
+.nav-logo {
+  width: 42px; height: 42px; background: #F5C800;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+}
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  color: #ccc; text-decoration: none; font-size: 13px;
+  letter-spacing: 1px; text-transform: uppercase;
+  font-family: 'Koulen', sans-serif; transition: color .2s;
+  position: relative; padding-bottom: 4px;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 0; height: 2px; background: #F5C800;
+  transition: width .25s ease;
+}
+.nav-links a:hover::after { width: 100%; }
+.nav-links a:hover, .nav-links a.active-link { color: #F5C800; }
+.dropdown { position: relative; }
+.dropdown-menu {
+  display: none; position: absolute;
+  top: calc(100% + 10px); left: 0;
+  background: #111111; border: 1px solid #333;
+  border-radius: 6px; min-width: 140px; overflow: hidden; z-index: 300;
+}
+.dropdown-menu.open { display: block; }
+.dropdown-menu li { list-style: none; }
+.dropdown-menu li a {
+  display: block; padding: 12px 18px;
+  color: #ccc; font-family: 'Koulen', sans-serif;
+  font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+  transition: background .15s, color .15s;
+}
+.dropdown-menu li a::after { display: none; }
+.dropdown-menu li a:hover { background: #111; color: #F5C800; }
+.nav-right { display: flex; align-items: center; gap: 14px; }
+.nav-bell { color: #ccc; font-size: 18px; cursor: pointer; }
+.nav-avatar {
+  width: 34px; height: 34px; background: #F5C800;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; color: #111111;
+}
+/* ── HERO ── */
+.career-hero {
+  background: var(--black); color: #fff;
+  text-align: center; padding: 50px 24px 50px;
+  position: relative; overflow: hidden;
+}
+.career-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(250,219,15,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(250,219,15,0.07) 0%, transparent 50%);
+  pointer-events: none;
+}
+.career-hero::after {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(250,219,15,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250,219,15,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-block;
+  background: var(--yellow); color: var(--black);
+  font-family: 'Koulen', sans-serif;
+  font-size: 12px; letter-spacing: 3px;
+  padding: 4px 14px; border-radius: 20px; margin-bottom: 20px;
+}
+.career-hero h1 {
+  font-family: 'Koulen', sans-serif;
+  font-size: 3.8rem; line-height: 1.05;
+  font-weight: 400; margin-bottom: 18px;
+}
+.career-hero h1 span { color: var(--yellow); }
+.career-hero > p {
+  max-width: 560px; margin: 0 auto 40px;
+  color: #aaa; font-size: 0.95rem; line-height: 1.7;
+}
+.hero-stats {
+  display: inline-flex; align-items: center;
+  background: #111; border: 1px solid #222;
+  border-radius: 10px; overflow: hidden;
+}
+.hstat { padding: 16px 36px; text-align: center; }
+.hstat span { display: block; font-family: 'Koulen', sans-serif; font-size: 1.6rem; color: var(--yellow); }
+.hstat p { font-size: 0.75rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+.hstat-divider { width: 1px; height: 50px; background: #333; }
+
+/* ── SEARCH + FILTERS ── */
+.filters-section {
+  background: var(--gray); padding: 20px 50px;
+  border-bottom: 1px solid var(--border);
+}
+.search-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.search-wrapper { position: relative; flex: 1; max-width: 420px; }
+.search-wrapper i {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); font-size: 14px; pointer-events: none;
+}
+.search-wrapper input {
+  width: 100%; padding: 9px 14px 9px 38px;
+  border: 1px solid var(--border); border-radius: 20px;
+  font-family: 'Sedan', serif; font-size: 13px; color: var(--text);
+  outline: none; background: #fff; transition: border-color .2s;
+}
+.search-wrapper input:focus {
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 3px rgba(250,219,15,.15);
+}
+.results-count {
+  font-family: 'Koulen', sans-serif; font-size: 13px;
+  letter-spacing: .5px; color: var(--muted); margin-left: auto;
+}
+.results-count strong { color: var(--text); }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.filters-divider { width: 1px; height: 24px; background: #ccc; margin: 0 6px; }
+.filter-btn {
+  background: #fff; color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px 16px; border-radius: 20px;
+  font-family: 'Koulen', sans-serif;
+  font-size: 12px; letter-spacing: 1px;
+  cursor: pointer; transition: all .2s cubic-bezier(.22,.68,0,1.4);
+  position: relative; overflow: hidden;
+}
+.filter-btn:hover { border-color: var(--yellow); }
+.filter-btn:active { transform: scale(.92); }
+.filter-btn.active { background: var(--yellow); color: var(--black); border-color: var(--yellow); animation: filterPop .3s cubic-bezier(.22,.68,0,1.5); }
+@keyframes filterPop { 0%{transform:scale(1)} 50%{transform:scale(1.12)} 100%{transform:scale(1)} }
+
+/* ── LISTINGS ── */
+.listings-section { padding: 50px; background: #fff; }
+.listings { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+.no-results { display: none; grid-column: 1/-1; text-align: center; padding: 60px 20px; }
+.no-results i { font-size: 3rem; color: var(--border); margin-bottom: 16px; display: block; }
+.no-results h3 { font-family: 'Koulen', sans-serif; font-size: 1.4rem; color: var(--muted); margin-bottom: 8px; }
+.no-results p { font-size: 13px; color: var(--muted); }
+.no-results.visible { display: block; }
+
+.job-card {
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 24px; display: flex; flex-direction: column; gap: 12px;
+  background: #fff; animation: fadeUp .4s ease both;
+  transition: box-shadow .3s, transform .3s, border-color .3s;
+  border-left: 3px solid transparent;
+}
+.job-card:hover {
+  box-shadow: 0 12px 36px rgba(0,0,0,.10);
+  transform: translateY(-5px);
+  border-left-color: var(--yellow);
+}
+.job-card:hover .job-title { color: #000; }
+.job-card.hidden { display: none; }
+.job-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.job-top-left { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.job-tag { font-family: 'Koulen', sans-serif; font-size: 11px; letter-spacing: 1.5px; padding: 3px 12px; border-radius: 20px; text-transform: uppercase; }
+.job-tag.internship { background: #e8f5e9; color: #2e7d32; }
+.job-tag.fulltime   { background: #e3f2fd; color: #1565c0; }
+.job-tag.parttime   { background: #fff3e0; color: #e65100; }
+.exp-badge { font-family: 'Koulen', sans-serif; font-size: 10px; letter-spacing: 1px; padding: 3px 10px; border-radius: 20px; background: #f3e5f5; color: #6a1b9a; text-transform: uppercase; }
+.job-dept { font-size: 11px; color: var(--muted); font-family: 'Koulen', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+.job-title { font-family: 'Koulen', sans-serif; font-size: 1.15rem; font-weight: 400; color: var(--black); line-height: 1.3; }
+.job-meta { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); }
+.job-meta span { display: flex; align-items: center; gap: 5px; }
+.job-meta i { color: var(--yellow); }
+.job-desc { font-size: 13px; color: var(--muted); line-height: 1.65; flex: 1; }
+.job-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; padding-top: 14px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 8px; }
+.job-footer-left { display: flex; flex-direction: column; gap: 4px; }
+.job-deadline { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+.job-posted   { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+.job-footer-btns { display: flex; align-items: center; gap: 8px; }
+.apply-btn { padding: 7px 18px; font-size: 13px; position: relative; overflow: hidden; }
+.apply-btn::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,0); transition:background .2s; }
+.apply-btn:hover::after { background:rgba(255,255,255,0.15); }
+.apply-btn:active { transform: scale(0.96); }
+.share-btn {
+  background: none; border: 1px solid var(--border); color: var(--muted);
+  border-radius: 4px; padding: 7px 10px; cursor: pointer; font-size: 13px;
+  transition: all .2s; display: flex; align-items: center; gap: 5px;
+  font-family: 'Koulen', sans-serif; letter-spacing: .5px;
+}
+.share-btn:hover { border-color: var(--yellow); color: var(--text); }
+.share-btn:hover i { animation: spinOnce .4s ease; }
+@keyframes spinOnce { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+/* ── WHY JOIN US ── */
+.why-section { background: var(--black); color: #fff; padding: 70px 50px; }
+.section-header { text-align: center; margin-bottom: 50px; }
+.section-tag {
+  display: inline-block; background: rgba(250,219,15,0.15); color: var(--yellow);
+  font-family: 'Koulen', sans-serif; font-size: 11px; letter-spacing: 3px;
+  padding: 4px 14px; border-radius: 20px; margin-bottom: 14px;
+  border: 1px solid rgba(250,219,15,0.3); transition: box-shadow .3s;
+}
+.reveal.visible .section-tag { box-shadow: 0 0 12px rgba(250,219,15,.25); }
+.section-header h2 { font-family: 'Koulen', sans-serif; font-size: 2.4rem; font-weight: 400; color: #fff; }
+.section-header h2 span { color: var(--yellow); }
+.perks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+.perk-card {
+  background: #0d0d0d; border: 1px solid #1a1a1a;
+  border-radius: 12px; padding: 28px 24px;
+  transition: border-color .25s, transform .3s, box-shadow .3s;
+}
+.perk-card:hover { border-color: var(--yellow); transform: translateY(-6px); box-shadow: 0 0 0 1px var(--yellow), 0 16px 40px rgba(250,219,15,.1); }
+.perk-icon {
+  width: 46px; height: 46px; border-radius: 10px;
+  background: rgba(250,219,15,0.1); display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; color: var(--yellow); margin-bottom: 16px;
+  transition: transform .3s cubic-bezier(.22,.68,0,1.5), background .3s;
+}
+.perk-card:hover .perk-icon { transform: rotate(-10deg) scale(1.15); background: rgba(250,219,15,.22); }
+.perk-card h3 { font-family: 'Koulen', sans-serif; font-size: 1rem; font-weight: 400; color: #fff; margin-bottom: 8px; }
+.perk-card p { font-size: 12px; color: #888; line-height: 1.6; }
+
+/* ── HIRING PROCESS ── */
+.process-section { background: var(--gray); padding: 70px 50px; }
+.process-section .section-header h2 { color: var(--black); }
+.process-section .section-header h2 span { color: var(--black); }
+.process-section .section-tag { background: rgba(250,219,15,0.3); color: #7a6800; border-color: rgba(250,219,15,0.6); }
+.timeline { display: flex; align-items: flex-start; justify-content: center; gap: 0; max-width: 900px; margin: 0 auto; position: relative; }
+.timeline-step { flex: 1; text-align: center; position: relative; padding-top: 20px; }
+.timeline-step:not(:last-child)::after {
+  content: ''; position: absolute; top: 40px; left: calc(50% + 30px);
+  right: calc(-50% + 30px); height: 2px; background: var(--border);
+  transition: background .6s ease;
+}
+.timeline-step.line-filled:not(:last-child)::after { background: var(--yellow); }
+.step-circle {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: #fff; border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px; font-size: 1.2rem; color: var(--muted);
+  position: relative; z-index: 1;
+  transition: background .3s, border-color .3s, transform .3s cubic-bezier(.22,.68,0,1.5), box-shadow .3s;
+}
+.timeline-step:hover .step-circle {
+  background: var(--yellow); border-color: var(--yellow); color: var(--black);
+  transform: scale(1.12) rotate(-5deg);
+  box-shadow: 0 0 0 6px rgba(250,219,15,.18);
+}
+.step-num {
+  position: absolute; top: -8px; right: -4px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--black); color: #fff;
+  font-family: 'Koulen', sans-serif; font-size: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.timeline-step h4 { font-family: 'Koulen', sans-serif; font-size: 14px; font-weight: 400; color: var(--black); margin-bottom: 6px; }
+.timeline-step p { font-size: 12px; color: var(--muted); line-height: 1.5; max-width: 120px; margin: 0 auto; }
+
+/* ── TESTIMONIALS ── */
+.testimonials-section { background: #fff; padding: 70px 50px; }
+.testimonials-section .section-header h2 { color: var(--black); }
+.testimonials-section .section-tag { background: rgba(250,219,15,0.2); color: #7a6800; border-color: rgba(250,219,15,0.5); }
+.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; max-width: 1000px; margin: 0 auto; }
+.testimonial-card {
+  border: 1px solid var(--border); border-radius: 12px; padding: 28px 24px;
+  position: relative; transition: box-shadow .3s, transform .3s, border-color .3s;
+}
+.testimonial-card:hover { box-shadow: 0 12px 36px rgba(0,0,0,.09); transform: translateY(-5px); border-color: var(--yellow); }
+.quote-icon {
+  font-size: 2.5rem; color: var(--yellow); line-height: 1;
+  font-family: 'Koulen', sans-serif; margin-bottom: 12px; display: inline-block;
+  transition: transform .3s cubic-bezier(.22,.68,0,1.5), color .3s;
+}
+.testimonial-card:hover .quote-icon { transform: scale(1.3) rotate(-8deg); color: #e0c800; }
+.testimonial-card p { font-size: 13px; color: var(--muted); line-height: 1.75; font-style: italic; margin-bottom: 20px; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.author-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--yellow); display: flex; align-items: center; justify-content: center; font-family: 'Koulen', sans-serif; font-size: 16px; color: var(--black); flex-shrink: 0; }
+.author-info h4 { font-family: 'Koulen', sans-serif; font-size: 14px; font-weight: 400; color: var(--black); }
+.author-info span { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+.stars { color: var(--yellow); font-size: 12px; margin-bottom: 4px; }
+
+/* ── APPLY MODAL ── */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(3px); }
+.modal-overlay.open { display: flex; }
+.modal-box { background: #fff; width: 90%; max-width: 520px; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: modalIn .35s cubic-bezier(.22,.68,0,1.2); max-height: 90vh; display: flex; flex-direction: column; }
+@keyframes modalIn { from{opacity:0;transform:scale(.9) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+.modal-header { display: flex; justify-content: space-between; align-items: flex-start; padding: 20px 24px; border-bottom: 1px solid var(--border); background: var(--black); color: #fff; }
+.modal-header h2 { font-family: 'Koulen', sans-serif; font-size: 18px; font-weight: 400; line-height: 1.4; }
+.modal-header h2 span { color: var(--yellow); }
+.close-modal { background: none; border: none; color: #aaa; font-size: 26px; cursor: pointer; line-height: 1; }
+.close-modal:hover { color: #fff; }
+.modal-body { padding: 20px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group label { font-family: 'Koulen', sans-serif; font-size: 13px; letter-spacing: .5px; color: var(--text); }
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"] { padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-family: 'Sedan', serif; font-size: 13px; color: var(--text); outline: none; transition: border-color .2s; }
+.form-group input:focus { border-color: var(--yellow); }
+.form-group input.error { border-color: #e53935; }
+.form-group textarea { padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-family: 'Sedan', serif; font-size: 13px; color: var(--text); outline: none; resize: none; height: 90px; transition: border-color .2s; }
+.form-group textarea:focus { border-color: var(--yellow); }
+.field-error { font-size: 11px; color: #e53935; font-family: 'Koulen', sans-serif; letter-spacing: .3px; display: none; }
+.field-error.visible { display: block; }
+.file-upload { position: relative; }
+.file-upload input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+.file-label { display: flex; align-items: center; gap: 10px; border: 2px dashed var(--border); border-radius: 6px; padding: 14px 16px; cursor: pointer; transition: border-color .2s; font-size: 13px; color: var(--muted); }
+.file-label i { color: var(--yellow); font-size: 16px; }
+.file-upload:hover .file-label { border-color: var(--yellow); }
+.file-upload.error .file-label { border-color: #e53935; }
+.modal-footer { padding: 14px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
+
+/* ── SHARE MODAL ── */
+.share-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1100; align-items: center; justify-content: center; backdrop-filter: blur(3px); }
+.share-modal-overlay.open { display: flex; }
+.share-modal-box { background: #fff; width: 90%; max-width: 400px; border-radius: 12px; padding: 28px 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: fadeUp .3s ease; }
+.share-modal-box h3 { font-family: 'Koulen', sans-serif; font-size: 18px; font-weight: 400; margin-bottom: 6px; }
+.share-link-row { display: flex; gap: 8px; margin-bottom: 20px; }
+.share-link-row input { flex: 1; padding: 9px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; color: var(--muted); font-family: 'Sedan', serif; outline: none; background: var(--gray); }
+.share-icons { display: flex; gap: 12px; }
+.share-icon-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--border); background: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: all .2s; color: var(--text); text-decoration: none; }
+.share-icon-btn:hover { background: var(--yellow); border-color: var(--yellow); color: var(--black); }
+.share-modal-footer { text-align: right; margin-top: 20px; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 30px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--black); color: #fff;
+  padding: 12px 24px; border-radius: 30px;
+  font-family: 'Koulen', sans-serif; font-size: 14px;
+  letter-spacing: .5px; display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  transition: transform .45s cubic-bezier(.22,.68,0,1.3), opacity .45s ease;
+  opacity: 0; z-index: 2000; pointer-events: none;
+}
+.toast i { color: var(--yellow); }
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ── FOOTER ── */
+footer { background: var(--black); color: #fff; padding: 40px 50px; }
+.footer-content { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 50px; }
+.footer-section h4 { color: #fff; margin-bottom: 12px; text-transform: uppercase; font-family: 'Koulen', sans-serif; font-size: 14px; letter-spacing: 1px; }
+.contact-grid { display: flex; gap: 30px; font-size: 12px; color: #aaa; }
+.contact-col span { display: block; margin-bottom: 4px; }
+.social-links { display: flex; gap: 14px; margin-top: 28px; align-items: center; }
+.social-links span { font-family: 'Koulen', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+.social-links a { color: var(--yellow); font-size: 1.2rem; }
+.back-to-top {
+  float: right; margin-top: 20px;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--yellow); color: var(--black);
+  border: none; padding: 8px 18px; border-radius: 4px;
+  font-family: 'Koulen', sans-serif; font-size: 13px;
+  letter-spacing: 1px; text-transform: uppercase;
+  cursor: pointer; transition: background .2s;
+}
+.back-to-top:hover { background: #e0c800; animation: bounceUp .4s ease; }
+@keyframes bounceUp { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.65s cubic-bezier(.22,.68,0,1.2), transform 0.65s cubic-bezier(.22,.68,0,1.2); }
+.reveal.reveal-left  { transform: translateX(-40px); }
+.reveal.reveal-right { transform: translateX(40px); }
+.reveal.reveal-scale { transform: scale(0.92); }
+.reveal.visible { opacity: 1; transform: translateY(0) translateX(0) scale(1); }
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+
+/* ── HERO ENTRANCE ── */
+.hero-tag     { animation: heroTagIn .5s cubic-bezier(.22,.68,0,1.3) .1s both; }
+.career-hero h1   { animation: heroTitleIn .7s cubic-bezier(.22,.68,0,1.2) .25s both; }
+.career-hero > p  { animation: heroFadeUp .6s ease .45s both; }
+.hero-stats   { animation: heroFadeUp .6s ease .6s both; }
+@keyframes heroTagIn   { from{opacity:0;transform:scale(.7) translateY(-10px)} to{opacity:1;transform:scale(1) translateY(0)} }
+@keyframes heroTitleIn { from{opacity:0;transform:translateY(30px) skewY(2deg)} to{opacity:1;transform:translateY(0) skewY(0)} }
+@keyframes heroFadeUp  { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── COUNTER PULSE ── */
+.hstat span { transition: transform .15s; }
+.hstat span.pop { animation: counterPop .35s cubic-bezier(.22,.68,0,1.6); }
+@keyframes counterPop { 0%{transform:scale(1)} 50%{transform:scale(1.25)} 100%{transform:scale(1)} }
+
+@media (max-width: 768px) {
+  nav { padding: 10px 16px; flex-wrap: wrap; height: auto; gap: 10px; }
+  .nav-links { display: none; }
+  .listings-section, .why-section, .process-section, .testimonials-section { padding: 40px 20px; }
+  .filters-section { padding: 16px 20px; }
+  .career-hero h1 { font-size: 2.4rem; }
+  .hero-stats { flex-direction: column; }
+  .hstat-divider { width: 60px; height: 1px; }
+  footer { padding: 30px 24px; }
+  .footer-content { flex-direction: column; gap: 24px; }
+  .timeline { flex-direction: column; align-items: center; gap: 30px; }
+  .timeline-step:not(:last-child)::after { display: none; }
+  .search-row { flex-wrap: wrap; }
+  .results-count { margin-left: 0; }
+}
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <img src="logo.png" alt="Logo" style="width:30px;height:30px;border-radius:50%;"/>
+  </div>
+  <ul class="nav-links">
+    <li><a href="landing_page.html">Home</a></li>
+    <li><a href="courses.html">Courses</a></li>
+    <li><a href="community.html">Community</a></li>
+    <li><a href="about.html">About</a></li>
+    <li class="dropdown">
+      <a href="#" onclick="toggleDropdown(event)" style="color:#F5C800;">More</a>
+      <ul class="dropdown-menu">
+        <li><a href="more.html" class="active-link">Career</a></li>
+        <li><a href="project.html">Project</a></li>
+      </ul>
+    </li>
+    <li><a href="#" onclick="scrollToFooter(); return false;">Contact Us</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-bell">🔔</span>
+    <div class="nav-avatar">A</div>
+  </div>
+</nav>
+<!-- HERO -->
+<section class="career-hero">
+  <div class="hero-tag">WE'RE HIRING</div>
+  <h1>Launch Your <span>Career</span><br>in Aerospace</h1>
+  <p>Explore internships and full-time roles at Bright Aerospace. Work on real missions, real systems, and real impact.</p>
+  <div class="hero-stats">
+    <div class="hstat"><span class="counter" data-target="16" data-suffix="+">0+</span><p>Open Roles</p></div>
+    <div class="hstat-divider"></div>
+    <div class="hstat"><span class="counter" data-target="3" data-suffix="">0</span><p>Departments</p></div>
+    <div class="hstat-divider"></div>
+    <div class="hstat"><span class="counter" data-target="100" data-suffix="%">0%</span><p>Remote Friendly</p></div>
+  </div>
+</section>
+
+<!-- FILTERS + SEARCH -->
+<section class="filters-section">
+  <div class="search-row reveal">
+    <div class="search-wrapper">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="searchInput" placeholder="Search by keyword, role, or skill…" oninput="applyFilters()"/>
+    </div>
+    <div class="results-count" id="resultsCount"><strong>11</strong> roles</div>
+  </div>
+  <div class="filters reveal reveal-delay-1">
+    <button class="filter-btn active" data-filter-type="type" data-value="all" onclick="setFilter('type','all',this)">All Types</button>
+    <button class="filter-btn" data-filter-type="type" data-value="internship" onclick="setFilter('type','internship',this)">Internships</button>
+    <button class="filter-btn" data-filter-type="type" data-value="fulltime" onclick="setFilter('type','fulltime',this)">Full-Time</button>
+    <button class="filter-btn" data-filter-type="type" data-value="parttime" onclick="setFilter('type','parttime',this)">Part-Time</button>
+    <div class="filters-divider"></div>
+    <button class="filter-btn active" data-filter-type="dept" data-value="all" onclick="setFilter('dept','all',this)">All Depts</button>
+    <button class="filter-btn" data-filter-type="dept" data-value="Propulsion" onclick="setFilter('dept','Propulsion',this)">Propulsion</button>
+    <button class="filter-btn" data-filter-type="dept" data-value="Avionics" onclick="setFilter('dept','Avionics',this)">Avionics</button>
+    <button class="filter-btn" data-filter-type="dept" data-value="Software" onclick="setFilter('dept','Software',this)">Software</button>
+    <button class="filter-btn" data-filter-type="dept" data-value="Structures" onclick="setFilter('dept','Structures',this)">Structures</button>
+    <button class="filter-btn" data-filter-type="dept" data-value="CFD" onclick="setFilter('dept','CFD',this)">CFD</button>
+    <button class="filter-btn" data-filter-type="dept" data-value="GNC" onclick="setFilter('dept','GNC',this)">GNC</button>
+    <button class="filter-btn" data-filter-type="dept" data-value="R&D" onclick="setFilter('dept','R&D',this)">R&D</button>
+  </div>
+</section>
+
+<!-- JOB LISTINGS -->
+<section class="listings-section">
+  <div class="listings" id="listings">
+
+    <div class="job-card" data-type="internship" data-dept="Propulsion" data-keywords="propulsion engineering intern liquid fuel thrust test bench">
+      <div class="job-card-top"><div class="job-top-left"><div class="job-tag internship">Internship</div><div class="exp-badge">Fresher</div></div><div class="job-dept">Propulsion</div></div>
+      <h3 class="job-title">Propulsion Engineering Intern</h3>
+      <div class="job-meta"><span><i class="fa-solid fa-location-dot"></i> Remote</span><span><i class="fa-solid fa-clock"></i> 3 Months</span><span><i class="fa-solid fa-indian-rupee-sign"></i> 5,000/mo</span></div>
+      <p class="job-desc">Work alongside senior engineers on liquid propellant systems, thrust calculations, and test bench analysis. Ideal for 2nd/3rd year engineering students.</p>
+      <div class="job-footer"><div class="job-footer-left"><span class="job-deadline"><i class="fa-regular fa-calendar"></i> Apply by Aug 15, 2025</span><span class="job-posted"><i class="fa-regular fa-clock"></i> Posted 2 days ago</span></div><div class="job-footer-btns"><button class="share-btn" onclick="openShare('Propulsion Engineering Intern')"><i class="fa-solid fa-share-nodes"></i></button><button class="btn-yellow apply-btn" onclick="openApply('Propulsion Engineering Intern')">Apply Now</button></div></div>
+    </div>
+
+    <div class="job-card" data-type="internship" data-dept="Avionics" data-keywords="avionics embedded systems firmware sensor telemetry c++ real-time">
+      <div class="job-card-top"><div class="job-top-left"><div class="job-tag internship">Internship</div><div class="exp-badge">Fresher</div></div><div class="job-dept">Avionics</div></div>
+      <h3 class="job-title">Avionics & Embedded Systems Intern</h3>
+      <div class="job-meta"><span><i class="fa-solid fa-location-dot"></i> Hybrid</span><span><i class="fa-solid fa-clock"></i> 6 Months</span><span><i class="fa-solid fa-indian-rupee-sign"></i> 8,000/mo</span></div>
+      <p class="job-desc">Develop firmware for onboard systems, work on sensor integration and real-time telemetry pipelines. Knowledge of C/C++ and embedded systems preferred.</p>
+      <div class="job-footer"><div class="job-footer-left"><span class="job-deadline"><i class="fa-regular fa-calendar"></i> Apply by Sep 1, 2025</span><span class="job-posted"><i class="fa-regular fa-clock"></i> Posted 5 days ago</span></div><div class="job-footer-btns"><button class="share-btn" onclick="openShare('Avionics & Embedded Systems Intern')"><i class="fa-solid fa-share-nodes"></i></button><button class="btn-yellow apply-btn" onclick="openApply('Avionics & Embedded Systems Intern')">Apply Now</button></div></div>
+    </div>
+
+    <div class="job-card" data-type="fulltime" data-dept="Structures" data-keywords="structural analysis engineer FEA fatigue ansys nastran aerospace components">
+      <div class="job-card-top"><div class="job-top-left"><div class="job-tag fulltime">Full-Time</div><div class="exp-badge">1–2 yrs</div></div><div class="job-dept">Structures</div></div>
+      <h3 class="job-title">Structural Analysis Engineer</h3>
+      <div class="job-meta"><span><i class="fa-solid fa-location-dot"></i> Bangalore</span><span><i class="fa-solid fa-clock"></i> Full-Time</span><span><i class="fa-solid fa-indian-rupee-sign"></i> 8–12 LPA</span></div>
+      <p class="job-desc">Lead FEA simulations, fatigue analysis, and structural validation for aerospace components. 2+ years experience with ANSYS or Nastran required.</p>
+      <div class="job-footer"><div class="job-footer-left"><span class="job-deadline"><i class="fa-regular fa-calendar"></i> Apply by Jul 30, 2025</span><span class="job-posted"><i class="fa-regular fa-clock"></i> Posted 10 days ago</span></div><div class="job-footer-btns"><button class="share-btn" onclick="openShare('Structural Analysis Engineer')"><i class="fa-solid fa-share-nodes"></i></button><button class="btn-yellow apply-btn" onclick="openApply('Structural Analysis Engineer')">Apply Now</button></div></div>
+    </div>
+
+    <div class="job-card" data-type="fulltime" data-dept="Software" data-keywords="flight software developer GNC python matlab c++ control algorithms mission planning">
+      <div class="job-card-top"><div class="job-top-left"><div class="job-tag fulltime">Full-Time</div><div class="exp-badge">3+ yrs</div></div><div class="job-dept">Software</div></div>
+      <h3 class="job-title">Flight Software Developer</h3>
+      <div class="job-meta"><span><i class="fa-solid fa-location-dot"></i> Remote</span><span><i class="fa-solid fa-clock"></i> Full-Time</span><span><i class="fa-solid fa-indian-rupee-sign"></i> 12–18 LPA</span></div>
+      <p class="job-desc">Build and maintain flight control algorithms, GNC software, and mission planning tools. Python, C++ and MATLAB experience required.</p>
+      <div class="job-footer"><div class="job-footer-left"><span class="job-deadline"><i class="fa-regular fa-calendar"></i> Apply by Aug 20, 2025</span><span class="job-posted"><i class="fa-regular fa-clock"></i> Posted 7 days ago</span></div><div class="job-footer-btns"><button class="share-btn" onclick="openShare('Flight Software Developer')"><i class="fa-solid fa-share-nodes"></i></button><button class="btn-yellow apply-btn" onclick="openApply('Flight Software Developer')">Apply Now</button></div></div>
+    </div>
+
+    <div class="job-card" data-type="parttime" data-dept="Education" data-keywords="aerospace content creator course writing technical articles learning modules education">
+      <div class="job-card-top"><div class="job-top-left"><div class="job-tag parttime">Part-Time</div><div class="exp-badge">1–2 yrs</div></div><div class="job-dept">Education</div></div>
+      <h3 class="job-title">Aerospace Content Creator</h3>
+      <div class="job-meta"><span><i class="fa-solid fa-location-dot"></i> Remote</span><span><i class="fa-solid fa-clock"></i> 20 hrs/week</span><span><i class="fa-solid fa-indian-rupee-sign"></i> 15,000/mo</span></div>
+      <p class="job-desc">Create course content, write technical articles, and develop learning modules for our platform. Strong aerospace background and writing skills needed.</p>
+      <div class="job-footer"><div class="job-footer-left"><span class="job-deadline"><i class="fa-regular fa-calendar"></i> Apply by Sep 10, 2025</span><span class="job-posted"><i class="fa-regular fa-clock"></i> Posted 1 day ago</span></div><div class="job-footer-btns"><button class="share-btn" onclick="openShare('Aerospace Content Creator')"><i class="fa-solid fa-share-nodes"></i></button><button class="btn-yellow apply-btn" onclick="openApply('Aerospace Content Creator')">Apply Now</button></div></div>
+    </div>
+
+    <div class="job-card" data-type="internship" data-dept="CFD" data-keywords="CFD simulation intern aerodynamic openfoam ansys fluent computational fluid dynamics">
+      <div class="job-card-top"><div class="job-top-left"><div class="job-tag internship">Internship</div><div class="exp-badge">Fresher</div></div><div class="job-dept">CFD</div></div>
+      <h3 class="job-title">CFD Simulation Intern</h3>
+      <div class="job-meta"><span><i class="fa-solid fa-location-dot"></i> Remote</span><span><i class="fa-solid fa-clock"></i> 4 Months</span><span><i class="fa-solid fa-indian-rupee-sign"></i> 6,000/mo</span></div>
+      <p class="job-desc">Run computational fluid dynamics simulations for aerodynamic studies. Familiarity with OpenFOAM or ANSYS Fluent is a plus.</p>
+      <div class="job-footer"><div class="job-footer-left"><span class="job-deadline"><i class="fa-regular fa-calendar"></i> Apply by Aug 5, 2025</span><span class="job-posted"><i class="fa-regular fa-clock"></i> Posted 14 days ago</span></div><div class="job-footer-btns"><button class="share-btn" onclick="openShare('CFD Simulation Intern')"><i class="fa-solid fa-share-nodes"></i></button><button class="btn-yellow apply-btn" onclick="openApply('CFD Simulation Intern')">Apply Now</button></div></div>
+    </div>
+
+    <div class="job-card" data-type="fulltime" data-dept="Structures" data-keywords="composite materials engineer carbon fibre catia solidworks aerostructures">
+      <div class="job-card-top"><div class="job-top-left"><div class="job-tag fulltime">Full-Time</div><div class="exp-badge">1–2 yrs</div></div><div class="job-dept">Aerostructures</div></div>
+      <h3 class="job-title">Composite Materials Engineer</h3>
+      <div class="job-meta"><span><i class="fa-solid fa-location-dot"></i> Chennai</span><span><i class="fa-solid fa-clock"></i> Full-Time</span><span><i class="fa-solid fa-indian-rupee-sign"></i> 9–14 LPA</span></div>
+      <p class="job-desc">Design and test carbon fibre and composite structures for aerospace applications. Experience with CATIA or SolidWorks required.</p>
+      <div class="job-footer"><div class="job-footer-left"><span class="job-deadline"><i class="fa-regular fa-calendar"></i> Apply by Sep 5, 2025</span><span class="job-posted"><i class="fa-regular fa-clock"></i> Posted 3 days ago</span></div><div class="job-footer-btns"><button class="share-btn" onclick="openShare('Composite Materials Engineer')"><i class="fa-solid fa-share-nodes"></i></button><button class="btn-yellow apply-btn" onclick="openApply('Composite Materials Engineer')">Apply Now</button></div></div>
+    </div>
+
+    <div class="job-card" data-type="internship" data-dept="GNC" data-keywords="guidance navigation control intern attitude trajectory satellite algorithm">
+      <div class="job-card-top"><div class="job-top-left"><div class="job-tag internship">Internship</div><div class="exp-badge">Fresher</div></div><div class="job-dept">GNC</div></div>
+      <h3 class="job-title">Guidance Navigation & Control Intern</h3>
+      <div class="job-meta"><span><i class="fa-solid fa-location-dot"></i> Remote</span><span><i class="fa-solid fa-clock"></i> 5 Months</span><span><i class="fa-solid fa-indian-rupee-sign"></i> 7,000/mo</span></div>
+      <p class="job-desc">Assist in developing navigation algorithms, attitude control systems, and trajectory optimisation for small satellite missions.</p>
+      <div class="job-footer"><div class="job-footer-left"><span class="job-deadline"><i class="fa-regular fa-calendar"></i> Apply by Aug 25, 2025</span><span class="job-posted"><i class="fa-regular fa-clock"></i> Posted 6 days ago</span></div><div class="job-footer-btns"><button class="share-btn" onclick="openShare('Guidance Navigation & Control Intern')"><i class="fa-solid fa-share-nodes"></i></button><button class="btn-yellow apply-btn" onclick="openApply('Guidance Navigation & Control Intern')">Apply Now</button></div></div>
+    </div>
+
+    <div class="job-card" data-type="parttime" data-dept="Marketing" data-keywords="social media outreach marketing campaigns student community content">
+      <div class="job-card-top"><div class="job-top-left"><div class="job-tag parttime">Part-Time</div><div class="exp-badge">Fresher</div></div><div class="job-dept">Marketing</div></div>
+      <h3 class="job-title">Social Media & Outreach Associate</h3>
+      <div class="job-meta"><span><i class="fa-solid fa-location-dot"></i> Remote</span><span><i class="fa-solid fa-clock"></i> 15 hrs/week</span><span><i class="fa-solid fa-indian-rupee-sign"></i> 10,000/mo</span></div>
+      <p class="job-desc">Manage our social channels, run campaigns, and grow our student community. Aerospace enthusiasm and content creation skills a must.</p>
+      <div class="job-footer"><div class="job-footer-left"><span class="job-deadline"><i class="fa-regular fa-calendar"></i> Apply by Sep 20, 2025</span><span class="job-posted"><i class="fa-regular fa-clock"></i> Posted 4 days ago</span></div><div class="job-footer-btns"><button class="share-btn" onclick="openShare('Social Media & Outreach Associate')"><i class="fa-solid fa-share-nodes"></i></button><button class="btn-yellow apply-btn" onclick="openApply('Social Media & Outreach Associate')">Apply Now</button></div></div>
+    </div>
+
+    <div class="job-card" data-type="fulltime" data-dept="Systems" data-keywords="systems integration engineer mechanical electrical software test campaigns subsystems">
+      <div class="job-card-top"><div class="job-top-left"><div class="job-tag fulltime">Full-Time</div><div class="exp-badge">3+ yrs</div></div><div class="job-dept">Systems</div></div>
+      <h3 class="job-title">Systems Integration Engineer</h3>
+      <div class="job-meta"><span><i class="fa-solid fa-location-dot"></i> Hyderabad</span><span><i class="fa-solid fa-clock"></i> Full-Time</span><span><i class="fa-solid fa-indian-rupee-sign"></i> 10–16 LPA</span></div>
+      <p class="job-desc">Oversee integration of subsystems, coordinate between mechanical, electrical, and software teams, and manage test campaigns.</p>
+      <div class="job-footer"><div class="job-footer-left"><span class="job-deadline"><i class="fa-regular fa-calendar"></i> Apply by Aug 30, 2025</span><span class="job-posted"><i class="fa-regular fa-clock"></i> Posted 8 days ago</span></div><div class="job-footer-btns"><button class="share-btn" onclick="openShare('Systems Integration Engineer')"><i class="fa-solid fa-share-nodes"></i></button><button class="btn-yellow apply-btn" onclick="openApply('Systems Integration Engineer')">Apply Now</button></div></div>
+    </div>
+
+    <div class="job-card" data-type="internship" data-dept="R&D" data-keywords="satellite technology research intern cubesat feasibility R&D report">
+      <div class="job-card-top"><div class="job-top-left"><div class="job-tag internship">Internship</div><div class="exp-badge">Fresher</div></div><div class="job-dept">R&D</div></div>
+      <h3 class="job-title">Satellite Technology Research Intern</h3>
+      <div class="job-meta"><span><i class="fa-solid fa-location-dot"></i> Remote</span><span><i class="fa-solid fa-clock"></i> 3 Months</span><span><i class="fa-solid fa-indian-rupee-sign"></i> 6,500/mo</span></div>
+      <p class="job-desc">Research emerging satellite technologies, compile technical reports, and support the R&D team in feasibility studies for cubesat missions.</p>
+      <div class="job-footer"><div class="job-footer-left"><span class="job-deadline"><i class="fa-regular fa-calendar"></i> Apply by Sep 15, 2025</span><span class="job-posted"><i class="fa-regular fa-clock"></i> Posted 11 days ago</span></div><div class="job-footer-btns"><button class="share-btn" onclick="openShare('Satellite Technology Research Intern')"><i class="fa-solid fa-share-nodes"></i></button><button class="btn-yellow apply-btn" onclick="openApply('Satellite Technology Research Intern')">Apply Now</button></div></div>
+    </div>
+
+    <div class="no-results" id="noResults">
+      <i class="fa-solid fa-satellite"></i>
+      <h3>No roles found</h3>
+      <p>Try adjusting your search or filters to find what you're looking for.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY JOIN US -->
+<section class="why-section">
+  <div class="section-header reveal"><div class="section-tag">PERKS & CULTURE</div><h2>Why Join <span>Bright Aerospace?</span></h2></div>
+  <div class="perks-grid">
+    <div class="perk-card reveal reveal-left reveal-delay-1"><div class="perk-icon"><i class="fa-solid fa-wifi"></i></div><h3>100% Remote Friendly</h3><p>Work from anywhere in India. We trust our team and focus on output, not hours. Flexible schedules that work around your life.</p></div>
+    <div class="perk-card reveal reveal-left reveal-delay-2"><div class="perk-icon"><i class="fa-solid fa-user-graduate"></i></div><h3>Expert Mentorship</h3><p>Get direct access to industry professionals with experience at ISRO, NASA, and leading private aerospace companies.</p></div>
+    <div class="perk-card reveal reveal-right reveal-delay-3"><div class="perk-icon"><i class="fa-solid fa-rocket"></i></div><h3>Real Projects</h3><p>No busywork. From day one, you're contributing to live missions, real hardware, and systems that fly in space.</p></div>
+    <div class="perk-card reveal reveal-right reveal-delay-4"><div class="perk-icon"><i class="fa-solid fa-certificate"></i></div><h3>Certificate & LOR</h3><p>Receive a completion certificate and letter of recommendation that stands out on your resume and LinkedIn profile.</p></div>
+  </div>
+</section>
+
+<!-- HIRING PROCESS -->
+<section class="process-section">
+  <div class="section-header reveal"><div class="section-tag">HOW IT WORKS</div><h2>Our <span>Hiring Process</span></h2></div>
+  <div class="timeline">
+    <div class="timeline-step reveal reveal-scale reveal-delay-1"><div class="step-circle"><i class="fa-solid fa-paper-plane"></i><span class="step-num">1</span></div><h4>Apply Online</h4><p>Submit your application and resume through our careers portal.</p></div>
+    <div class="timeline-step reveal reveal-scale reveal-delay-2"><div class="step-circle"><i class="fa-solid fa-list-check"></i><span class="step-num">2</span></div><h4>Shortlisting</h4><p>Our team reviews applications. We respond within 5–7 business days.</p></div>
+    <div class="timeline-step reveal reveal-scale reveal-delay-3"><div class="step-circle"><i class="fa-solid fa-comments"></i><span class="step-num">3</span></div><h4>Interview</h4><p>A short technical or portfolio interview with our core team. Friendly, not stressful.</p></div>
+    <div class="timeline-step reveal reveal-scale reveal-delay-4"><div class="step-circle"><i class="fa-solid fa-handshake"></i><span class="step-num">4</span></div><h4>Offer & Onboard</h4><p>Get your offer letter and join the mission. Welcome to the team!</p></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="section-header reveal"><div class="section-tag">WHAT THEY SAY</div><h2>Hear From Our <span>Past Interns</span></h2></div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal reveal-left reveal-delay-1"><span class="quote-icon">"</span><div class="stars">★★★★★</div><p>My internship at Bright Aerospace was unlike anything I expected from a 3-month program. I was working on actual propulsion test data from week one — not just making slides or fetching coffee. The mentorship was incredible and I left with a portfolio piece I still talk about in every interview.</p><div class="testimonial-author"><div class="author-avatar">A</div><div class="author-info"><h4>Arjun Mehta</h4><span>Propulsion Intern · IIT Bombay, 2024</span></div></div></div>
+    <div class="testimonial-card reveal reveal-delay-2"><span class="quote-icon">"</span><div class="stars">★★★★★</div><p>I joined as a GNC intern expecting to learn theory, but I ended up writing real Python scripts for trajectory simulation that the team actually used. The remote culture was seamless, and my mentor always made time for questions. Got a stellar LOR and a PPO at the end!</p><div class="testimonial-author"><div class="author-avatar">P</div><div class="author-info"><h4>Priya Nair</h4><span>GNC Intern · NIT Trichy, 2024</span></div></div></div>
+    <div class="testimonial-card reveal reveal-right reveal-delay-3"><span class="quote-icon">"</span><div class="stars">★★★★★</div><p>As a final-year student, I wasn't sure if I was ready for a technical role. The team at Bright Aerospace helped me grow fast — pair programming sessions, weekly reviews, and a culture that celebrates curiosity. It genuinely changed the direction of my career.</p><div class="testimonial-author"><div class="author-avatar">R</div><div class="author-info"><h4>Rohan Kapoor</h4><span>Avionics Intern · VIT Vellore, 2023</span></div></div></div>
+  </div>
+</section>
+
+<!-- APPLY MODAL -->
+<div class="modal-overlay" id="applyModal">
+  <div class="modal-box">
+    <div class="modal-header"><h2>Apply for <span id="modalJobTitle"></span></h2><button class="close-modal" onclick="closeApply()">×</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Full Name <span style="color:#e53935">*</span></label><input type="text" id="field-name" placeholder="Your full name"/><span class="field-error" id="err-name">Please enter your full name.</span></div>
+      <div class="form-group"><label>Email Address <span style="color:#e53935">*</span></label><input type="email" id="field-email" placeholder="you@email.com"/><span class="field-error" id="err-email">Please enter a valid email address.</span></div>
+      <div class="form-group"><label>Phone Number <span style="color:#e53935">*</span></label><input type="tel" id="field-phone" placeholder="+91 XXXXX XXXXX"/><span class="field-error" id="err-phone">Please enter your phone number.</span></div>
+      <div class="form-group"><label>College / University <span style="color:#e53935">*</span></label><input type="text" id="field-college" placeholder="Your institution"/><span class="field-error" id="err-college">Please enter your college or university.</span></div>
+      <div class="form-group"><label>Resume / CV <span style="color:#e53935">*</span></label>
+        <div class="file-upload" id="fileUploadWrap">
+          <input type="file" id="field-resume" accept=".pdf,.doc,.docx" onchange="handleFile(this)"/>
+          <div class="file-label"><i class="fa-solid fa-upload"></i><span id="fileText">Upload PDF or DOC</span></div>
+        </div>
+        <span class="field-error" id="err-resume">Please upload your resume.</span>
+      </div>
+      <div class="form-group"><label>Why do you want to join? <span style="color:#aaa;font-size:11px;">(optional)</span></label><textarea id="field-why" placeholder="Tell us a bit about yourself and why this role excites you..."></textarea></div>
+    </div>
+    <div class="modal-footer"><button class="btn-gray" onclick="closeApply()">Cancel</button><button class="btn-yellow" onclick="submitApply()">Submit Application</button></div>
+  </div>
+</div>
+
+<!-- SHARE MODAL -->
+<div class="share-modal-overlay" id="shareModal">
+  <div class="share-modal-box">
+    <h3>Share this Role</h3>
+    <p id="shareJobTitle" style="font-family:'Koulen',sans-serif;font-size:14px;color:var(--text);margin-bottom:14px;"></p>
+    <div class="share-link-row">
+      <input type="text" id="shareLinkInput" readonly/>
+      <button class="btn-yellow" style="padding:9px 16px;font-size:12px;" onclick="copyLink()">Copy</button>
+    </div>
+    <div class="share-icons">
+      <a class="share-icon-btn" id="shareWhatsapp" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+      <a class="share-icon-btn" id="shareLinkedin" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a class="share-icon-btn" id="shareTwitter"  target="_blank"><i class="fa-brands fa-twitter"></i></a>
+      <a class="share-icon-btn" id="shareEmail"><i class="fa-solid fa-envelope"></i></a>
+    </div>
+    <div class="share-modal-footer"><button class="btn-gray" onclick="closeShare()">Close</button></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="footer-content">
+    <div class="footer-logo"><img src="logo.png" width="90" height="90" style="border-radius:50%;object-fit:cover;"/></div>
+    <div class="footer-section"><h4>Contact Us</h4><div class="contact-grid"><div class="contact-col"><span>Core Committee</span><span>Sudarsan P</span><span>+91 1234567890</span></div><div class="contact-col"><br><span>Sudarsan P</span><span>+91 1234567890</span></div><div class="contact-col"><br><span>Sudarsan P</span><span>+91 1234567890</span></div></div></div>
+    <div class="footer-section" style="margin-left:auto;"><h4 style="color:#FFD700;text-transform:none;font-weight:normal;">Tech Support</h4></div>
+  </div>
+  <div class="social-links"><span>Follow Us On</span><a href="#"><i class="fa-brands fa-twitter"></i></a><a href="#"><i class="fa-brands fa-facebook"></i></a><a href="#"><i class="fa-brands fa-youtube"></i></a><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-linkedin"></i></a></div>
+  <button class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fa-solid fa-arrow-up"></i> Back to Top</button>
+</footer>
+
+<script>
+  /* ══ DROPDOWN ══ */
+function toggleDropdown(e) {
+  e.preventDefault();
+  document.querySelector('.dropdown-menu').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.dropdown')) document.querySelector('.dropdown-menu').classList.remove('open');
+});
+
+/* ══ COUNTERS ══ */
+function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target, 10), suffix = el.dataset.suffix || '', duration = 1400, start = performance.now();
+  function tick(now) {
+    const p = Math.min((now - start) / duration, 1);
+    el.textContent = Math.round(easeOutCubic(p) * target) + suffix;
+    if (p < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      el.textContent = target + suffix;
+      el.classList.add('pop');
+      el.addEventListener('animationend', () => el.classList.remove('pop'), { once: true });
+    }
+  }
+  requestAnimationFrame(tick);
+}
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.counter').forEach(animateCounter);
+      statsObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.6 });
+const heroStats = document.querySelector('.hero-stats');
+if (heroStats) statsObserver.observe(heroStats);
+
+/* ══ SCROLL REVEAL ══ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* card stagger */
+const cardObserver = new IntersectionObserver((entries) => {
+  let delay = 0;
+  entries.forEach(e => {
+    if (e.isIntersecting && !e.target._rev) {
+      e.target.style.animationDelay = delay + 'ms';
+      e.target._rev = 1; delay += 60;
+      cardObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.job-card').forEach(card => {
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(20px)';
+  card.style.transition = 'opacity .5s ease, transform .5s ease';
+  cardObserver.observe(card);
+});
+
+function revealVisibleCards() {
+  document.querySelectorAll('.job-card:not(.hidden)').forEach((card, i) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }, i * 55);
+  });
+}
+
+/* timeline line fill */
+new IntersectionObserver((entries, obs) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.timeline-step').forEach((s, i) =>
+        setTimeout(() => s.classList.add('line-filled'), i * 280)
+      );
+      obs.disconnect();
+    }
+  });
+}, { threshold: 0.4 }).observe(document.querySelector('.timeline'));
+
+/* ══ FILTERS ══ */
+let activeType = 'all', activeDept = 'all';
+
+function setFilter(ft, v, btn) {
+  if (ft === 'type') activeType = v; else activeDept = v;
+  document.querySelectorAll(`[data-filter-type="${ft}"]`).forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  let vis = 0;
+  document.querySelectorAll('.job-card').forEach(card => {
+    const ok = (activeType === 'all' || card.dataset.type === activeType) &&
+               (activeDept === 'all' || card.dataset.dept === activeDept) &&
+               (!q || (card.dataset.keywords + ' ' + card.querySelector('.job-title').textContent).toLowerCase().includes(q));
+    card.classList.toggle('hidden', !ok);
+    if (ok) vis++;
+  });
+  document.getElementById('resultsCount').innerHTML = `<strong>${vis}</strong> role${vis !== 1 ? 's' : ''}`;
+  document.getElementById('noResults').classList.toggle('visible', vis === 0);
+  revealVisibleCards();
+}
+
+/* ══ APPLY MODAL ══ */
+function openApply(title) {
+  document.getElementById('modalJobTitle').textContent = title;
+  document.getElementById('applyModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  clearFormErrors();
+}
+
+function closeApply() {
+  document.getElementById('applyModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('applyModal').addEventListener('click', function (e) {
+  if (e.target === this) closeApply();
+});
+
+function handleFile(input) {
+  document.getElementById('fileText').textContent = input.files[0] ? input.files[0].name : 'Upload PDF or DOC';
+}
+
+function clearFormErrors() {
+  document.querySelectorAll('.field-error').forEach(el => el.classList.remove('visible'));
+  document.querySelectorAll('.form-group input').forEach(el => el.classList.remove('error'));
+  document.getElementById('fileUploadWrap').classList.remove('error');
+}
+
+function validateEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+['field-name', 'field-email', 'field-phone', 'field-college'].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', () => {
+    if (el.value.trim()) {
+      el.classList.remove('error');
+      const errEl = document.getElementById('err-' + id.replace('field-', ''));
+      if (errEl) errEl.classList.remove('visible');
+    }
+  });
+});
+
+function submitApply() {
+  clearFormErrors();
+  let valid = true;
+  const n = document.getElementById('field-name').value.trim();
+  const e = document.getElementById('field-email').value.trim();
+  const p = document.getElementById('field-phone').value.trim();
+  const c = document.getElementById('field-college').value.trim();
+  const r = document.getElementById('field-resume').files[0];
+
+  if (!n)                  { document.getElementById('field-name').classList.add('error');    document.getElementById('err-name').classList.add('visible');    valid = false; }
+  if (!e || !validateEmail(e)) { document.getElementById('field-email').classList.add('error');   document.getElementById('err-email').classList.add('visible');   valid = false; }
+  if (!p)                  { document.getElementById('field-phone').classList.add('error');   document.getElementById('err-phone').classList.add('visible');   valid = false; }
+  if (!c)                  { document.getElementById('field-college').classList.add('error'); document.getElementById('err-college').classList.add('visible'); valid = false; }
+  if (!r)                  { document.getElementById('fileUploadWrap').classList.add('error'); document.getElementById('err-resume').classList.add('visible'); valid = false; }
+
+  if (!valid) {
+    const box = document.querySelector('.modal-box');
+    box.style.animation = 'none';
+    box.offsetHeight;
+    box.style.animation = 'shake .4s ease';
+    return;
+  }
+
+  closeApply();
+  toast('<i class="fa-solid fa-circle-check"></i> Application submitted successfully!');
+  ['field-name', 'field-email', 'field-phone', 'field-college'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('field-resume').value = '';
+  document.getElementById('fileText').textContent = 'Upload PDF or DOC';
+  document.getElementById('field-why').value = '';
+}
+
+/* ══ SHARE ══ */
+function openShare(title) {
+  const u = 'https://brightaerospace.in/careers?role=' + encodeURIComponent(title.toLowerCase().replace(/\s+/g, '-'));
+  const m = 'Check out this role at Bright Aerospace: ' + title + ' — ' + u;
+  document.getElementById('shareJobTitle').textContent = title;
+  document.getElementById('shareLinkInput').value = u;
+  document.getElementById('shareWhatsapp').href  = 'https://wa.me/?text=' + encodeURIComponent(m);
+  document.getElementById('shareLinkedin').href  = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(u);
+  document.getElementById('shareTwitter').href   = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(m);
+  document.getElementById('shareEmail').href     = 'mailto:?subject=' + encodeURIComponent('Job: ' + title) + '&body=' + encodeURIComponent(m);
+  document.getElementById('shareModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeShare() {
+  document.getElementById('shareModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('shareModal').addEventListener('click', function (e) {
+  if (e.target === this) closeShare();
+});
+
+function copyLink() {
+  document.getElementById('shareLinkInput').select();
+  document.execCommand('copy');
+  toast('<i class="fa-solid fa-link"></i> Link copied to clipboard!');
+}
+
+/* ══ TOAST ══ */
+let toastTimer;
+function toast(html) {
+  const t = document.getElementById('toast');
+  t.innerHTML = html;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+/* ══ SCROLL TO FOOTER ══ */
+function scrollToFooter() {
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  setTimeout(() => document.getElementById('footer').scrollIntoView({ behavior: 'smooth' }), 50);
+}
+
+/* ══ MAGNETIC APPLY BUTTONS ══ */
+document.querySelectorAll('.apply-btn').forEach(btn => {
+  btn.addEventListener('mousemove', function (e) {
+    const rc = this.getBoundingClientRect();
+    this.style.transform = `translate(${(e.clientX - rc.left - rc.width / 2) * .18}px,${(e.clientY - rc.top - rc.height / 2) * .18}px)`;
+  });
+  btn.addEventListener('mouseleave', function () { this.style.transform = ''; });
+});
+
+/* ══ RIPPLE ON FILTER BUTTONS ══ */
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function (e) {
+    const r = document.createElement('span'), rc = this.getBoundingClientRect(), sz = Math.max(rc.width, rc.height);
+    r.style.cssText = `position:absolute;border-radius:50%;width:${sz}px;height:${sz}px;left:${e.clientX - rc.left - sz / 2}px;top:${e.clientY - rc.top - sz / 2}px;background:rgba(250,219,15,.35);transform:scale(0);animation:rippleOut .5s ease forwards;pointer-events:none`;
+    this.appendChild(r);
+    r.addEventListener('animationend', () => r.remove());
+  });
+});
+
+/* ══ PARALLAX GRID ON HERO ══ */
+const hero = document.querySelector('.career-hero');
+if (hero) {
+  window.addEventListener('scroll', () => {
+    hero.style.backgroundPositionY = window.scrollY * 0.3 + 'px';
+  }, { passive: true });
+}
+
+/* ══ INJECTED KEYFRAMES ══ */
+document.head.insertAdjacentHTML('beforeend', `<style>
+  @keyframes shake { 0%,100%{transform:translateX(0)} 15%{transform:translateX(-8px)} 30%{transform:translateX(7px)} 45%{transform:translateX(-5px)} 60%{transform:translateX(4px)} 75%{transform:translateX(-2px)} }
+  @keyframes rippleOut { to{transform:scale(2.5);opacity:0} }
+</style>`);
+</script>
+</body>
+</html>

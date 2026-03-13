@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bright Aerospace</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Koulen&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet"/>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #fff;
+    font-family: 'Open Sans', sans-serif;
+    color: #111;
+}
+
+/* ── TOP BAR ── */
+.top-bar {
+    background: #FFD400;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    gap: 18px;
+}
+
+.top-bar span {
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: lowercase;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.top-bar span.active {
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: #000;
+    text-underline-offset: 3px;
+}
+
+/* ── NAVBAR ── */
+nav {
+  background: #111111;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 60px;
+  position: sticky; top: 0; z-index: 100;
+}
+.nav-logo {
+  width: 42px; height: 42px; background: #F5C800;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+}
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  color: #ccc; text-decoration: none; font-size: 13px;
+  letter-spacing: 1px; text-transform: uppercase;
+  font-family: 'Koulen', sans-serif; transition: color .2s;
+}
+.nav-links a:hover { color: #F5C800; }
+.nav-right { display: flex; align-items: center; gap: 14px; }
+.nav-bell { color: #ccc; font-size: 18px; cursor: pointer; }
+.nav-avatar {
+  width: 34px; height: 34px; background: #F5C800;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; color: #111111;
+}
+.login-btn {
+  background: #F5C800; color: #111111;
+  border: none; padding: 7px 20px; border-radius: 4px;
+  font-family: 'Koulen', sans-serif; font-size: 13px;
+  letter-spacing: 1px; text-transform: uppercase;
+  cursor: pointer; transition: background 0.2s;
+}
+.login-btn:hover { background: #e0b800; }
+
+/* ── MAIN ── */
+.main {
+    min-height: calc(100vh - 26px - 72px - 260px);
+    background: #fff;
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 340px;
+}
+
+.form-container h2 {
+    font-size: 19px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 2px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.subtitle {
+    font-size: 11.5px;
+    color: #FFD400;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.already {
+    font-size: 11.5px;
+    color: #555;
+    margin-bottom: 16px;
+}
+
+.already span {
+    color: #FFD400;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+label {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 3px;
+}
+
+.req { color: red; margin-left: 2px; }
+
+input[type="email"],
+input[type="text"],
+input[type="tel"],
+input[type="password"] {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1.5px solid #bbb;
+    border-radius: 4px;
+    font-size: 13px;
+    outline: none;
+    margin-bottom: 11px;
+    font-family: 'Open Sans', sans-serif;
+    background: #fff;
+    transition: border-color 0.2s;
+}
+
+input:focus { border-color: #FFD400; }
+
+.password-wrap { position: relative; }
+
+.password-wrap input { padding-right: 34px; }
+
+.password-wrap i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-65%);
+    cursor: pointer;
+    color: #aaa;
+    font-size: 12px;
+}
+
+.continue-btn {
+    width: 100%;
+    padding: 11px;
+    background: #FFD400;
+    border: none;
+    border-radius: 4px;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 2px;
+    margin-bottom: 8px;
+    font-family: 'Open Sans', sans-serif;
+    transition: background 0.2s;
+    letter-spacing: 0.2px;
+}
+
+.continue-btn:hover { background: #e6bf00; }
+
+.or-divider {
+    text-align: center;
+    font-size: 11px;
+    color: #888;
+    margin: 4px 0 9px;
+}
+
+.social-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 9px 14px;
+    border: 1.5px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 7px;
+    font-family: 'Open Sans', sans-serif;
+    transition: background 0.2s;
+    color: #111;
+}
+
+.social-btn:hover { background: #f5f5f5; }
+
+.icon-wrap {
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.terms {
+    font-size: 11px;
+    color: #888;
+    margin-top: 10px;
+    line-height: 1.55;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.terms input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    margin: 0;
+    margin-top: 1px;
+    accent-color: #FFD400;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+/* ── FOOTER ── */
+footer {
+    background: #000;
+    color: #fff;
+    padding: 36px 50px 30px;
+}
+
+.footer-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 36px;
+    margin-bottom: 28px;
+}
+
+.footer-logo {
+    width: 130px;
+    height: 130px;
+    background: #FFD400;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 58px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.footer-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.footer-contact {
+    flex: 1;
+}
+
+.footer-contact h3 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 6px;
+    border-left: 3px solid #FFD400;
+    padding-left: 8px;
+}
+
+.core-label {
+    color: #FFD400;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.members {
+    display: flex;
+    gap: 36px;
+    flex-wrap: wrap;
+}
+
+.member {
+    font-size: 12px;
+    color: #ccc;
+    line-height: 1.8;
+}
+
+.member p:first-child {
+    color: #fff;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.tech-support {
+    color: #FFD400;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'Open Sans', sans-serif;
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.follow-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #fff;
+    white-space: nowrap;
+    margin-right: 4px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.social-icons a {
+    width: 36px;
+    height: 36px;
+    background: #FFD400;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.social-icons a:hover {
+    background: #fff;
+    transform: translateY(-2px);
+}
+
+.hidden { display: none; }
+
+#toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #333;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    display: none;
+    z-index: 9999;
+}
+
+#scrollTop {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #FFD400;
+    border: none;
+    padding: 9px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    font-size: 15px;
+}
+/* ── COMMUNITY FOOTER STYLES ── */
+footer { background: #111111; color: #fff; padding: 40px 40px 28px; }
+.footer-inner { max-width: 1000px; margin: 0 auto; }
+.footer-top { display: flex; gap: 60px; align-items: flex-start; margin-bottom: 32px; }
+.footer-logo-circle { width: 90px; height: 90px; background: #F5C800; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.footer-contact { flex: 1; }
+.footer-contact h3 { font-family: 'Koulen', sans-serif; font-size: 18px; letter-spacing: 1px; text-transform: uppercase; color: #fff; margin-bottom: 6px; }
+.footer-contact h4 { color: #F5C800; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.footer-contacts-row { display: flex; gap: 32px; }
+.footer-person p { font-size: 13px; color: #fff; }
+.footer-person span { font-size: 12px; color: rgba(255,255,255,0.6); }
+.footer-tech { margin-left: auto; color: #F5C800; font-weight: 600; font-size: 14px; padding-top: 28px; }
+.footer-bottom { border-top: 1px solid #333; padding-top: 18px; display: flex; align-items: center; gap: 16px; }
+.footer-bottom p { font-size: 12px; color: #888; letter-spacing: .5px; text-transform: uppercase; }
+.social-links { display: flex; gap: 12px; }
+.social-link { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #555; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 13px; text-decoration: none; transition: border-color .2s, color .2s; }
+.social-link:hover { border-color: #F5C800; color: #F5C800; }
+    </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+    <span class="active">Learner</span>
+    <span>organization</span>
+    <span>business</span>
+</div>
+
+<nav>
+  <div class="nav-logo">
+    <img src="logo.png" alt="Logo" style="width:30px;height:30px;border-radius:50%;"/>
+  </div>
+  <ul class="nav-links">
+    <li><a href="landing_page.html">Home</a></li>
+    <li><a href="courses.html">Courses</a></li>
+    <li><a href="community.html">Community</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="more.html">More</a></li>
+    <li><a href="#footer">Contact Us</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-bell"></span>
+  </div>
+</nav>
+<!-- MAIN -->
+<div class="main">
+
+    <!-- SIGNUP FORM -->
+    <div class="form-container" id="signupForm">
+        <h2>Log in or create account</h2>
+        <p class="subtitle">learn from our industry backed courses.</p>
+        <p class="already">Already have an account? <span onclick="showLogin()">Sign in</span></p>
+
+        <form id="signup">
+            <label>Email <span class="req">*</span></label>
+            <input type="email" required>
+
+            <label>Full Name <span class="req">*</span></label>
+            <input type="text" required>
+
+            <label>Phone <span class="req">*</span></label>
+            <input type="tel" required>
+
+            <label>password <span class="req">*</span></label>
+            <div class="password-wrap">
+                <input type="password" id="signupPassword" required>
+                <i class="fa fa-eye" onclick="togglePassword('signupPassword')"></i>
+            </div>
+
+            <button type="submit" class="continue-btn">continue</button>
+        </form>
+
+        <div class="or-divider">or</div>
+
+        <button class="social-btn">
+            <span class="icon-wrap"><i class="fab fa-google" style="color:#EA4335;font-size:14px;"></i></span>
+            continue with google
+        </button>
+        <button class="social-btn">
+            <span class="icon-wrap"><i class="fab fa-facebook" style="color:#1877F2;font-size:14px;"></i></span>
+            continue with facebook
+        </button>
+        <button class="social-btn">
+            <span class="icon-wrap"><i class="fa fa-graduation-cap" style="color:#555;font-size:13px;"></i></span>
+            continue with organization
+        </button>
+
+        <label class="terms">
+            <input type="checkbox" required>
+            I accept Bright Aerospace's terms and conditions and privacy policy
+        </label>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div class="form-container hidden" id="loginForm">
+        <h2>Welcome back !</h2>
+        <p class="subtitle">continue your learning journey</p>
+        <p class="already">Don't have an account? <span onclick="showSignup()">Sign Up</span></p>
+
+        <form id="login">
+            <label>Email <span class="req">*</span></label>
+            <input type="email" required>
+
+            <label>password <span class="req">*</span></label>
+            <div class="password-wrap">
+                <input type="password" id="loginPassword" required>
+                <i class="fa fa-eye" onclick="togglePassword('loginPassword')"></i>
+            </div>
+
+            <button type="submit" class="continue-btn">continue</button>
+        </form>
+
+        <div class="or-divider">or</div>
+
+        <button class="social-btn">
+            <span class="icon-wrap"><i class="fab fa-google" style="color:#EA4335;font-size:14px;"></i></span>
+            continue with google
+        </button>
+        <button class="social-btn">
+            <span class="icon-wrap"><i class="fab fa-facebook" style="color:#1877F2;font-size:14px;"></i></span>
+            continue with facebook
+        </button>
+        <button class="social-btn">
+            <span class="icon-wrap"><i class="fa fa-graduation-cap" style="color:#555;font-size:13px;"></i></span>
+            continue with organization
+        </button>
+
+        <label class="terms">
+            <input type="checkbox" required>
+            I accept Bright Aerospace's terms and conditions and privacy policy
+        </label>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-logo-circle">
+        <img src="logo.png" width="100" height="100" style="object-fit:cover; border-radius:50%;">
+      </div>
+      <div class="footer-contact">
+        <h3>Contact Us</h3>
+        <h4>Core Committee</h4>
+        <div class="footer-contacts-row">
+          <div class="footer-person">
+            <p>Sudarsan P</p>
+            <span>+91 1234567890</span>
+          </div>
+          <div class="footer-person">
+            <p>Sudarsan P</p>
+            <span>+91 1234567890</span>
+          </div>
+          <div class="footer-person">
+            <p>Sudarsan P</p>
+            <span>+91 1234567890</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-tech">Tech Support</div>
+    </div>
+    <div class="footer-bottom">
+      <p>Follow Us On</p>
+      <div class="social-links">
+        <a href="#" class="social-link" title="Twitter">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.737l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="#" class="social-link" title="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="#" class="social-link" title="YouTube">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+        </a>
+        <a href="#" class="social-link" title="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <a href="#" class="social-link" title="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button id="scrollTop">↑</button>
+<div id="toast"></div>
+
+<script>
+    function showSignup() {
+    document.getElementById("loginForm").classList.add("hidden");
+    document.getElementById("signupForm").classList.remove("hidden");
+}
+
+function showLogin() {
+    document.getElementById("signupForm").classList.add("hidden");
+    document.getElementById("loginForm").classList.remove("hidden");
+}
+
+function togglePassword(id) {
+    let input = document.getElementById(id);
+    let icon = input.nextElementSibling;
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+    } else {
+        input.type = "password";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+    }
+}
+
+function showToast(message) {
+    let toast = document.getElementById("toast");
+    toast.innerText = message;
+    toast.style.display = "block";
+    setTimeout(() => { toast.style.display = "none"; }, 3000);
+}
+
+document.getElementById("login").addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    const email = this.querySelector('input[type="email"]').value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+
+    const CORRECT_EMAIL = "brightaerospace@gmail.com";      // ← change this
+    const CORRECT_PASSWORD = "brightaerospace";      // ← change this
+    const REDIRECT_PAGE = "profile.html";    // ← change this
+
+    if (email === CORRECT_EMAIL && password === CORRECT_PASSWORD) {
+        showToast("Login Successful");
+        setTimeout(() => {
+            window.location.href = REDIRECT_PAGE;
+        }, 1000);
+    } else {
+        showToast("Invalid email or password");
+    }
+});
+
+document.getElementById("signup").addEventListener("submit", function(e) {
+    e.preventDefault();
+    showToast("Account Created Successfully 🎉");
+});
+
+let scrollBtn = document.getElementById("scrollTop");
+window.onscroll = function() {
+    scrollBtn.style.display = document.documentElement.scrollTop > 200 ? "block" : "none";
+};
+scrollBtn.onclick = function() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+};
+document.querySelectorAll('a[href="#footer"]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('footer').scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+</script>
+</body>
+</html>

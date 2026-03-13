@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mission Test – Basics of Space Flight</title>
+  <link href="https://fonts.googleapis.com/css2?family=Koulen&family=Rowdies:wght@400;700&family=Secular+One&family=Sedan&display=swap" rel="stylesheet"/>
+  <style>
+    /* ══════════════════════════════════════════
+   RESET & ROOT
+══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --yellow: #F5C800;
+  --black: #111111;
+  --border: #e0e0e0;
+  --text: #222222;
+  --muted: #666;
+  --bg: #f2f2f2;
+  --green: #22c55e;
+  --red: #ef4444;
+  --orange: #f97316;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Sedan', serif; color: var(--text); background: var(--bg); }
+
+/* ══════════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════════ */
+nav {
+  background: var(--black);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 60px;
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 3px 0 var(--yellow), 0 4px 20px rgba(245,200,0,.1);
+}
+.nav-logo { width: 42px; height: 42px; background: var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { color: #ccc; text-decoration: none; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; font-family: 'Koulen', sans-serif; transition: color .2s; }
+.nav-links a:hover { color: var(--yellow); }
+.nav-right { display: flex; align-items: center; gap: 14px; }
+.nav-bell { color: #ccc; font-size: 18px; }
+.nav-avatar { width: 34px; height: 34px; background: var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; color: var(--black); }
+
+/* ══════════════════════════════════════════
+   PAGE HEADER
+══════════════════════════════════════════ */
+.page-header {
+  background: var(--black); padding: 36px 40px 28px;
+  border-bottom: 3px solid var(--yellow);
+  position: relative; overflow: hidden;
+}
+.page-header::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 8% 20%, rgba(255,255,255,.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 22% 65%, rgba(255,255,255,.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 38% 12%, rgba(255,255,255,.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 52% 78%, rgba(255,255,255,.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 68% 30%, rgba(255,255,255,.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 82% 52%, rgba(255,255,255,.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 91% 8%, rgba(255,255,255,.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 14% 88%, rgba(255,255,255,.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 62% 92%, rgba(255,255,255,.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 77% 75%, rgba(255,255,255,.3) 0%, transparent 100%);
+  pointer-events: none;
+}
+.page-header-inner { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
+.test-badge { display: inline-block; font-family: 'Secular One', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--black); background: var(--yellow); padding: 3px 10px; border-radius: 3px; margin-bottom: 12px; }
+.page-title { font-family: 'Rowdies', cursive; font-size: 28px; color: #fff; margin-bottom: 6px; }
+.page-sub { font-family: 'Sedan', serif; font-size: 13px; color: #aaa; }
+
+/* ══════════════════════════════════════════
+   QUIZ WRAP
+══════════════════════════════════════════ */
+.quiz-wrap { max-width: 760px; margin: 36px auto; padding: 0 24px 60px; display: flex; flex-direction: column; gap: 24px; }
+
+/* ══════════════════════════════════════════
+   PROGRESS
+══════════════════════════════════════════ */
+.progress-header { display: flex; align-items: center; gap: 16px; }
+.progress-track { flex: 1; height: 10px; background: #ddd; border-radius: 10px; position: relative; overflow: visible; }
+.progress-fill { height: 100%; width: 0%; background: var(--yellow); border-radius: 10px; transition: width .5s ease; }
+.progress-rocket { position: absolute; top: 50%; left: 0%; transform: translate(-50%, -50%); font-size: 20px; transition: left .5s ease; filter: drop-shadow(0 0 6px rgba(245,200,0,.5)); z-index: 2; }
+.progress-label { font-family: 'Koulen', sans-serif; font-size: 16px; color: var(--black); white-space: nowrap; min-width: 48px; text-align: right; }
+
+/* ══════════════════════════════════════════
+   TIMER
+══════════════════════════════════════════ */
+.timer-wrap { display: flex; justify-content: center; align-items: center; position: relative; width: 72px; height: 72px; margin: 0 auto; }
+.timer-ring { width: 72px; height: 72px; transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: #e0e0e0; stroke-width: 5; }
+.ring-fg { fill: none; stroke: var(--yellow); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 163.4; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear, stroke .3s; }
+.ring-fg.danger { stroke: var(--red); }
+.timer-count { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Koulen', sans-serif; font-size: 22px; color: var(--black); line-height: 1; }
+.timer-count.danger { color: var(--red); }
+
+/* ══════════════════════════════════════════
+   QUESTION CARD
+══════════════════════════════════════════ */
+.question-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 28px 32px; box-shadow: 0 4px 24px rgba(0,0,0,.06); animation: fadeUp .35s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.q-unit-badge { display: inline-block; background: var(--black); color: var(--yellow); font-family: 'Koulen', sans-serif; font-size: 11px; padding: 3px 12px; border-radius: 4px; letter-spacing: 1px; margin-bottom: 6px; }
+.q-type-label { font-family: 'Secular One', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.question-text { font-family: 'Rowdies', cursive; font-size: 20px; color: var(--black); line-height: 1.5; margin-bottom: 24px; }
+
+/* ══════════════════════════════════════════
+   MCQ OPTIONS
+══════════════════════════════════════════ */
+.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+.option-btn { background: #f8f8f8; border: 2px solid var(--border); border-radius: 10px; padding: 14px 16px; font-family: 'Sedan', serif; font-size: 14px; color: var(--text); cursor: pointer; text-align: left; transition: all .2s; display: flex; align-items: center; gap: 12px; line-height: 1.4; }
+.option-btn:hover { border-color: var(--yellow); background: #fffde7; }
+.option-btn.selected { border-color: var(--yellow); background: #fffde7; }
+.option-letter { width: 28px; height: 28px; border-radius: 50%; background: var(--black); color: var(--yellow); font-family: 'Koulen', sans-serif; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .2s, color .2s; }
+.option-btn.selected .option-letter { background: var(--yellow); color: var(--black); }
+
+/* ══════════════════════════════════════════
+   FILL IN THE BLANK
+══════════════════════════════════════════ */
+.fitb-wrap { margin-bottom: 28px; }
+.fitb-input { width: 100%; border: 2px solid var(--border); border-radius: 10px; padding: 14px 18px; font-family: 'Sedan', serif; font-size: 16px; color: var(--text); outline: none; transition: border-color .2s; background: #f8f8f8; }
+.fitb-input:focus { border-color: var(--yellow); background: #fffde7; }
+
+/* ══════════════════════════════════════════
+   QUESTION NAV
+══════════════════════════════════════════ */
+.q-nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.q-dot-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.q-dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; transition: background .3s, transform .2s; }
+.q-dot.answered { background: var(--yellow); }
+.q-dot.current  { background: var(--black); transform: scale(1.25); }
+
+.next-btn { background: var(--yellow); border: none; border-radius: 8px; padding: 12px 28px; font-family: 'Koulen', sans-serif; font-size: 16px; color: var(--black); cursor: pointer; transition: background .2s, transform .15s; white-space: nowrap; }
+.next-btn:hover { background: #e0b800; transform: translateX(3px); }
+
+.submit-btn { display: none; background: var(--black); border: none; border-radius: 8px; padding: 12px 28px; font-family: 'Koulen', sans-serif; font-size: 16px; color: var(--yellow); cursor: pointer; transition: background .2s, transform .15s; white-space: nowrap; }
+.submit-btn:hover { background: #222; transform: translateY(-2px); }
+
+/* ══════════════════════════════════════════
+   RESULT PANEL
+══════════════════════════════════════════ */
+.result-panel { display: none; flex-direction: column; gap: 24px; }
+
+.result-hero { background: var(--black); border-radius: 14px; padding: 48px 32px; text-align: center; position: relative; overflow: hidden; border: 3px solid var(--yellow); }
+.result-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 8% 20%, rgba(255,255,255,.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 20% 70%, rgba(255,255,255,.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 35% 15%, rgba(255,255,255,.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 80%, rgba(255,255,255,.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 40%, rgba(255,255,255,.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 78% 65%, rgba(255,255,255,.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 20%, rgba(255,255,255,.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 80%, rgba(255,255,255,.4) 0%, transparent 100%);
+  pointer-events: none;
+}
+.result-hero-inner { position: relative; z-index: 1; }
+.result-emoji { font-size: 56px; margin-bottom: 14px; display: block; animation: bounce 1s ease infinite alternate; }
+@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+.result-rank { font-family: 'Koulen', sans-serif; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--yellow); margin-bottom: 10px; }
+.result-score-big { font-family: 'Rowdies', cursive; font-size: 52px; color: #fff; line-height: 1; margin-bottom: 8px; }
+.result-percent { font-family: 'Secular One', sans-serif; font-size: 15px; color: #aaa; margin-bottom: 14px; }
+.result-message { font-family: 'Sedan', serif; font-size: 14px; color: #ccc; max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+/* ── Stat Cards ── */
+.score-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.stat-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px 16px; text-align: center; border-top: 4px solid transparent; }
+.correct-card { border-top-color: var(--green); }
+.wrong-card   { border-top-color: var(--red); }
+.skipped-card { border-top-color: var(--orange); }
+.time-card    { border-top-color: var(--yellow); }
+.stat-num { font-family: 'Rowdies', cursive; font-size: 32px; color: var(--black); line-height: 1; margin-bottom: 6px; }
+.stat-label { font-family: 'Secular One', sans-serif; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+
+/* ── Section Title ── */
+.result-section-title { font-family: 'Secular One', sans-serif; font-size: 12px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--black); font-weight: 400; display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.result-section-title::before { content: ''; display: block; width: 4px; height: 18px; background: var(--yellow); border-radius: 2px; flex-shrink: 0; }
+.result-section-title::after  { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── Answer Review ── */
+.answer-review-list { display: flex; flex-direction: column; gap: 14px; }
+.review-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px 22px; border-left: 5px solid var(--border); animation: fadeUp .3s ease; }
+.review-item.correct { border-left-color: var(--green); }
+.review-item.wrong   { border-left-color: var(--red); }
+.review-item.skipped { border-left-color: var(--orange); }
+.review-item-header  { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+.review-q-num { font-family: 'Koulen', sans-serif; font-size: 12px; color: var(--muted); letter-spacing: 1px; }
+.review-status { font-family: 'Secular One', sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 2px 10px; border-radius: 4px; }
+.review-status.correct { background: #dcfce7; color: #16a34a; }
+.review-status.wrong   { background: #fee2e2; color: #dc2626; }
+.review-status.skipped { background: #ffedd5; color: #c2410c; }
+.review-unit-tag { margin-left: auto; background: var(--black); color: var(--yellow); font-family: 'Koulen', sans-serif; font-size: 10px; padding: 2px 10px; border-radius: 3px; letter-spacing: 1px; }
+.review-question { font-family: 'Rowdies', cursive; font-size: 14px; color: var(--black); margin-bottom: 10px; line-height: 1.5; }
+.review-answers  { display: flex; flex-direction: column; gap: 5px; }
+.review-answer-row { display: flex; align-items: flex-start; gap: 10px; font-family: 'Sedan', serif; font-size: 13px; line-height: 1.5; }
+.review-answer-label { font-family: 'Secular One', sans-serif; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; padding-top: 2px; }
+.review-answer-label.your    { color: var(--muted); }
+.review-answer-label.correct { color: var(--green); }
+.review-answer-val { color: #444; }
+.review-answer-val.your-wrong  { color: var(--red); text-decoration: line-through; }
+.review-answer-val.correct-ans { color: var(--green); font-weight: 600; }
+
+/* ── Result Actions ── */
+.result-actions { display: flex; gap: 14px; }
+.retry-btn { background: var(--black); border: none; border-radius: 8px; padding: 13px 28px; font-family: 'Koulen', sans-serif; font-size: 16px; color: var(--yellow); cursor: pointer; transition: background .2s, transform .15s; }
+.retry-btn:hover { background: #222; transform: translateY(-2px); }
+.next-lesson-btn { background: var(--yellow); border: none; border-radius: 8px; padding: 13px 28px; font-family: 'Koulen', sans-serif; font-size: 16px; color: var(--black); cursor: pointer; transition: background .2s, transform .15s; }
+.next-lesson-btn:hover { background: #e0b800; transform: translateX(3px); }
+
+/* ══════════════════════════════════════════
+   SAVE STATUS BADGE
+══════════════════════════════════════════ */
+.save-status { display: inline-flex; align-items: center; gap: 8px; font-family: 'Secular One', sans-serif; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 14px; border-radius: 6px; border: 1px solid; }
+.save-status.saving  { background: #fffde7; border-color: var(--yellow); color: #8a6c00; }
+.save-status.saved   { background: #dcfce7; border-color: #86efac; color: #15803d; }
+.save-status.failed  { background: #fee2e2; border-color: #fca5a5; color: #b91c1c; }
+.save-status .dot    { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.save-status.saving .dot { animation: pulse 1s ease infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+footer { background: var(--black); color: #ccc; padding: 40px 40px 28px; margin-top: 0; }
+.footer-inner { max-width: 820px; margin: 0 auto; display: flex; gap: 60px; align-items: flex-start; }
+.footer-logo { width: 90px; height: 90px; background: var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; flex-shrink: 0; }
+.footer-contact h3 { font-family: 'Secular One', sans-serif; font-size: 18px; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; color: #fff; margin-bottom: 6px; }
+.footer-committee-label { color: var(--yellow); font-size: 13px; margin-bottom: 8px; }
+.footer-contacts { display: flex; gap: 24px; font-size: 12px; color: #aaa; }
+.footer-contacts div { line-height: 1.7; }
+.footer-support { margin-left: auto; font-size: 13px; color: #aaa; padding-top: 28px; }
+.footer-bottom { max-width: 820px; margin: 24px auto 0; border-top: 1px solid #333; padding-top: 18px; display: flex; align-items: center; gap: 16px; }
+.footer-bottom span { font-size: 12px; color: #888; letter-spacing: .5px; text-transform: uppercase; font-family: 'Koulen', sans-serif; }
+.social-icons { display: flex; gap: 10px; }
+.social-icons a { width: 34px; height: 34px; border-radius: 6px; background: #222; border: 1px solid #444; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 13px; text-decoration: none; transition: background .2s; }
+.social-icons a:hover { background: var(--yellow); border-color: var(--yellow); color: var(--black); }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+  nav { padding: 0 16px; }
+  .options-grid { grid-template-columns: 1fr; }
+  .score-stats { grid-template-columns: 1fr 1fr; }
+  .result-actions { flex-direction: column; }
+  .footer-inner { flex-direction: column; gap: 24px; }
+  .footer-support { margin-left: 0; padding-top: 0; }
+}
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo">
+    <img src="logo.png" alt="Logo" style="width:28px;height:28px;object-fit:contain;border-radius:50%;"/>
+  </div>
+  <ul class="nav-links">
+    <li><a href="landing_page.html">Home</a></li>
+    <li><a href="courses.html" style="color:var(--yellow);">Courses</a></li>
+    <li><a href="community.html">Community</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="more.html">More</a></li>
+    <li><a href="#footer">Contact Us</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-bell">🔔</span>
+    <div class="nav-avatar">A</div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     PAGE HEADER
+══════════════════════════════════════════ -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="test-badge">Mission Test</div>
+    <div class="page-title">Basics of Space Flight</div>
+    <div class="page-sub">10 Questions &nbsp;·&nbsp; 50 sec per question &nbsp;·&nbsp; Multiple Choice &amp; Fill in the Blanks</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     QUIZ WRAP
+══════════════════════════════════════════ -->
+<div class="quiz-wrap">
+
+  <!-- QUIZ SECTION -->
+  <div id="quizSection">
+
+    <!-- Progress Bar -->
+    <div class="progress-header">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-rocket" id="progressRocket">🚀</div>
+      </div>
+      <div class="progress-label"><span id="qNum">1</span> / 10</div>
+    </div>
+
+    <!-- Timer -->
+    <div class="timer-wrap">
+      <svg class="timer-ring" viewBox="0 0 60 60">
+        <circle class="ring-bg" cx="30" cy="30" r="26"/>
+        <circle class="ring-fg" id="ringFg" cx="30" cy="30" r="26"/>
+      </svg>
+      <div class="timer-count" id="timerCount">50</div>
+    </div>
+
+    <!-- Question Card -->
+    <div class="question-card" id="questionCard">
+      <div class="q-unit-badge" id="qUnitBadge">UNIT I</div>
+      <div class="q-type-label" id="qTypeLabel">Multiple Choice</div>
+      <div class="question-text" id="questionText"></div>
+
+      <!-- MCQ Options -->
+      <div class="options-grid" id="optionsGrid"></div>
+
+      <!-- Fill in the Blank -->
+      <div class="fitb-wrap" id="fitbWrap" style="display:none;">
+        <input class="fitb-input" id="fitbInput" type="text" placeholder="Type your answer here..." autocomplete="off"/>
+      </div>
+
+      <!-- Nav Row -->
+      <div class="q-nav">
+        <div class="q-dot-row" id="qDotRow"></div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <button class="next-btn"   id="nextBtn"   onclick="nextQuestion()">Next →</button>
+          <button class="submit-btn" id="submitBtn" onclick="submitQuiz()">🚀 Submit &amp; View Result</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /quizSection -->
+
+  <!-- RESULT SECTION -->
+  <div class="result-panel" id="resultPanel">
+
+    <!-- Hero -->
+    <div class="result-hero" id="resultHero">
+      <div class="result-hero-inner">
+        <span class="result-emoji"    id="resultEmoji">🚀</span>
+        <div class="result-rank"      id="resultRank"></div>
+        <div class="result-score-big" id="resultScoreBig"></div>
+        <div class="result-percent"   id="resultPercent"></div>
+        <div class="result-message"   id="resultMessage"></div>
+        <div style="margin-top:18px;" id="saveStatusWrap"></div>
+      </div>
+    </div>
+
+    <!-- Score Breakdown -->
+    <div class="result-section-title">Score Breakdown</div>
+    <div class="score-stats">
+      <div class="stat-card correct-card"><div class="stat-num" id="statCorrect">0</div><div class="stat-label">Correct</div></div>
+      <div class="stat-card wrong-card">  <div class="stat-num" id="statWrong">0</div>  <div class="stat-label">Wrong</div></div>
+      <div class="stat-card skipped-card"><div class="stat-num" id="statSkipped">0</div><div class="stat-label">Skipped</div></div>
+      <div class="stat-card time-card">   <div class="stat-num" id="statTime">0s</div>  <div class="stat-label">Avg Time</div></div>
+    </div>
+
+    <!-- Answer Review -->
+    <div class="result-section-title" style="margin-top:8px;">Answer Review</div>
+    <div class="answer-review-list" id="answerReviewList"></div>
+
+    <!-- Actions -->
+    <div class="result-actions">
+      <button class="retry-btn"       onclick="retryQuiz()">↩ Retry Mission</button>
+      <button class="next-lesson-btn" onclick="alert('Coming soon!')">Next Lesson →</button>
+    </div>
+
+  </div><!-- /resultPanel -->
+
+</div><!-- /quiz-wrap -->
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer id ="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <img src="logo.png" alt="Logo" style="width:60px;height:60px;object-fit:contain;border-radius:50%;"/>
+    </div>
+    <div class="footer-contact">
+      <h3>Contact Us</h3>
+      <div class="footer-committee-label">Core Committee</div>
+      <div class="footer-contacts">
+        <div>Sudarsan P<br>+91 1234567890</div>
+        <div>Sudarsan P<br>+91 1234567890</div>
+        <div>Sudarsan P<br>+91 1234567890</div>
+      </div>
+    </div>
+    <div class="footer-support">Tech Support</div>
+  </div>
+  <div class="footer-bottom">
+    <span>Follow Us On</span>
+    <div class="social-icons">
+      <a href="#">𝕏</a><a href="#">f</a><a href="#">▶</a><a href="#">◎</a><a href="#">in</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ══════════════════════════════════════════════════════════════════
+   RESULT STORAGE LAYER
+   ══════════════════════════════════════════════════════════════════
+
+   SCHEMA — every completed attempt produces:
+   {
+     quizId:      "basics-of-space-flight",
+     courseId:    "space-flight-101",
+     studentId:   null,                      ← inject from auth
+     attemptId:   "uuid-v4-string",
+     submittedAt: "2025-01-01T12:00:00.000Z",
+     durationSec: 320,
+     score: {
+       correct: 7, wrong: 2, skipped: 1,
+       total: 10, percentage: 70,
+       rank: "Astronaut"   (Commander/Astronaut/Cadet/Trainee)
+     },
+     timing: {
+       perQuestion: [12, 30, 8, ...],
+       avgPerQuestion: 18
+     },
+     answers: [
+       { questionIndex, unit, type, question,
+         correctAnswer, studentAnswer, status }
+     ]
+   }
+
+   BACKEND INTEGRATION
+   ─────────────────────────────────────────────────────────────────
+   1. Inject student ID (from your auth context):
+        QuizResultStore.studentId = currentUser.id;
+
+   2. Enable API posting:
+        QuizResultStore.apiEnabled = true;
+
+   3. Replace _sendToAPI() body with your fetch/axios call:
+        QuizResultStore._sendToAPI = async (payload) => {
+          const res = await fetch('/api/quiz/submit', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+            },
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) throw new Error('Server ' + res.status);
+          return res.json();
+        };
+
+   EVENTS EMITTED
+     quizResultSaved  → { detail: resultPayload }
+     quizResultFailed → { detail: { error, payload } }
+
+   LOCAL STORAGE
+     Key: "quizResults" — array of all attempts (fallback/offline cache)
+     Access: QuizResultStore.getAllLocalResults()
+     Clear:  QuizResultStore.clearLocalResults()
+══════════════════════════════════════════════════════════════════ */
+
+const QuizResultStore = {
+
+  /* ── CONFIG (backend team fills these in) ── */
+  studentId:   null,
+  quizId:      'basics-of-space-flight',
+  courseId:    'space-flight-101',
+  apiEnabled:  false,
+  apiEndpoint: '/api/quiz/submit',
+
+  lastResult: null,
+  _localStorageKey: 'quizResults',
+
+  save(payload) {
+    this.lastResult = payload;
+    this._saveToLocalStorage(payload);
+    this._updateSaveStatusUI('saving');
+
+    if (this.apiEnabled) {
+      this._sendToAPI(payload)
+        .then(() => {
+          this._updateSaveStatusUI('saved');
+          window.dispatchEvent(new CustomEvent('quizResultSaved', { detail: payload }));
+        })
+        .catch(err => {
+          console.error('[QuizResultStore] API save failed:', err);
+          this._updateSaveStatusUI('failed');
+          window.dispatchEvent(new CustomEvent('quizResultFailed', { detail: { error: err, payload } }));
+        });
+    } else {
+      setTimeout(() => this._updateSaveStatusUI('saved'), 600);
+      window.dispatchEvent(new CustomEvent('quizResultSaved', { detail: payload }));
+    }
+  },
+
+  /* BACKEND DEVS: replace this body with your real API call */
+  async _sendToAPI(payload) {
+    // ↓↓↓ REPLACE THIS BLOCK ↓↓↓
+    const response = await fetch(this.apiEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) throw new Error('Server returned ' + response.status);
+    return response.json();
+    // ↑↑↑ REPLACE THIS BLOCK ↑↑↑
+  },
+
+  _saveToLocalStorage(payload) {
+    try {
+      const existing = JSON.parse(localStorage.getItem(this._localStorageKey) || '[]');
+      existing.push(payload);
+      localStorage.setItem(this._localStorageKey, JSON.stringify(existing));
+    } catch (e) {
+      console.warn('[QuizResultStore] localStorage write failed:', e);
+    }
+  },
+
+  getAllLocalResults() {
+    try { return JSON.parse(localStorage.getItem(this._localStorageKey) || '[]'); }
+    catch { return []; }
+  },
+
+  clearLocalResults() { localStorage.removeItem(this._localStorageKey); },
+
+  _updateSaveStatusUI(state) {
+    const wrap = document.getElementById('saveStatusWrap');
+    if (!wrap) return;
+    const labels = {
+      saving: '⏳ &nbsp;Saving your result…',
+      saved:  '✔ &nbsp;Result saved successfully',
+      failed: '⚠ &nbsp;Save failed – result stored locally'
+    };
+    wrap.innerHTML = `<span class="save-status ${state}"><span class="dot"></span>${labels[state]}</span>`;
+  },
+
+  _uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      const r = Math.random() * 16 | 0;
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  }
+};
+
+window.QuizResultStore = QuizResultStore;
+
+
+/* ══════════════════════════════════════════
+   QUESTIONS DATA
+══════════════════════════════════════════ */
+const questions = [
+  {
+    unit: 'UNIT I', type: 'mcq',
+    question: 'What is the primary characteristic of the space environment that makes it hostile to humans?',
+    options: ['High gravity', 'Vacuum, radiation, and temperature extremes', 'Excessive oxygen', 'Strong magnetic storms'],
+    answer: 'Vacuum, radiation, and temperature extremes'
+  },
+  {
+    unit: 'UNIT I', type: 'fitb',
+    question: 'The condition of apparent weightlessness experienced in orbit is called ________.',
+    answer: 'microgravity'
+  },
+  {
+    unit: 'UNIT II', type: 'mcq',
+    question: "Which orbit places a satellite at ~35,786 km so it matches Earth's rotation period?",
+    options: ['Low Earth Orbit (LEO)', 'Medium Earth Orbit (MEO)', 'Geostationary Orbit (GEO)', 'Highly Elliptical Orbit (HEO)'],
+    answer: 'Geostationary Orbit (GEO)'
+  },
+  {
+    unit: 'UNIT II', type: 'fitb',
+    question: 'The minimum velocity needed to escape Earth\'s gravitational pull is called ________ velocity.',
+    answer: 'escape'
+  },
+  {
+    unit: 'UNIT II', type: 'mcq',
+    question: 'A Hohmann transfer orbit is used to:',
+    options: [
+      'Slow a spacecraft for re-entry',
+      'Transfer between two circular orbits using two engine burns',
+      'Achieve escape velocity from a planet',
+      'Calculate the mass of a celestial body'
+    ],
+    answer: 'Transfer between two circular orbits using two engine burns'
+  },
+  {
+    unit: 'UNIT III', type: 'mcq',
+    question: 'Which spacecraft subsystem maintains the correct orientation in space?',
+    options: ['Thermal Control System', 'Command and Data Handling', 'Attitude Determination and Control System (ADCS)', 'Propulsion System'],
+    answer: 'Attitude Determination and Control System (ADCS)'
+  },
+  {
+    unit: 'UNIT III', type: 'fitb',
+    question: 'RTG stands for Radioisotope ________ Generator, used to power deep-space spacecraft.',
+    answer: 'thermoelectric'
+  },
+  {
+    unit: 'UNIT IV', type: 'mcq',
+    question: 'The Chandrayaan-3 mission was launched by which space agency?',
+    options: ['NASA', 'ESA', 'ISRO', 'Roscosmos'],
+    answer: 'ISRO'
+  },
+  {
+    unit: 'UNIT IV', type: 'mcq',
+    question: 'What protects a spacecraft from extreme heat during atmospheric re-entry?',
+    options: ['Solar array', 'Heat shield', 'Reaction wheel', 'Star tracker'],
+    answer: 'Heat shield'
+  },
+  {
+    unit: 'UNIT I', type: 'fitb',
+    question: 'The two radiation belts surrounding Earth are called the ________ Allen Belts.',
+    answer: 'van'
+  }
+];
+
+
+/* ══════════════════════════════════════════
+   SHUFFLE HELPERS
+══════════════════════════════════════════ */
+
+// Fisher-Yates shuffle — returns a new array, does not mutate original
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Shuffles questions within each unit (unit order preserved).
+// MCQ options are also shuffled; the correct answer string travels with the question.
+function buildShuffledQuestions() {
+  const unitOrder = [];
+  questions.forEach(q => { if (!unitOrder.includes(q.unit)) unitOrder.push(q.unit); });
+
+  const byUnit = {};
+  unitOrder.forEach(u => { byUnit[u] = []; });
+  questions.forEach(q => byUnit[q.unit].push(q));
+
+  const result = [];
+  unitOrder.forEach(unit => {
+    shuffleArray(byUnit[unit]).forEach(q => {
+      result.push(q.type === 'mcq'
+        ? { ...q, options: shuffleArray(q.options) }
+        : { ...q }
+      );
+    });
+  });
+  return result;
+}
+
+
+/* ══════════════════════════════════════════
+   STATE
+══════════════════════════════════════════ */
+let activeQuestions = buildShuffledQuestions();
+let currentQ        = 0;
+let userAnswers     = new Array(activeQuestions.length).fill(null);
+let timeTaken       = new Array(activeQuestions.length).fill(50);
+let quizStartTime   = Date.now();
+let timerInterval;
+let timeLeft        = 50;
+
+const TOTAL_TIME    = 50;
+const CIRCUMFERENCE = 2 * Math.PI * 26;
+
+
+/* ══════════════════════════════════════════
+   DOM REFS
+══════════════════════════════════════════ */
+const qUnitBadge     = document.getElementById('qUnitBadge');
+const qTypeLabel     = document.getElementById('qTypeLabel');
+const questionText   = document.getElementById('questionText');
+const optionsGrid    = document.getElementById('optionsGrid');
+const fitbWrap       = document.getElementById('fitbWrap');
+const fitbInput      = document.getElementById('fitbInput');
+const nextBtn        = document.getElementById('nextBtn');
+const submitBtn      = document.getElementById('submitBtn');
+const timerCount     = document.getElementById('timerCount');
+const ringFg         = document.getElementById('ringFg');
+const progressFill   = document.getElementById('progressFill');
+const progressRocket = document.getElementById('progressRocket');
+const qNum           = document.getElementById('qNum');
+const qDotRow        = document.getElementById('qDotRow');
+
+
+/* ══════════════════════════════════════════
+   BUILD DOTS
+══════════════════════════════════════════ */
+function buildDots() {
+  qDotRow.innerHTML = '';
+  activeQuestions.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'q-dot'
+      + (i === currentQ ? ' current' : '')
+      + (userAnswers[i] !== null && i !== currentQ ? ' answered' : '');
+    qDotRow.appendChild(d);
+  });
+}
+
+
+/* ══════════════════════════════════════════
+   RENDER QUESTION
+══════════════════════════════════════════ */
+function renderQuestion() {
+  const q = activeQuestions[currentQ];
+
+  const card = document.getElementById('questionCard');
+  card.style.animation = 'none';
+  void card.offsetHeight;
+  card.style.animation = 'fadeUp .35s ease';
+
+  qUnitBadge.textContent   = q.unit;
+  qTypeLabel.textContent   = q.type === 'mcq' ? 'Multiple Choice' : 'Fill in the Blank';
+  questionText.textContent = q.question;
+
+  if (q.type === 'mcq') {
+    optionsGrid.style.display = 'grid';
+    fitbWrap.style.display    = 'none';
+    optionsGrid.innerHTML     = '';
+    ['A', 'B', 'C', 'D'].forEach((letter, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn' + (userAnswers[currentQ] === q.options[i] ? ' selected' : '');
+      btn.innerHTML = `<span class="option-letter">${letter}</span>${q.options[i]}`;
+      btn.addEventListener('click', () => selectOption(q.options[i], btn));
+      optionsGrid.appendChild(btn);
+    });
+  } else {
+    optionsGrid.style.display = 'none';
+    fitbWrap.style.display    = 'block';
+    fitbInput.value = userAnswers[currentQ] !== null ? userAnswers[currentQ] : '';
+    setTimeout(() => fitbInput.focus(), 80);
+  }
+
+  const pct = (currentQ / activeQuestions.length) * 100;
+  progressFill.style.width  = pct + '%';
+  progressRocket.style.left = pct + '%';
+  qNum.textContent = currentQ + 1;
+
+  if (currentQ === activeQuestions.length - 1) {
+    nextBtn.style.display   = 'none';
+    submitBtn.style.display = 'inline-block';
+  } else {
+    nextBtn.style.display   = 'inline-block';
+    submitBtn.style.display = 'none';
+  }
+
+  buildDots();
+  startTimer();
+}
+
+
+/* ══════════════════════════════════════════
+   SELECT MCQ OPTION
+══════════════════════════════════════════ */
+function selectOption(val, btn) {
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  userAnswers[currentQ] = val;
+}
+
+
+/* ══════════════════════════════════════════
+   TIMER
+══════════════════════════════════════════ */
+function startTimer() {
+  clearInterval(timerInterval);
+  timeLeft = TOTAL_TIME;
+  updateTimerUI();
+
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimerUI();
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      captureFitb();
+      timeTaken[currentQ] = TOTAL_TIME;
+      currentQ === activeQuestions.length - 1 ? submitQuiz() : nextQuestion();
+    }
+  }, 1000);
+}
+
+function updateTimerUI() {
+  timerCount.textContent = timeLeft;
+  ringFg.style.strokeDashoffset = CIRCUMFERENCE * (1 - timeLeft / TOTAL_TIME);
+  const isDanger = timeLeft <= 10;
+  ringFg.classList.toggle('danger', isDanger);
+  timerCount.classList.toggle('danger', isDanger);
+}
+
+
+/* ══════════════════════════════════════════
+   CAPTURE FILL-IN-THE-BLANK
+══════════════════════════════════════════ */
+function captureFitb() {
+  if (activeQuestions[currentQ].type === 'fitb') {
+    const val = fitbInput.value.trim();
+    userAnswers[currentQ] = val !== '' ? val : null;
+  }
+}
+
+
+/* ══════════════════════════════════════════
+   NEXT QUESTION
+══════════════════════════════════════════ */
+function nextQuestion() {
+  timeTaken[currentQ] = TOTAL_TIME - timeLeft;
+  clearInterval(timerInterval);
+  captureFitb();
+  currentQ++;
+  renderQuestion();
+}
+
+
+/* ══════════════════════════════════════════
+   SUBMIT QUIZ
+══════════════════════════════════════════ */
+function submitQuiz() {
+  timeTaken[currentQ] = TOTAL_TIME - timeLeft;
+  clearInterval(timerInterval);
+  captureFitb();
+
+  document.getElementById('quizSection').style.display = 'none';
+  const panel = document.getElementById('resultPanel');
+  panel.style.display = 'flex';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  /* ── Grade ── */
+  let correct = 0, wrong = 0, skipped = 0;
+  const answersForPayload = [];
+
+  const results = activeQuestions.map((q, i) => {
+    const ua = userAnswers[i];
+    let status = 'skipped';
+    if (!ua || ua.trim() === '') {
+      skipped++;
+    } else if (ua.toLowerCase().trim() === q.answer.toLowerCase().trim()) {
+      correct++; status = 'correct';
+    } else {
+      wrong++; status = 'wrong';
+    }
+    answersForPayload.push({
+      questionIndex: i,
+      unit: q.unit, type: q.type,
+      question: q.question,
+      correctAnswer: q.answer,
+      studentAnswer: ua || null,
+      status
+    });
+    return { ...q, userAnswer: ua, status };
+  });
+
+  const pct         = Math.round((correct / activeQuestions.length) * 100);
+  const avgTime     = Math.round(timeTaken.reduce((a, b) => a + b, 0) / timeTaken.length);
+  const totalDuration = Math.round((Date.now() - quizStartTime) / 1000);
+
+  /* ── Rank ── */
+  const rankData =
+    pct >= 90 ? { rank: 'Commander', emoji: '🌟', msg: 'Outstanding! You have mastered the basics of space flight. The stars are yours.' }
+  : pct >= 70 ? { rank: 'Astronaut', emoji: '🚀', msg: 'Excellent work! Your knowledge of space flight is stellar. Keep pushing further.' }
+  : pct >= 50 ? { rank: 'Cadet',     emoji: '🛸', msg: "Good effort, Cadet! Review the units you missed and you'll reach orbit in no time." }
+  :             { rank: 'Trainee',   emoji: '☄️', msg: 'Mission needs improvement. Revisit the course material and try again.' };
+
+  /* ── Update result UI ── */
+  document.getElementById('resultEmoji').textContent    = rankData.emoji;
+  document.getElementById('resultRank').textContent     = rankData.rank;
+  document.getElementById('resultScoreBig').textContent = `${correct} / ${activeQuestions.length}`;
+  document.getElementById('resultPercent').textContent  = `${pct}% Correct`;
+  document.getElementById('resultMessage').textContent  = rankData.msg;
+
+  const hero = document.getElementById('resultHero');
+  hero.style.background = pct >= 70 ? '#081a08' : pct < 50 ? '#1a0808' : 'var(--black)';
+
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent   = wrong;
+  document.getElementById('statSkipped').textContent = skipped;
+  document.getElementById('statTime').textContent    = avgTime + 's';
+
+  /* ── Build & save result payload ── */
+  const resultPayload = {
+    quizId:      QuizResultStore.quizId,
+    courseId:    QuizResultStore.courseId,
+    studentId:   QuizResultStore.studentId,
+    attemptId:   QuizResultStore._uuid(),
+    submittedAt: new Date().toISOString(),
+    durationSec: totalDuration,
+    score: { correct, wrong, skipped, total: activeQuestions.length, percentage: pct, rank: rankData.rank },
+    timing: { perQuestion: [...timeTaken], avgPerQuestion: avgTime },
+    answers: answersForPayload
+  };
+  QuizResultStore.save(resultPayload);
+
+  /* ── Answer Review ── */
+  const reviewList = document.getElementById('answerReviewList');
+  reviewList.innerHTML = '';
+  results.forEach((r, i) => {
+    const item = document.createElement('div');
+    item.className = `review-item ${r.status}`;
+    const statusLabel = r.status === 'correct' ? '✔ Correct' : r.status === 'wrong' ? '✘ Wrong' : '— Skipped';
+
+    let answersHtml = '';
+    if (r.status === 'correct') {
+      answersHtml = `<div class="review-answer-row">
+        <span class="review-answer-label your">Your Answer:</span>
+        <span class="review-answer-val">${r.userAnswer}</span>
+      </div>`;
+    } else if (r.status === 'wrong') {
+      answersHtml = `
+        <div class="review-answer-row">
+          <span class="review-answer-label your">Your Answer:</span>
+          <span class="review-answer-val your-wrong">${r.userAnswer}</span>
+        </div>
+        <div class="review-answer-row">
+          <span class="review-answer-label correct">Correct Answer:</span>
+          <span class="review-answer-val correct-ans">${r.answer}</span>
+        </div>`;
+    } else {
+      answersHtml = `
+        <div class="review-answer-row">
+          <span class="review-answer-label your">Your Answer:</span>
+          <span class="review-answer-val" style="color:var(--orange);">Not answered</span>
+        </div>
+        <div class="review-answer-row">
+          <span class="review-answer-label correct">Correct Answer:</span>
+          <span class="review-answer-val correct-ans">${r.answer}</span>
+        </div>`;
+    }
+
+    item.innerHTML = `
+      <div class="review-item-header">
+        <span class="review-q-num">Q${i + 1}</span>
+        <span class="review-status ${r.status}">${statusLabel}</span>
+        <span class="review-unit-tag">${r.unit}</span>
+      </div>
+      <div class="review-question">${r.question}</div>
+      <div class="review-answers">${answersHtml}</div>`;
+    reviewList.appendChild(item);
+  });
+}
+
+
+/* ══════════════════════════════════════════
+   RETRY
+══════════════════════════════════════════ */
+function retryQuiz() {
+  activeQuestions = buildShuffledQuestions();   // fresh shuffle every retry
+  currentQ        = 0;
+  userAnswers     = new Array(activeQuestions.length).fill(null);
+  timeTaken       = new Array(activeQuestions.length).fill(50);
+  quizStartTime   = Date.now();
+
+  document.getElementById('resultPanel').style.display  = 'none';
+  document.getElementById('quizSection').style.display  = 'block';
+  document.getElementById('saveStatusWrap').innerHTML   = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  renderQuestion();
+}
+
+
+/* ══════════════════════════════════════════
+   KEYBOARD SHORTCUTS
+══════════════════════════════════════════ */
+document.addEventListener('keydown', e => {
+  if (document.getElementById('quizSection').style.display === 'none') return;
+  const q = activeQuestions[currentQ];
+
+  if (q.type === 'mcq') {
+    const map = { a: 0, b: 1, c: 2, d: 3 };
+    const idx = map[e.key.toLowerCase()];
+    if (idx !== undefined) {
+      const btns = document.querySelectorAll('.option-btn');
+      if (btns[idx]) btns[idx].click();
+    }
+    if (e.key === 'Enter') currentQ === activeQuestions.length - 1 ? submitQuiz() : nextQuestion();
+  }
+  if (q.type === 'fitb' && e.key === 'Enter') {
+    currentQ === activeQuestions.length - 1 ? submitQuiz() : nextQuestion();
+  }
+});
+
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+renderQuestion();
+document.querySelectorAll('a[href="#footer"]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('footer').scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>

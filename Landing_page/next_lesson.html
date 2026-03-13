@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rocket Propulsion - Video</title>
+  <link href="https://fonts.googleapis.com/css2?family=Koulen&family=Rowdies:wght@400;700&family=Secular+One&family=Sedan&display=swap" rel="stylesheet"/>
+  <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --yellow: #F5C800;
+  --black: #111111;
+  --white: #ffffff;
+  --border: #e0e0e0;
+  --text: #222222;
+  --muted: #666;
+  --bg: #f5f5f5;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Sedan', serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* ── NAVBAR ── */
+nav {
+  background: var(--black);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 60px;
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 3px 0 var(--yellow), 0 4px 20px rgba(245,200,0,.1);
+}
+.nav-logo {
+  width: 42px; height: 42px; background: var(--yellow);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px;
+}
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  color: #ccc; text-decoration: none; font-size: 13px;
+  letter-spacing: 1px; text-transform: uppercase;
+  font-family: 'Koulen', sans-serif; transition: color .2s;
+}
+.nav-links a:hover { color: var(--yellow); }
+.nav-right { display: flex; align-items: center; gap: 14px; }
+.nav-bell { color: #ccc; font-size: 18px; cursor: pointer; }
+.nav-avatar {
+  width: 34px; height: 34px; background: var(--yellow);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; color: var(--black);
+}
+
+/* ── MAIN LAYOUT ── */
+.main-layout {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+/* ── LEFT COLUMN ── */
+.left-col { display: flex; flex-direction: column; gap: 20px; }
+
+/* ── VIDEO PLAYER ── */
+.video-player-wrap {
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 16/9;
+  box-shadow: 0 8px 30px rgba(0,0,0,.3);
+}
+
+.video-space-bg {
+  width: 100%; height: 100%;
+  background: radial-gradient(ellipse at 40% 60%, #1a1a4e 0%, #0a0a1a 60%, #000 100%);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+
+/* Orbit animation */
+.orbit-container { position: relative; width: 220px; height: 220px; }
+.orbit {
+  position: absolute; border: 1px solid rgba(255,255,255,.12);
+  border-radius: 50%; top: 50%; left: 50%;
+}
+.orbit-1 { width: 90px; height: 55px; margin: -27px 0 0 -45px; animation: orbit1 4s linear infinite; }
+.orbit-2 { width: 180px; height: 110px; margin: -55px 0 0 -90px; animation: orbit2 7s linear infinite; }
+.sun { width: 18px; height: 18px; background: var(--yellow); border-radius: 50%; box-shadow: 0 0 24px var(--yellow); position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.planet { width: 8px; height: 8px; border-radius: 50%; position: absolute; }
+.planet-1 { background: #4fa; top: 0; left: 50%; transform: translateX(-50%); }
+.planet-2 { background: #88aaff; top: 0; left: 50%; transform: translateX(-50%); }
+@keyframes orbit1 { from { transform: rotate(0deg) rotateX(60deg); } to { transform: rotate(360deg) rotateX(60deg); } }
+@keyframes orbit2 { from { transform: rotate(0deg) rotateX(60deg); } to { transform: rotate(360deg) rotateX(60deg); } }
+
+/* Play button */
+.play-btn {
+  position: absolute; z-index: 3;
+  width: 64px; height: 64px;
+  background: rgba(255,255,255,.92);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: transform .2s, background .2s;
+  border: none;
+}
+.play-btn:hover { transform: scale(1.1); background: var(--yellow); }
+.play-btn svg { margin-left: 5px; }
+
+/* Controls bar */
+.video-controls {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,.85));
+  padding: 20px 16px 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+
+.progress-wrap {
+  display: flex; align-items: center; gap: 10px;
+}
+
+.progress-bar {
+  flex: 1; height: 4px;
+  background: rgba(255,255,255,.25);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+}
+.progress-fill {
+  height: 100%; width: 0%;
+  background: var(--yellow);
+  border-radius: 2px;
+  transition: width .1s linear;
+}
+.progress-thumb {
+  width: 12px; height: 12px;
+  background: var(--yellow);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%; left: 0%;
+  transform: translate(-50%, -50%);
+  transition: left .1s linear;
+}
+
+/* Chapter markers on progress bar */
+.chapter-marker {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  width: 3px; height: 10px;
+  background: rgba(255,255,255,.7);
+  border-radius: 2px;
+  cursor: pointer;
+  z-index: 2;
+}
+.chapter-marker:hover::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: 16px; left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,.85);
+  color: #fff;
+  font-size: 10px;
+  font-family: 'Sedan', serif;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Quality selector */
+.quality-wrap { position: relative; }
+.quality-btn {
+  background: rgba(255,255,255,.15);
+  border: none; color: #fff;
+  font-size: 11px; font-family: 'Koulen', sans-serif;
+  padding: 3px 8px; border-radius: 4px;
+  cursor: pointer; transition: background .2s;
+}
+.quality-btn:hover { background: var(--yellow); color: var(--black); }
+.quality-dropdown {
+  display: none;
+  position: absolute;
+  bottom: 32px; right: 0;
+  background: rgba(20,20,20,.96);
+  border: 1px solid #444;
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 90px;
+  z-index: 100;
+}
+.quality-dropdown.open { display: block; }
+.quality-option {
+  padding: 8px 14px;
+  font-size: 12px;
+  font-family: 'Sedan', serif;
+  color: #ccc;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.quality-option:hover { background: rgba(245,200,0,.15); color: var(--yellow); }
+.quality-option.active { color: var(--yellow); }
+.quality-option.active::after { content: '✓'; font-size: 11px; }
+
+/* Seek 10s buttons */
+.seek-btn {
+  background: none; border: none; color: #ccc;
+  cursor: pointer; font-size: 10px;
+  font-family: 'Koulen', sans-serif;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 1px; padding: 4px; transition: color .2s;
+  line-height: 1;
+}
+.seek-btn:hover { color: var(--yellow); }
+.seek-btn svg { display: block; }
+
+/* Double-click flash */
+.dbl-flash {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  background: rgba(255,255,255,.18);
+  border-radius: 50%;
+  width: 70px; height: 70px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 5;
+  transition: opacity .3s;
+}
+.dbl-flash.show { opacity: 1; }
+
+.time-label { font-size: 11px; color: #ccc; white-space: nowrap; font-family: 'Sedan', serif; }
+
+.controls-row {
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.controls-left { display: flex; align-items: center; gap: 14px; }
+.controls-right { display: flex; align-items: center; gap: 14px; }
+
+.ctrl-btn {
+  background: none; border: none; color: #ccc;
+  cursor: pointer; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  transition: color .2s;
+  padding: 4px;
+}
+.ctrl-btn:hover { color: var(--yellow); }
+
+.volume-wrap { display: flex; align-items: center; gap: 6px; }
+.volume-bar {
+  width: 60px; height: 3px;
+  background: rgba(255,255,255,.25);
+  border-radius: 2px; cursor: pointer;
+  position: relative;
+}
+.volume-fill { width: 75%; height: 100%; background: #fff; border-radius: 2px; transition: width .05s; }
+.volume-thumb {
+  width: 10px; height: 10px;
+  background: #fff; border-radius: 50%;
+  position: absolute; top: 50%; left: 75%;
+  transform: translate(-50%, -50%);
+  transition: left .05s;
+}
+
+.speed-btn {
+  background: rgba(255,255,255,.15);
+  border: none; color: #fff;
+  font-size: 11px; font-family: 'Koulen', sans-serif;
+  padding: 3px 8px; border-radius: 4px;
+  cursor: pointer; transition: background .2s;
+}
+.speed-btn:hover { background: var(--yellow); color: var(--black); }
+
+/* ── VIDEO INFO ── */
+.video-info {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+}
+
+.video-title {
+  font-family: 'Rowdies', cursive;
+  font-size: 22px;
+  color: var(--black);
+  margin-bottom: 6px;
+}
+
+.video-meta {
+  font-family: 'Sedan', serif;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.video-actions {
+  display: flex; gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.action-pill {
+  display: flex; align-items: center; gap: 6px;
+  background: #f5f5f5;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-family: 'Secular One', sans-serif;
+  cursor: pointer;
+  color: var(--text);
+  transition: background .2s, border-color .2s, color .2s;
+}
+.action-pill:hover, .action-pill.active {
+  background: var(--yellow);
+  border-color: var(--yellow);
+  color: var(--black);
+}
+
+.next-btn {
+  margin-left: auto;
+  background: var(--yellow);
+  border: none; border-radius: 20px;
+  padding: 7px 20px;
+  font-family: 'Koulen', sans-serif;
+  font-size: 14px; color: var(--black);
+  cursor: pointer;
+  display: flex; align-items: center; gap: 6px;
+  transition: background .2s, transform .15s;
+}
+.next-btn:hover { background: #e0b800; transform: translateX(3px); }
+
+/* ── DESCRIPTION ── */
+.description-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+}
+
+.desc-title {
+  font-family: 'Secular One', sans-serif;
+  font-size: 15px; color: var(--black);
+  margin-bottom: 12px; font-weight: 400;
+}
+
+.desc-text {
+  font-size: 13.5px; line-height: 1.8;
+  color: #444;
+}
+
+.desc-tags {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.desc-tag {
+  background: #f0f0f0;
+  border-radius: 14px;
+  padding: 4px 12px;
+  font-size: 12px; color: var(--muted);
+  font-family: 'Sedan', serif;
+}
+
+/* ── COMMENTS ── */
+.comments-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+}
+
+.comments-title {
+  font-family: 'Secular One', sans-serif;
+  font-size: 15px; color: var(--black);
+  margin-bottom: 16px; font-weight: 400;
+}
+
+.comment-input-row {
+  display: flex; gap: 10px; align-items: center;
+  margin-bottom: 20px;
+}
+
+.comment-avatar {
+  width: 34px; height: 34px;
+  background: var(--yellow); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Koulen', sans-serif; font-size: 16px;
+  color: var(--black); flex-shrink: 0;
+}
+
+.comment-input {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-family: 'Sedan', serif;
+  font-size: 13px; color: var(--text);
+  outline: none;
+  transition: border-color .2s;
+}
+.comment-input:focus { border-color: var(--yellow); }
+
+.comment-submit {
+  background: var(--yellow);
+  border: none; border-radius: 20px;
+  padding: 8px 16px;
+  font-family: 'Koulen', sans-serif;
+  font-size: 13px; color: var(--black);
+  cursor: pointer;
+  transition: background .2s;
+}
+.comment-submit:hover { background: #e0b800; }
+
+.comment-list { display: flex; flex-direction: column; gap: 16px; }
+
+.comment-item {
+  display: flex; gap: 10px;
+}
+
+.comment-user-avatar {
+  width: 32px; height: 32px;
+  background: #ddd; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: #999; flex-shrink: 0;
+}
+
+.comment-body { flex: 1; }
+
+.comment-name {
+  font-family: 'Secular One', sans-serif;
+  font-size: 13px; color: var(--black);
+  margin-bottom: 3px;
+}
+
+.comment-name span {
+  font-family: 'Sedan', serif;
+  font-size: 11px; color: var(--muted); margin-left: 8px;
+}
+
+.comment-text {
+  font-size: 13px; line-height: 1.6; color: #444;
+}
+
+.comment-actions {
+  display: flex; gap: 12px; margin-top: 6px;
+}
+
+.comment-action {
+  background: none; border: none;
+  font-size: 12px; color: var(--muted);
+  cursor: pointer; font-family: 'Sedan', serif;
+  display: flex; align-items: center; gap: 4px;
+  transition: color .2s;
+}
+.comment-action:hover { color: var(--yellow); }
+.comment-action.liked { color: var(--yellow); font-weight: 600; }
+.comment-action.replied { color: var(--yellow); }
+
+.reply-box {
+  margin-top: 10px;
+  animation: fadeUp .2s ease;
+}
+
+.reply-input-row {
+  display: flex; gap: 8px; align-items: center;
+}
+
+.replies-list {
+  margin-top: 10px;
+  padding-left: 12px;
+  border-left: 2px solid var(--border);
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+.reply-item {
+  display: flex; gap: 8px;
+  animation: fadeUp .3s ease;
+}
+
+.reply-avatar {
+  width: 26px; height: 26px;
+  background: var(--yellow); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Koulen', sans-serif; font-size: 12px;
+  color: var(--black); flex-shrink: 0;
+}
+
+.reply-body .comment-name { font-size: 12px; }
+.reply-body .comment-text { font-size: 12px; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--black); color: #ccc;
+  padding: 40px 40px 28px; margin-top: 32px;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; gap: 60px; align-items: flex-start;
+}
+.footer-logo {
+  width: 90px; height: 90px; background: var(--yellow);
+  border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 40px; flex-shrink: 0;
+}
+.footer-contact h3 {
+  font-family: 'Secular One', sans-serif;
+  font-size: 18px; font-weight: 400; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--white); margin-bottom: 6px;
+}
+.footer-committee-label {
+  color: var(--yellow); font-size: 13px; font-weight: 600; margin-bottom: 8px;
+}
+.footer-contacts { display: flex; gap: 24px; font-size: 12px; color: #aaa; }
+.footer-contacts div { line-height: 1.7; }
+.footer-support { margin-left: auto; font-size: 13px; color: #aaa; padding-top: 28px; }
+.footer-bottom {
+  max-width: 1100px; margin: 24px auto 0;
+  border-top: 1px solid #333; padding-top: 18px;
+  display: flex; align-items: center; gap: 16px;
+}
+.footer-bottom span {
+  font-size: 12px; color: #888; letter-spacing: .5px;
+  text-transform: uppercase; font-family: 'Koulen', sans-serif;
+}
+.social-icons { display: flex; gap: 10px; }
+.social-icons a {
+  width: 34px; height: 34px; border-radius: 6px; background: #222;
+  border: 1px solid #444; display: flex; align-items: center;
+  justify-content: center; color: #fff; font-size: 13px;
+  text-decoration: none; transition: background .2s, border-color .2s;
+}
+.social-icons a:hover { background: var(--yellow); border-color: var(--yellow); color: var(--black); }
+
+/* ── BACK TO TOP ── */
+#backToTop {
+  position: fixed; bottom: 30px; right: 30px;
+  width: 44px; height: 44px; background: var(--yellow);
+  border: none; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,.2);
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s, transform .3s; z-index: 999;
+}
+#backToTop.visible { opacity: 1; pointer-events: all; }
+#backToTop:hover { transform: translateY(-3px); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .main-layout { grid-template-columns: 1fr; }
+  nav { padding: 0 16px; }
+  .footer-inner { flex-direction: column; gap: 24px; }
+  .footer-support { margin-left: 0; padding-top: 0; }
+}
+
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo"><img src="logo.png" alt="Logo" style="width:28px;height:28px;object-fit:contain;border-radius:50%;"/></div>
+  <ul class="nav-links">
+    <li><a href="landing_page.html">Home</a></li>
+    <li><a href="courses.html" style="color:var(--yellow);">Courses</a></li>
+    <li><a href="community.html">Community</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="more.html">More</a></li>
+    <li><a href="#footer">Contact Us</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-bell">🔔</span>
+    <div class="nav-avatar">A</div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main-layout">
+
+  <!-- LEFT COLUMN -->
+  <div class="left-col">
+
+    <!-- VIDEO PLAYER -->
+    <div class="video-player-wrap">
+      <div class="video-space-bg">
+        <div class="orbit-container">
+          <div class="sun"></div>
+          <div class="orbit orbit-1"><div class="planet planet-1"></div></div>
+          <div class="orbit orbit-2"><div class="planet planet-2"></div></div>
+        </div>
+        <button class="play-btn" id="playBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#222"><polygon points="5,3 19,12 5,21"/></svg>
+        </button>
+      </div>
+      <div class="dbl-flash" id="dblFlash">⛶</div>
+      <div class="video-controls">
+        <div class="progress-wrap">
+          <span class="time-label" id="currentTime">00:00</span>
+          <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+            <div class="progress-thumb" id="progressThumb"></div>
+            <!-- Chapter markers: positions as % of 31:00 -->
+            <div class="chapter-marker" style="left:0%" data-label="Intro"></div>
+            <div class="chapter-marker" style="left:25.8%" data-label="Solar System Structure"></div>
+            <div class="chapter-marker" style="left:51.6%" data-label="Microgravity & Radiation"></div>
+            <div class="chapter-marker" style="left:77.4%" data-label="Kepler's Overview"></div>
+          </div>
+          <span class="time-label">31:00</span>
+        </div>
+        <div class="controls-row">
+          <div class="controls-left">
+            <button class="ctrl-btn" id="playPauseBtn" title="Play/Pause">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            </button>
+            <!-- Seek back 10s -->
+            <button class="seek-btn" onclick="seekBy(-10)" title="Back 10s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 .49-5.51"/>
+              </svg>
+              <span>10</span>
+            </button>
+            <!-- Seek forward 10s -->
+            <button class="seek-btn" onclick="seekBy(10)" title="Forward 10s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-.49-5.51"/>
+              </svg>
+              <span>10</span>
+            </button>
+            <div class="volume-wrap">
+              <button class="ctrl-btn" id="muteBtn" title="Mute" onclick="toggleMute()">
+                <svg id="volIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+              <div class="volume-bar" id="volumeBar">
+                <div class="volume-fill" id="volumeFill"></div>
+                <div class="volume-thumb" id="volumeThumb"></div>
+              </div>
+            </div>
+            <span class="time-label" id="currentTime2">00:00 / 31:00</span>
+          </div>
+          <div class="controls-right">
+            <button class="speed-btn" onclick="cycleSpeed(this)">1x</button>
+            <div class="quality-wrap">
+              <button class="quality-btn" id="qualityBtn" onclick="toggleQualityDropdown()">720p</button>
+              <div class="quality-dropdown" id="qualityDropdown">
+                <div class="quality-option" onclick="setQuality('1080p', this)">1080p</div>
+                <div class="quality-option active" onclick="setQuality('720p', this)">720p</div>
+                <div class="quality-option" onclick="setQuality('480p', this)">480p</div>
+                <div class="quality-option" onclick="setQuality('360p', this)">360p</div>
+              </div>
+            </div>
+            <button class="ctrl-btn" title="Fullscreen" onclick="toggleFullscreen()">
+              <svg id="fsIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,3 21,3 21,9"/><polyline points="9,21 3,21 3,15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIDEO INFO -->
+    <div class="video-info">
+      <div class="video-title">Rocket Propulsion — Introduction</div>
+      <div class="video-meta">By Prof. Saptarshi Kolay &nbsp;·&nbsp; Week I, Lesson 1 &nbsp;·&nbsp; 31 mins &nbsp;·&nbsp; 1,240 views</div>
+      <div class="video-actions">
+        <button class="action-pill" onclick="toggleAction(this)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          Save
+        </button>
+        <button class="next-btn" onclick="window.location.href='next_lesson1.html'">
+  Next Lesson →
+</button>
+      </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="description-card">
+      <div class="desc-title">About this lesson</div>
+      <div class="desc-text" id="descText">
+        In this lesson, we explore the fundamentals of rocket propulsion — from Newton's third law to understanding how engines are designed to generate thrust in the vacuum of space. We'll cover fuel and oxidizer systems, combustion chamber mechanics, and how nozzle design affects rocket performance. This lesson builds the foundation for understanding how spacecraft escape Earth's gravity and travel through space.
+        <span id="descMore" style="color:var(--muted);cursor:pointer;" onclick="expandDesc()"> ...more</span>
+      </div>
+      <div id="descExtra" style="display:none; font-family:'Sedan',serif; font-size:13.5px; line-height:1.8; color:#444;">
+        We'll also touch on Kepler's laws of planetary motion, the history of human spaceflight, and an overview of major space agencies and private players shaping the future of aerospace. By the end of this lesson, you'll have a clear picture of the landscape of modern space exploration.
+      </div>
+      <div class="desc-tags">
+        <span class="desc-tag">#SpaceFlight</span>
+        <span class="desc-tag">#OrbitalMechanics</span>
+        <span class="desc-tag">#Aerospace</span>
+        <span class="desc-tag">#SpaceEnvironment</span>
+      </div>
+    </div>
+
+    <!-- COMMENTS -->
+    <div class="comments-card">
+      <div class="comments-title">Comments <span id="commentCount" style="color:var(--muted);font-size:13px;">(3)</span></div>
+      <div class="comment-input-row">
+        <div class="comment-avatar">A</div>
+        <input class="comment-input" type="text" placeholder="Add a comment..." id="commentInput"/>
+        <button class="comment-submit" onclick="addComment()">Post</button>
+      </div>
+      <div class="comment-list" id="commentList">
+
+        <div class="comment-item" id="ci0">
+          <div class="comment-user-avatar">S</div>
+          <div class="comment-body">
+            <div class="comment-name">Sudarshan P <span>2h ago</span></div>
+            <div class="comment-text">Excellent introduction! The way Prof. Kolay explains microgravity is super intuitive. Looking forward to Week II.</div>
+            <div class="comment-actions">
+              <button class="comment-action like-btn" onclick="toggleLikeComment(this)">👍 Like</button>
+              <button class="comment-action reply-btn" onclick="toggleReplyBox('ci0')">↩ Reply</button>
+            </div>
+            <div class="reply-box" id="reply-ci0" style="display:none;">
+              <div class="reply-input-row">
+                <div class="comment-avatar" style="width:26px;height:26px;font-size:12px;">A</div>
+                <input class="comment-input" type="text" placeholder="Reply to Sudarshan P..."/>
+                <button class="comment-submit" onclick="postReply(this, 'ci0')">Post</button>
+              </div>
+            </div>
+            <div class="replies-list" id="replies-ci0"></div>
+          </div>
+        </div>
+
+        <div class="comment-item" id="ci1">
+          <div class="comment-user-avatar">R</div>
+          <div class="comment-body">
+            <div class="comment-name">Ravi K <span>5h ago</span></div>
+            <div class="comment-text">The orbit animation really helped me understand Kepler's second law visually. Great lesson!</div>
+            <div class="comment-actions">
+              <button class="comment-action like-btn" onclick="toggleLikeComment(this)">👍 Like</button>
+              <button class="comment-action reply-btn" onclick="toggleReplyBox('ci1')">↩ Reply</button>
+            </div>
+            <div class="reply-box" id="reply-ci1" style="display:none;">
+              <div class="reply-input-row">
+                <div class="comment-avatar" style="width:26px;height:26px;font-size:12px;">A</div>
+                <input class="comment-input" type="text" placeholder="Reply to Ravi K..."/>
+                <button class="comment-submit" onclick="postReply(this, 'ci1')">Post</button>
+              </div>
+            </div>
+            <div class="replies-list" id="replies-ci1"></div>
+          </div>
+        </div>
+
+        <div class="comment-item" id="ci2">
+          <div class="comment-user-avatar">P</div>
+          <div class="comment-body">
+            <div class="comment-name">Priya M <span>1d ago</span></div>
+            <div class="comment-text">Can we get a PDF of the slides? Would really help for revision before the practice test.</div>
+            <div class="comment-actions">
+              <button class="comment-action like-btn" onclick="toggleLikeComment(this)">👍 Like</button>
+              <button class="comment-action reply-btn" onclick="toggleReplyBox('ci2')">↩ Reply</button>
+            </div>
+            <div class="reply-box" id="reply-ci2" style="display:none;">
+              <div class="reply-input-row">
+                <div class="comment-avatar" style="width:26px;height:26px;font-size:12px;">A</div>
+                <input class="comment-input" type="text" placeholder="Reply to Priya M..."/>
+                <button class="comment-submit" onclick="postReply(this, 'ci2')">Post</button>
+              </div>
+            </div>
+            <div class="replies-list" id="replies-ci2"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /left-col -->
+
+</div><!-- /main-layout -->
+
+<!-- FOOTER -->
+<footer id ="footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><img src="logo.png" alt="Logo" style="width:60px;height:60px;object-fit:contain;border-radius:50%;"/></div>
+    <div class="footer-contact">
+      <h3>Contact Us</h3>
+      <div class="footer-committee-label">Core Committee</div>
+      <div class="footer-contacts">
+        <div>Sudarsan P<br>+91 1234567890</div>
+        <div>Sudarsan P<br>+91 1234567890</div>
+        <div>Sudarsan P<br>+91 1234567890</div>
+      </div>
+    </div>
+    <div class="footer-support">Tech Support</div>
+  </div>
+  <div class="footer-bottom">
+    <span>Follow Us On</span>
+    <div class="social-icons">
+      <a href="#" title="Twitter">𝕏</a>
+      <a href="#" title="Facebook">f</a>
+      <a href="#" title="YouTube">▶</a>
+      <a href="#" title="Instagram">◎</a>
+      <a href="#" title="LinkedIn">in</a>
+    </div>
+  </div>
+</footer>
+
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script>
+/* ── VIDEO PLAY/PAUSE ── */
+let playing = false, pct = 0, timer;
+const playBtn = document.getElementById('playBtn');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const progressFill = document.getElementById('progressFill');
+const progressThumb = document.getElementById('progressThumb');
+const currentTime = document.getElementById('currentTime');
+const currentTime2 = document.getElementById('currentTime2');
+const totalSecs = 31 * 60;
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
+
+function togglePlay() {
+  playing = !playing;
+  const pauseIcon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>`;
+  const playIcon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>`;
+  const pauseBig = `<svg width="20" height="20" viewBox="0 0 24 24" fill="#222"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>`;
+  const playBig = `<svg width="20" height="20" viewBox="0 0 24 24" fill="#222"><polygon points="5,3 19,12 5,21"/></svg>`;
+
+  playBtn.innerHTML = playing ? pauseBig : playBig;
+  playPauseBtn.innerHTML = playing ? pauseIcon : playIcon;
+
+  if (playing) {
+    timer = setInterval(() => {
+      pct = Math.min(pct + (100 / (totalSecs * 10)), 100);
+      progressFill.style.width = pct + '%';
+      progressThumb.style.left = pct + '%';
+      const elapsed = (pct / 100) * totalSecs;
+      currentTime.textContent = formatTime(elapsed);
+      currentTime2.textContent = `${formatTime(elapsed)} / 31:00`;
+      if (pct >= 100) { clearInterval(timer); playing = false; }
+    }, 100);
+  } else {
+    clearInterval(timer);
+  }
+}
+
+playBtn.addEventListener('click', togglePlay);
+playPauseBtn.addEventListener('click', togglePlay);
+
+/* ── PROGRESS BAR CLICK ── */
+document.getElementById('progressBar').addEventListener('click', function(e) {
+  const rect = this.getBoundingClientRect();
+  pct = ((e.clientX - rect.left) / rect.width) * 100;
+  progressFill.style.width = pct + '%';
+  progressThumb.style.left = pct + '%';
+  const elapsed = (pct / 100) * totalSecs;
+  currentTime.textContent = formatTime(elapsed);
+  currentTime2.textContent = `${formatTime(elapsed)} / 31:00`;
+});
+
+/* ── SPEED ── */
+const speeds = ['1x', '1.25x', '1.5x', '2x'];
+let speedIdx = 0;
+function cycleSpeed(btn) {
+  speedIdx = (speedIdx + 1) % speeds.length;
+  btn.textContent = speeds[speedIdx];
+}
+
+/* ── ACTION PILLS ── */
+function toggleAction(btn) {
+  btn.classList.toggle('active');
+}
+
+/* ── EXPAND DESCRIPTION ── */
+function expandDesc() {
+  document.getElementById('descMore').style.display = 'none';
+  document.getElementById('descExtra').style.display = 'block';
+}
+
+/* ── LIKE COMMENT ── */
+function toggleLikeComment(btn) {
+  btn.classList.toggle('liked');
+  btn.textContent = btn.classList.contains('liked') ? '👍 Liked' : '👍 Like';
+}
+
+/* ── REPLY BOX TOGGLE ── */
+function toggleReplyBox(commentId) {
+  const box = document.getElementById('reply-' + commentId);
+  const isOpen = box.style.display === 'block';
+  // close all reply boxes first
+  document.querySelectorAll('.reply-box').forEach(b => b.style.display = 'none');
+  document.querySelectorAll('.reply-btn').forEach(b => b.classList.remove('replied'));
+  if (!isOpen) {
+    box.style.display = 'block';
+    box.querySelector('input').focus();
+    // highlight the reply button
+    box.closest('.comment-body').querySelector('.reply-btn').classList.add('replied');
+  }
+}
+
+/* ── POST REPLY ── */
+function postReply(btn, commentId) {
+  const input = btn.previousElementSibling;
+  const text = input.value.trim();
+  if (!text) return;
+  const repliesList = document.getElementById('replies-' + commentId);
+  const reply = document.createElement('div');
+  reply.className = 'reply-item';
+  reply.innerHTML = `
+    <div class="reply-avatar">A</div>
+    <div class="reply-body comment-body">
+      <div class="comment-name">You <span>Just now</span></div>
+      <div class="comment-text">${text}</div>
+      <div class="comment-actions">
+        <button class="comment-action like-btn" onclick="toggleLikeComment(this)">👍 Like</button>
+      </div>
+    </div>`;
+  repliesList.appendChild(reply);
+  input.value = '';
+  // hide reply box after posting
+  document.getElementById('reply-' + commentId).style.display = 'none';
+  document.querySelectorAll('.reply-btn').forEach(b => b.classList.remove('replied'));
+}
+
+/* ── ADD COMMENT ── */
+let commentCount = 3;
+function addComment() {
+  const input = document.getElementById('commentInput');
+  const text = input.value.trim();
+  if (!text) return;
+  commentCount++;
+  document.getElementById('commentCount').textContent = `(${commentCount})`;
+  const list = document.getElementById('commentList');
+  const cid = 'ci' + commentCount;
+  const item = document.createElement('div');
+  item.className = 'comment-item';
+  item.id = cid;
+  item.style.animation = 'fadeUp .3s ease';
+  item.innerHTML = `
+    <div class="comment-user-avatar" style="background:var(--yellow);color:var(--black);">A</div>
+    <div class="comment-body">
+      <div class="comment-name">You <span>Just now</span></div>
+      <div class="comment-text">${text}</div>
+      <div class="comment-actions">
+        <button class="comment-action like-btn" onclick="toggleLikeComment(this)">👍 Like</button>
+        <button class="comment-action reply-btn" onclick="toggleReplyBox('${cid}')">↩ Reply</button>
+      </div>
+      <div class="reply-box" id="reply-${cid}" style="display:none;">
+        <div class="reply-input-row">
+          <div class="comment-avatar" style="width:26px;height:26px;font-size:12px;">A</div>
+          <input class="comment-input" type="text" placeholder="Write a reply..."/>
+          <button class="comment-submit" onclick="postReply(this, '${cid}')">Post</button>
+        </div>
+      </div>
+      <div class="replies-list" id="replies-${cid}"></div>
+    </div>`;
+  list.prepend(item);
+  input.value = '';
+}
+
+document.getElementById('commentInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') addComment();
+});
+
+/* ── VOLUME ── */
+let volume = 0.75; // 0 to 1
+let muted = false;
+let prevVolume = 0.75;
+const volumeBar = document.getElementById('volumeBar');
+const volumeFill = document.getElementById('volumeFill');
+const volumeThumb = document.getElementById('volumeThumb');
+const volIcon = document.getElementById('volIcon');
+
+function setVolume(v) {
+  volume = Math.min(1, Math.max(0, v));
+  volumeFill.style.width = (volume * 100) + '%';
+  volumeThumb.style.left = (volume * 100) + '%';
+  updateVolIcon();
+}
+
+function updateVolIcon() {
+  if (muted || volume === 0) {
+    volIcon.innerHTML = `<polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>`;
+  } else if (volume < 0.5) {
+    volIcon.innerHTML = `<polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>`;
+  } else {
+    volIcon.innerHTML = `<polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>`;
+  }
+}
+
+function toggleMute() {
+  muted = !muted;
+  if (muted) {
+    prevVolume = volume;
+    volumeFill.style.width = '0%';
+    volumeThumb.style.left = '0%';
+  } else {
+    setVolume(prevVolume);
+  }
+  updateVolIcon();
+}
+
+// Click on volume bar
+volumeBar.addEventListener('click', (e) => {
+  const rect = volumeBar.getBoundingClientRect();
+  const v = (e.clientX - rect.left) / rect.width;
+  muted = false;
+  setVolume(v);
+});
+
+// Drag on volume bar
+let draggingVol = false;
+volumeBar.addEventListener('mousedown', () => draggingVol = true);
+document.addEventListener('mousemove', (e) => {
+  if (!draggingVol) return;
+  const rect = volumeBar.getBoundingClientRect();
+  const v = (e.clientX - rect.left) / rect.width;
+  muted = false;
+  setVolume(v);
+});
+document.addEventListener('mouseup', () => draggingVol = false);
+
+/* ── DOUBLE-CLICK FULLSCREEN ── */
+const videoWrap = document.querySelector('.video-player-wrap');
+const dblFlash = document.getElementById('dblFlash');
+
+videoWrap.addEventListener('dblclick', () => {
+  toggleFullscreen();
+  dblFlash.textContent = document.fullscreenElement ? '⛶' : '⛶';
+  dblFlash.classList.add('show');
+  setTimeout(() => dblFlash.classList.remove('show'), 500);
+});
+
+/* ── FULLSCREEN ── */
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    videoWrap.requestFullscreen && videoWrap.requestFullscreen();
+  } else {
+    document.exitFullscreen && document.exitFullscreen();
+  }
+}
+
+document.addEventListener('fullscreenchange', () => {
+  const isFs = !!document.fullscreenElement;
+  document.getElementById('fsIcon').innerHTML = isFs
+    ? `<polyline points="4,14 10,14 10,20"/><polyline points="20,10 14,10 14,4"/><line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/>`
+    : `<polyline points="15,3 21,3 21,9"/><polyline points="9,21 3,21 3,15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>`;
+});
+
+/* ── SEEK 10s ── */
+function seekBy(secs) {
+  const elapsed = (pct / 100) * totalSecs;
+  const newElapsed = Math.min(totalSecs, Math.max(0, elapsed + secs));
+  pct = (newElapsed / totalSecs) * 100;
+  progressFill.style.width = pct + '%';
+  progressThumb.style.left = pct + '%';
+  currentTime.textContent = formatTime(newElapsed);
+  currentTime2.textContent = `${formatTime(newElapsed)} / 31:00`;
+}
+
+/* ── QUALITY SELECTOR ── */
+function toggleQualityDropdown() {
+  document.getElementById('qualityDropdown').classList.toggle('open');
+}
+
+function setQuality(q, el) {
+  document.querySelectorAll('.quality-option').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('qualityBtn').textContent = q;
+  document.getElementById('qualityDropdown').classList.remove('open');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.quality-wrap')) {
+    document.getElementById('qualityDropdown').classList.remove('open');
+  }
+});
+
+/* ── CHAPTER MARKERS — click to seek ── */
+document.querySelectorAll('.chapter-marker').forEach(marker => {
+  marker.addEventListener('click', (e) => {
+    e.stopPropagation();
+    pct = parseFloat(marker.style.left);
+    progressFill.style.width = pct + '%';
+    progressThumb.style.left = pct + '%';
+    const elapsed = (pct / 100) * totalSecs;
+    currentTime.textContent = formatTime(elapsed);
+    currentTime2.textContent = `${formatTime(elapsed)} / 31:00`;
+  });
+});
+
+/* ── BACK TO TOP ── */
+const btn = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  btn.classList.toggle('visible', window.scrollY > 300);
+});
+document.querySelectorAll('a[href="#footer"]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('footer').scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
